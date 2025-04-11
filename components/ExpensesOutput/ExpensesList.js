@@ -6,9 +6,7 @@ function ExpensesList({ expenses }) {
     <FlatList 
       data={expenses} 
       keyExtractor={(item) => item.id}
-      renderItem={({item}) => 
-        <ExpenseItem {...item} />
-      }
+      renderItem={({ item }) => <ExpenseItem {...item} />}
     />
   )
 }

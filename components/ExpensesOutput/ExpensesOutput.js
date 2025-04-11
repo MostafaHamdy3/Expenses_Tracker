@@ -5,15 +5,14 @@ import ExpensesSummary from "./ExpensesSummary";
 import { GlobalStyles } from "../../constants/Styles";
 
 function ExpensesOutput({ expenses, expensesName, fallBackText }) {
-  let content = <Text style={styles.infoText}>{fallBackText}</Text>
-
-  if (expenses.length > 0) {
-    content = <ExpensesList expenses={expenses} />
-  }
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} periodName={expensesName} />
-      {content}
+      {expenses?.length > 0 ? (
+        <ExpensesList expenses={expenses} />
+      ) : (
+        <Text style={styles.infoText}>{fallBackText}</Text>
+      )}
     </View>
   )
 }
@@ -21,7 +20,7 @@ function ExpensesOutput({ expenses, expensesName, fallBackText }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingBottom: 0,
     backgroundColor: GlobalStyles.colors.primary700,
   },
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     textAlign: "center",
-    marginTop: 48,
+    marginTop: "50%",
   }
 })
 

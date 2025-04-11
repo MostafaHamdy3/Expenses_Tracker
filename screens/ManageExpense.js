@@ -72,7 +72,7 @@ function ManageExpense({ route, navigation }) {
         submitButtonLabel={isEditing ? "Update" : "Add"} 
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
-        defaultValue= {selectedExpense}
+        defaultValue={selectedExpense}
       />
       {isEditing && (
         <View style={styles.deleteContainer}>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: GlobalStyles.colors.primary800,
-    padding: 24,
+    padding: 16,
   },
   deleteContainer: {
     marginTop: 16,

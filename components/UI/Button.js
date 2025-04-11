@@ -1,10 +1,10 @@
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/Styles"
 
-function Button({children, onPress, mode, style}) {
+function Button({children, onPress, disabled, mode, style}) {
   return (
     <View style={style}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} disabled={disabled}>
         <View style={[styles.button, mode === 'flat' && styles.flat]}>
           <Text style={[styles.buttonText, mode === 'flat' && styles.textFlat]}>
             {children}

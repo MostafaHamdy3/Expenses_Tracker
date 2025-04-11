@@ -12,9 +12,9 @@ function ExpenseItem({ title, date, amount, id }) {
       expenseId: id,
     })
   }
-  
+
   return (
-    <TouchableOpacity onPress={expensePressHandler}>
+    <TouchableOpacity onPress={expensePressHandler} activeOpacity={0.7}>
       <View style={styles.expense}>
         <View>
           <Text style={[styles.textBase, styles.title]}>{title}</Text>

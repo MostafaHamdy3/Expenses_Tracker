@@ -6,109 +6,122 @@ import Button from "../UI/Button";
 import { getFormattedDate } from "../../util/Date";
 
 function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValue }) {
-  const [inputs, setInputs] = useState({
-    title: { 
-      value: defaultValue? defaultValue.title : "",
-      isValid: true
-    },
-    amount: {
-      value: defaultValue ? defaultValue.amount.toString() : "",
-      isValid: true
-    },
-    date: {
-      value: defaultValue ? getFormattedDate(defaultValue.date) : "",
-      isValid: true
-    }
-  })
+  const [expenseTitle, setExpenseTitle] = useState(defaultValue?.title || "");
+  const [expenseAmount, setExpenseAmount] = useState(defaultValue?.amount || 0);
+  const [expenseDate, setExpenseDate] = useState(defaultValue?.date ? getFormattedDate(defaultValue.date) : "");
+  const [titleIsValid, setTitleIsValid] = useState(true);
+  const [amountIsValid, setAmountIsValid] = useState(true);
+  const [dateIsValid, setDateIsValid] = useState(true);
 
-  const inputChangeHandler = (inputIdentifier, enteredValue) => {
-    setInputs((curInputs) => {
-      return {
-        ...curInputs,
-        [inputIdentifier]: { value: enteredValue, isValid: true },
-      }
-    })
-  }
+  const isChanged = (
+    defaultValue ?
+      expenseTitle !== defaultValue.title ||
+      expenseAmount !== defaultValue.amount ||
+      expenseDate !== getFormattedDate(defaultValue.date)
+    : submitButtonLabel === "Add" ? true : false
+  );
 
-  function confirmHandler() {
+  const onChangeTitle = (text) => {
+    setExpenseTitle(text);
+    !titleIsValid && setTitleIsValid(true);
+  };
+
+  const onChangeAmount = (value) => {
+    setExpenseAmount(Number(value));
+    !amountIsValid && setAmountIsValid(true);
+  };
+
+  const onChangeDate = (date) => {
+    setExpenseDate(date);
+    !dateIsValid && setDateIsValid(true);
+  };
+
+  const confirmHandler = () => {
     const expenseData = {
-      title: inputs.title.value,
-      amount: +inputs.amount.value,
-      date: new Date(inputs.date.value)
+      title: expenseTitle,
+      amount: expenseAmount,
+      date: new Date(expenseDate)
     }
 
     // trim to remove the spaces.
-    const titleIsValid = expenseData.title.trim().length > 0;
-    const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
-    const dateIsValid = expenseData.date.toString() !== "Invalid Date";
+    const isValidTitle = expenseData.title.trim().length > 0;
+    const isValidAmount = !isNaN(expenseData.amount) && expenseData.amount > 0;
+    const isValidDate = expenseData.date.toString() !== "Invalid Date";
+    setTitleIsValid(isValidTitle);
+    setAmountIsValid(isValidAmount);
+    setDateIsValid(isValidDate);
 
-    if (!titleIsValid || !dateIsValid || !amountIsValid) {
-      setInputs((curInputs) => {
-        return {
-          title: { value: curInputs.title.value, isValid: titleIsValid },
-          amount: { value: curInputs.amount.value, isValid: amountIsValid },
-          date: { value: curInputs.date.value, isValid: dateIsValid }
-        }
-      })
-      return;
-    }
-
-    onSubmit(expenseData)
+    if (isValidTitle && isValidAmount && isValidDate) {
+      onSubmit(expenseData)
+    };
   }
 
   return (
     <View>
       <View>
-        <Input 
-          label="Title" 
-          isInvalid={!inputs.title.isValid}
+        <Input
+          label="Title"
+          isInvalid={!titleIsValid}
           textInputConfig={{
-            onChangeText: inputChangeHandler.bind(this, "title"),
-            value: inputs.title.value
-          }} 
+            onChangeText: onChangeTitle,
+            value: expenseTitle,
+          }}
         />
-        {!inputs.title.isValid && <Text style={[styles.errorText, {marginTop: 0}]}>Invalid title!</Text>}
+        {!titleIsValid && (
+          <Text style={[styles.errorText, { marginTop: 0 }]}>
+            Invalid title!
+          </Text>
+        )}
       </View>
       <View style={styles.inputsRow}>
-        <View style={{height: 60, width: "45%"}}>
+        <View style={{ height: 60, width: "45%" }}>
           <Input
-            label="Amount" 
-            isInvalid={!inputs.amount.isValid}
+            label="Amount"
+            isInvalid={!amountIsValid}
             textInputConfig={{
-              KeyboardType: "decimal-pad",
-              onChangeText: inputChangeHandler.bind(this, "amount"),
-              value: inputs.amount.value
+              keyboardType: "decimal-pad",
+              onChangeText: onChangeAmount,
+              value: expenseAmount.toString(),
             }}
           />
-          {!inputs.amount.isValid && <Text style={styles.errorText}>Invalid amount!, must be greater than 0</Text>}
+          {!amountIsValid && (
+            <Text style={styles.errorText}>
+              Invalid amount!, must be greater than 0
+            </Text>
+          )}
         </View>
         <View style={{ height: 60, width: "48%" }}>
           <Input
-            label="Date" 
-            isInvalid={!inputs.date.isValid}
+            label="Date"
+            isInvalid={!dateIsValid}
             textInputConfig={{
               placeholder: "YYYY-MM-DD",
               maxLength: 10,
-              onChangeText: inputChangeHandler.bind(this, "date"),
-              value: inputs.date.value
+              onChangeText: onChangeDate,
+              value: expenseDate,
             }}
           />
-          {!inputs.date.isValid && <Text style={styles.errorText}>Invalid date!, must like this (YYYY-MM-DD)</Text>}
+          {!dateIsValid && (
+            <Text style={styles.errorText}>
+              Invalid date!, must like this (YYYY-MM-DD)
+            </Text>
+          )}
         </View>
       </View>
       <View style={styles.buttons}>
-        <Button 
-          style={styles.button} 
-          mode="flat" 
-          onPress={onCancel}
-        >Cancel</Button>
-        <Button 
-          style={styles.button} 
+        <Button style={styles.button} mode="flat" onPress={onCancel}>
+          Cancel
+        </Button>
+        <Button
+          style={styles.button}
           onPress={confirmHandler}
-        >{submitButtonLabel}</Button>
+          disabled={!isChanged}
+        >
+          {submitButtonLabel}
+        </Button>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

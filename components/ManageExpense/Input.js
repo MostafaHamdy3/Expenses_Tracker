@@ -6,7 +6,7 @@ function Input({label, textInputConfig, isInvalid}) {
     <View style={styles.inputContainer}>
       <Text style={[styles.label, isInvalid && styles.invalidLabel]}>{label}</Text>
       <TextInput 
-        {...textInputConfig} 
+        {...textInputConfig}
         style={[styles.input, isInvalid && styles.invalidInput]} 
       />
     </View>
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: GlobalStyles.colors.primary700,
     backgroundColor: GlobalStyles.colors.primary100,
-    padding: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     borderRadius: 6,
   },
   invalidLabel: {
