@@ -42,7 +42,7 @@ The app also calculates the total amount spent, providing a clear overview of fi
 
 #### Screenshot
 
-![All Expenses](https://github.com/MostafaHamdy3/Expenses_Tracker/blob/main/assets/screenshots/add.png)
+![All Expenses](https://github.com/MostafaHamdy3/Expenses_Tracker/blob/main/assets/screenshots/all.png)
 ![Add&Edit Expense](https://github.com/MostafaHamdy3/Expenses_Tracker/blob/main/assets/screenshots/edit.png)
 
 ### My process
