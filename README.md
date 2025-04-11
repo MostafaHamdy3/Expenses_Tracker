@@ -42,8 +42,8 @@ The app also calculates the total amount spent, providing a clear overview of fi
 
 #### Screenshot
 
-![](./screenshots/all.jpg)
-![](./screenshots/edit.jpg)
+![](./assets/screenshots/all.jpg)
+![](./assets/screenshots/edit.jpg)
 
 ### My process
 
