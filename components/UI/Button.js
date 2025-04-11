@@ -1,36 +1,35 @@
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native"
+import { TouchableOpacity, Text, StyleSheet } from "react-native"
 import { GlobalStyles } from "../../constants/Styles"
 
-function Button({children, onPress, disabled, mode, style}) {
+const Button = ({children, onPress, disabled, btnStyle, textStyle}) => {
   return (
-    <View style={style}>
-      <TouchableOpacity onPress={onPress} disabled={disabled}>
-        <View style={[styles.button, mode === 'flat' && styles.flat]}>
-          <Text style={[styles.buttonText, mode === 'flat' && styles.textFlat]}>
-            {children}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  )
+    <TouchableOpacity
+      style={[styles.button, btnStyle]}
+      onPress={onPress}
+      disabled={disabled}
+      activeOpacity={0.7}
+    >
+      <Text style={[styles.buttonText, textStyle]}>{children}</Text>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
   button: {
-    padding: 8,
-    borderRadius: 4,
+    width: '45%',
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+    margin: 10,
     backgroundColor: GlobalStyles.colors.primary500,
-  },
-  flat: {
-    backgroundColor: "transparent",
   },
   buttonText: {
     color: "white",
     textAlign: "center",
+    fontSize: 15,
+    fontWeight: '500',
   },
-  textFlat: {
-    color: GlobalStyles.colors.primary200
-  }
 })
 
 export default Button

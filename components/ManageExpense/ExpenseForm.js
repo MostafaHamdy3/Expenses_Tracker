@@ -4,8 +4,9 @@ import { Text, View, StyleSheet } from "react-native";
 import Input from "./Input";
 import Button from "../UI/Button";
 import { getFormattedDate } from "../../util/Date";
+import { GlobalStyles } from "../../constants/Styles";
 
-function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValue }) {
+const ExpenseForm = ({ submitButtonLabel, onCancel, onSubmit, defaultValue }) => {
   const [expenseTitle, setExpenseTitle] = useState(defaultValue?.title || "");
   const [expenseAmount, setExpenseAmount] = useState(defaultValue?.amount || 0);
   const [expenseDate, setExpenseDate] = useState(defaultValue?.date ? getFormattedDate(defaultValue.date) : "");
@@ -109,11 +110,14 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValue }) {
         </View>
       </View>
       <View style={styles.buttons}>
-        <Button style={styles.button} mode="flat" onPress={onCancel}>
+        <Button
+          btnStyle={styles.cancelBtnStyle}
+          textStyle={styles.cancelTextStyle}
+          onPress={onCancel}
+        >
           Cancel
         </Button>
         <Button
-          style={styles.button}
           onPress={confirmHandler}
           disabled={!isChanged}
         >
@@ -127,25 +131,24 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValue }) {
 const styles = StyleSheet.create({
   inputsRow: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
-  // inputStyle: {
-  //   flex: 1,
-  // },
   buttons: {
-    flexDirection: 'row',
-    justifyContent:'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 60,
   },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8
+  cancelBtnStyle: {
+    backgroundColor: GlobalStyles.colors.primary50,
+  },
+  cancelTextStyle: {
+    color: GlobalStyles.colors.gray700,
   },
   errorText: {
     color: "red",
     textAlign: "center",
-  }
-})
+  },
+});
 
 export default ExpenseForm;

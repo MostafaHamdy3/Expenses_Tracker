@@ -31,11 +31,11 @@ function ExpenseItem({ title, date, amount, id }) {
 const styles = StyleSheet.create({
   expense: {
     padding: 12,
-    marginVertical: 8,
+    marginVertical: 4,
+    marginHorizontal: 16,
     backgroundColor: GlobalStyles.colors.primary500,
     borderRadius: 6,
     flexDirection: "row",
-    // alignItems: "center",
     justifyContent: "space-between",
     elevation: 4,
     shadowColor: GlobalStyles.colors.gray500,

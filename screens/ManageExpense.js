@@ -8,10 +8,12 @@ import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import ConfirmModal from "../components/Modals/ConfirmModal";
 
-function ManageExpense({ route, navigation }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState()
+const ManageExpense = ({ route, navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  const [showDeleteConf, setShowDeleteConf] = useState(false);
 
   const expenseCtx = useContext(ExpenseContext);
 
@@ -28,7 +30,15 @@ function ManageExpense({ route, navigation }) {
     })
   }, [isEditing, navigation])
 
-  deleteExpenseHandler = async () => {
+  const onShowConfirmDelete = () => {
+    setShowDeleteConf(true);
+  };
+
+  const closeConfirmDelete = () => {
+    setShowDeleteConf(false);
+  };
+
+  const deleteExpenseHandler = async () => {
     setIsLoading(true)
     try {
       expenseCtx.removeExpense(editedExpenseId);
@@ -40,11 +50,11 @@ function ManageExpense({ route, navigation }) {
     }
   }
 
-  cancelHandler = () => {
+  const cancelHandler = () => {
     navigation.goBack()
   }
 
-  confirmHandler = async (expenseData) => {
+  const confirmHandler = async (expenseData) => {
     setIsLoading(true)
     try{
       if (isEditing) {
@@ -68,6 +78,12 @@ function ManageExpense({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <ConfirmModal
+        showModal={showDeleteConf}
+        closeModal={closeConfirmDelete}
+        title="Are you sure you want to delete this expense?"
+        confirm={deleteExpenseHandler}
+      />
       <ExpenseForm 
         submitButtonLabel={isEditing ? "Update" : "Add"} 
         onCancel={cancelHandler}
@@ -80,7 +96,7 @@ function ManageExpense({ route, navigation }) {
             icon="trash"
             size={32}
             color={GlobalStyles.colors.error500}
-            onPress={deleteExpenseHandler}
+            onPress={onShowConfirmDelete}
           />
         </View>
       )}

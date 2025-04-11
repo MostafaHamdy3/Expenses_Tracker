@@ -31,7 +31,7 @@ function ExpensesOverview() {
           color={tintColor} 
           onPress={() => {navigation.navigate("ManageExpense")}} 
         /> 
-    }}>
+      }}>
       <bottomTab.Screen 
         name="Recent Expenses" 
         component={RecentExpenses} 
@@ -49,7 +49,7 @@ function ExpensesOverview() {
             <Ionicons name="hourglass" color={color} size={size} />
           )
         }}
-        />
+      />
     </bottomTab.Navigator>
   )
 }

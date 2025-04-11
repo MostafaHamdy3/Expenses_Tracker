@@ -16,9 +16,9 @@ function ExpensesSummary({ expenses, periodName }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 16,
-    marginVertical: 16,
+    margin: 16,
     backgroundColor: GlobalStyles.colors.primary50,
     borderRadius: 8,
     flexDirection: "row",
