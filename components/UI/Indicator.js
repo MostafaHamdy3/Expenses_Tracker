@@ -1,11 +1,10 @@
 import { ActivityIndicator, View, StyleSheet } from "react-native";
+import { Colors } from "../../constants/config";
 
-import { Colors } from "../../constants/Styles";
-
-function LoadingOverlay() {
+function Indicator() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="white" />
+      <ActivityIndicator size="large" color={Colors.primary} />
     </View>
   )
 }
@@ -16,8 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: Colors.primary700
   }
 })
 
-export default LoadingOverlay;
+export default Indicator;

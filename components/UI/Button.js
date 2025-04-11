@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native"
-import { GlobalStyles } from "../../constants/Styles"
+import { Colors } from "../../constants/Styles"
 
 const Button = ({children, onPress, disabled, btnStyle, textStyle}) => {
   return (
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 12,
     margin: 10,
-    backgroundColor: GlobalStyles.colors.primary500,
+    backgroundColor: Colors.primary500,
   },
   buttonText: {
     color: "white",

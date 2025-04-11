@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 import Input from "./Input";
 import Button from "../UI/Button";
 import { getFormattedDate } from "../../util/Date";
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 
 const ExpenseForm = ({ submitButtonLabel, onCancel, onSubmit, defaultValue }) => {
   const [expenseTitle, setExpenseTitle] = useState(defaultValue?.title || "");
@@ -140,10 +140,10 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   cancelBtnStyle: {
-    backgroundColor: GlobalStyles.colors.primary50,
+    backgroundColor: Colors.primary50,
   },
   cancelTextStyle: {
-    color: GlobalStyles.colors.gray700,
+    color: Colors.gray700,
   },
   errorText: {
     color: "red",

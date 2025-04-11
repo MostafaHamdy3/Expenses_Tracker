@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 import ExpensesList from "./ExpensesList";
 import ExpensesSummary from "./ExpensesSummary";
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 
 function ExpensesOutput({ expenses, expensesName, fallBackText }) {
   return (
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: 0,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: Colors.primary700,
   },
   infoText: {
     color: "white",

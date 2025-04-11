@@ -8,9 +8,10 @@ import { useNavigation } from '@react-navigation/native';
 import RecentExpenses from './screens/RecentExpenses';
 import AllExpenses from './screens/AllExpenses';
 import ManageExpense from './screens/ManageExpense';
-import { GlobalStyles } from './constants/Styles';
+import { Colors } from './constants/Styles';
 import IconButton from './components/UI/IconButton';
 import ExpenseContextProvider from './store/expenses-context';
+import Login from './screens/Login';
 
 const stack = createNativeStackNavigator();
 const bottomTab = createBottomTabNavigator();
@@ -20,10 +21,10 @@ function ExpensesOverview() {
 
   return (
     <bottomTab.Navigator screenOptions={{
-      headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+      headerStyle: { backgroundColor: Colors.primary500 },
       headerTintColor: "white",
-      tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-      tabBarActiveTintColor: GlobalStyles.colors.accent500,
+      tabBarStyle: { backgroundColor: Colors.primary500 },
+      tabBarActiveTintColor: Colors.accent500,
       headerRight: ({ tintColor }) => 
         <IconButton 
           icon="add" 
@@ -55,19 +56,26 @@ function ExpensesOverview() {
 }
 
 export default function App() {
-  return ( 
+  return (
     <>
       <StatusBar style="light" />
       <ExpenseContextProvider>
         <NavigationContainer>
-          <stack.Navigator screenOptions={{
-            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-            headerTintColor: "white"
-          }}>
-            <stack.Screen 
-              name="Expenses Overview" 
-              component={ExpensesOverview} 
-              options={{ headerShown: false }} 
+          <stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: Colors.primary500 },
+              headerTintColor: "white",
+            }}
+          >
+            <stack.Screen
+              name="login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <stack.Screen
+              name="ExpensesOverview"
+              component={ExpensesOverview}
+              options={{ headerShown: false }}
             />
             <stack.Screen name="ManageExpense" component={ManageExpense} />
           </stack.Navigator>

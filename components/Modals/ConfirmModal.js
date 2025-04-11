@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import Modal from "react-native-modal";
 
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 import Button from "../UI/Button";
 
 const ConfirmModal = (props) => {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: GlobalStyles.colors.primary100,
+    backgroundColor: Colors.primary100,
     overflow: "hidden",
   },
   centeredContent: {
@@ -107,14 +107,14 @@ const styles = StyleSheet.create({
   },
   confirmBtnStyle: {
     width: 300,
-    backgroundColor: GlobalStyles.colors.primary50,
+    backgroundColor: Colors.primary50,
   },
   cancelTextStyle: {
-    color: GlobalStyles.colors.gray700,
+    color: Colors.gray700,
   },
   cancelBtnStyle: {
     width: 300,
-    backgroundColor: GlobalStyles.colors.primary400,
+    backgroundColor: Colors.primary400,
     marginBottom: 0,
   },
 });

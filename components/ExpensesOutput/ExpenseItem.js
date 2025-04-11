@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native"
 
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 import { getFormattedDate } from "../../util/Date";
 
 function ExpenseItem({ title, date, amount, id }) {
@@ -33,18 +33,18 @@ const styles = StyleSheet.create({
     padding: 12,
     marginVertical: 4,
     marginHorizontal: 16,
-    backgroundColor: GlobalStyles.colors.primary500,
+    backgroundColor: Colors.primary500,
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "space-between",
     elevation: 4,
-    shadowColor: GlobalStyles.colors.gray500,
+    shadowColor: Colors.gray500,
     shadowOffset: { width: 1, height: 1 },
     shadowRadius: 4,
     shadowOpacity: 0.4
   },
   textBase: {
-    color: GlobalStyles.colors.primary50
+    color: Colors.primary50
   },
   title: {
     fontSize: 16,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   amount: {
-    color: GlobalStyles.colors.primary500,
+    color: Colors.primary500,
     fontWeight: "bold",
   }
 })

@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
 
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 
 function ErrorOverlay({ message}) {
   return (
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary700
+    backgroundColor: Colors.primary700
   },
   text: {
     color: "white",
