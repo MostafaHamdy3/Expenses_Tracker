@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
           <MaterialIcons
             name="mail"
             size={20}
-            color={Colors.primary500}
+            color={Colors.backgroundScreen}
             style={styles.icon}
           />
           <TextInput
@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
           <MaterialIcons
             name="lock"
             size={20}
-            color={Colors.primary500}
+            color={Colors.backgroundScreen}
             style={styles.icon}
           />
           <TextInput
@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
             <MaterialIcons
               name={isPasswordVisible ? "visibility" : "visibility-off"}
               size={20}
-              color={Colors.primary500}
+              color={Colors.backgroundScreen}
             />
           </TouchableOpacity>
         </View>
@@ -97,7 +97,7 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primary800,
+    backgroundColor: Colors.darkerBg,
     alignItems: "center",
     justifyContent: "center",
     paddingBottom: "10%",
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.primary50,
+    backgroundColor: Colors.fieldBg,
     paddingHorizontal: 16,
     borderRadius: 12,
   },
@@ -140,12 +140,12 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   registerLink: {
-    color: Colors.primary100,
+    color: Colors.textColor1,
     fontWeight: "600",
   },
   loginButton: {
     alignItems: "center",
-    backgroundColor: Colors.primary500,
+    backgroundColor: Colors.backgroundScreen,
     paddingVertical: 14,
     borderRadius: 12,
   },

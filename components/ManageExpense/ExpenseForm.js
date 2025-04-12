@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   cancelBtnStyle: {
-    backgroundColor: Colors.primary50,
+    backgroundColor: Colors.fieldBg,
   },
   cancelTextStyle: {
     color: Colors.gray700,

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     margin: 16,
-    backgroundColor: Colors.primary50,
+    backgroundColor: Colors.fieldBg,
     borderRadius: 8,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
   },
   periodTitle: {
     fontSize: 12,
-    color: Colors.primary400,
+    color: Colors.lightBg,
   },
   sumTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: Colors.primary500,
+    color: Colors.backgroundScreen,
   },
 });
 

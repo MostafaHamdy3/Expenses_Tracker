@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.textColor1,
     overflow: "hidden",
   },
   centeredContent: {
@@ -107,14 +107,14 @@ const styles = StyleSheet.create({
   },
   confirmBtnStyle: {
     width: 300,
-    backgroundColor: Colors.primary50,
+    backgroundColor: Colors.fieldBg,
   },
   cancelTextStyle: {
     color: Colors.gray700,
   },
   cancelBtnStyle: {
     width: 300,
-    backgroundColor: Colors.primary400,
+    backgroundColor: Colors.lightBg,
     marginBottom: 0,
   },
 });

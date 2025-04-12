@@ -21,9 +21,9 @@ function ExpensesOverview() {
 
   return (
     <bottomTab.Navigator screenOptions={{
-      headerStyle: { backgroundColor: Colors.primary500 },
+      headerStyle: { backgroundColor: Colors.backgroundScreen },
       headerTintColor: "white",
-      tabBarStyle: { backgroundColor: Colors.primary500 },
+      tabBarStyle: { backgroundColor: Colors.backgroundScreen },
       tabBarActiveTintColor: Colors.accent500,
       headerRight: ({ tintColor }) => 
         <IconButton 
@@ -63,7 +63,7 @@ export default function App() {
         <NavigationContainer>
           <stack.Navigator
             screenOptions={{
-              headerStyle: { backgroundColor: Colors.primary500 },
+              headerStyle: { backgroundColor: Colors.backgroundScreen },
               headerTintColor: "white",
             }}
           >

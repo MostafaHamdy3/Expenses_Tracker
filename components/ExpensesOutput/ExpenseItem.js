@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     padding: 12,
     marginVertical: 4,
     marginHorizontal: 16,
-    backgroundColor: Colors.primary500,
+    backgroundColor: Colors.backgroundScreen,
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4
   },
   textBase: {
-    color: Colors.primary50
+    color: Colors.fieldBg
   },
   title: {
     fontSize: 16,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   amount: {
-    color: Colors.primary500,
+    color: Colors.backgroundScreen,
     fontWeight: "bold",
   }
 })

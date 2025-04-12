@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: Colors.primary100,
+    color: Colors.textColor1,
   },
   input: {
     fontSize: 18,
-    color: Colors.primary700,
-    backgroundColor: Colors.primary100,
+    color: Colors.darkBg,
+    backgroundColor: Colors.textColor1,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 6,

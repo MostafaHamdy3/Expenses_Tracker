@@ -107,7 +107,7 @@ const ManageExpense = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primary800,
+    backgroundColor: Colors.darkerBg,
     padding: 16,
   },
   deleteContainer: {

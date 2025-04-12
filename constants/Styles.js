@@ -1,11 +1,9 @@
 export const Colors = {
-  primary50: '#e4d9fd',
-  primary100: '#c6affc',
-  primary200: '#a281f0',
-  primary400: '#5721d4',
-  primary500: '#3e04c3',
-  primary700: '#2d0689',
-  primary800: '#200364',
+  fieldBg: '#e4d9fd',
+  backgroundScreen: '#3e04c3',
+  darkBg: '#2d0689',
+  darkerBg: '#200364',
+  lightBg: '#5721d4',
   accent500: '#f7bc0c',
   error50: '#fcc4e4',
   error500: '#9b095c',
@@ -13,4 +11,5 @@ export const Colors = {
   gray700: '#221c30',
   black: '#333',
   white: '#eee',
+  textColor1: '#c6affc',
 };

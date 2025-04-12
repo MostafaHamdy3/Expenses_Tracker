@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 12,
     margin: 10,
-    backgroundColor: Colors.primary500,
+    backgroundColor: Colors.backgroundScreen,
   },
   buttonText: {
     color: "white",
