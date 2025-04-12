@@ -1,38 +1,67 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
-import { auth } from "../firebase"
-
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Colors } from '../constants/Styles';
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth } from "../FirebaseConfig";
+import { Colors } from "../constants/Styles";
+import Indicator from "../components/UI/Indicator";
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("mostafa44hamdy@gmail.com");
+  const [password, setPassword] = useState("Expenses4$App");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [isLoginFailed, setIsLoginFailed] = useState(false);
 
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        navigation.navigate("ExpensesOverview");
-      })
-      .catch(() => { setErrorMessage(true) });
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const token = user.stsTokenManager.accessToken;
+      AsyncStorage.setItem("authToken", token);
+      AsyncStorage.setItem("userId", user.uid);
+      navigation.replace("ExpensesOverview");
+    } catch (error) {
+      setIsLoginFailed(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const goToSignup = () => {
+    navigation.navigate("Signup");
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
-      <Text style={styles.titleLogin}>
-        Please login to continue.
-      </Text>
+      <View style={styles.subContent}>
+        <Image
+          source={require("../assets/icons/logo.png")}
+          style={styles.logo}
+        />
+      </View>
+      <View style={styles.subContent}>
+        <Text style={styles.title}>Welcome Back</Text>
+        <Text style={styles.titleLogin}>Please login to continue.</Text>
+      </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
           <MaterialIcons
@@ -72,49 +101,61 @@ const Login = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.registerContainer}>
-          <TouchableOpacity>
-            <Text style={styles.registerText}>
-              Don’t have an account? <Text style={styles.registerLink}>Sign Up</Text>
-            </Text>
+          <Text style={styles.registerText}>Don’t have an account?</Text>
+          <TouchableOpacity onPress={goToSignup}>
+            <Text style={styles.registerLink}>Sign Up</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin}>
-          <View style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>
-              {isLoading ? "Logging in..." : "Login"}
-            </Text>
-          </View>
+          {isLoading ? (
+            <Indicator />
+          ) : (
+            <View style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>Login</Text>
+            </View>
+          )}
         </TouchableOpacity>
 
-        <View style={styles.errorMessageContainer}>
-          <Text style={styles.errorMessage}>Email or Password are invalid!</Text>
-        </View>
+        {isLoginFailed && (
+          <View style={styles.errorMessageContainer}>
+            <Text style={styles.errorMessage}>
+              Email or Password are invalid!
+            </Text>
+          </View>
+        )}
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.darkerBg,
     alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: "10%",
+    backgroundColor: Colors.darkerBg,
+  },
+  subContent: {
+    alignItems: "center",
+  },
+  logo: {
+    width: 100,
+    height: 75,
+    marginTop: "35%",
+    marginBottom: 24,
   },
   title: {
     color: Colors.white,
-    fontSize: 25,
-    fontWeight: "600",
+    fontSize: 26,
+    fontWeight: "bold",
   },
   titleLogin: {
     color: Colors.white,
-    fontSize: 14,
-    marginTop: 10,
+    fontSize: 12,
+    marginTop: 6,
   },
   inputContainer: {
     width: "86%",
-    marginTop: 20,
+    marginTop: 24,
     gap: 12,
   },
   inputWrapper: {
@@ -132,8 +173,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   registerContainer: {
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
+    flexDirection: "row",
+    gap: 6,
     marginBottom: 12,
   },
   registerText: {

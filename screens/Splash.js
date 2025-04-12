@@ -1,28 +1,18 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { StyleSheet, Text, View, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { Colors } from "../constants/config";
-import { getUserInfo } from "../store/actions/Authentication";
-import Indicator from "../components/custom/Indicator";
+import { Colors } from "../constants/Styles";
+import Indicator from "../components/UI/Indicator";
 
 const Splash = ({ navigation }) => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const isRememberMe = await AsyncStorage.getItem("isRemember");
         const token = await AsyncStorage.getItem("authToken");
-        const role = await AsyncStorage.getItem("role");
-        const id = await AsyncStorage.getItem("userID");
+        const id = await AsyncStorage.getItem("userId");
 
-        if (token && id) await dispatch(getUserInfo(id));
-        if (isRememberMe === "true" && token) {
-          if (role === "ADMIN") navigation.replace("Manager");
-          else navigation.replace("Task");
-        } else navigation.replace("Foresight");
+        // if (token && id) await dispatch(getUserInfo(id));
+        token ? navigation.replace("ExpensesOverview") : navigation.replace("Login");
       } catch (err) {
         console.log(err);
       }
@@ -38,11 +28,11 @@ const Splash = ({ navigation }) => {
         style={styles.logoImg}
       />
       <View style={styles.indicator}>
-        <Indicator />
+        <Indicator/>
       </View>
       <View style={styles.copyrightView}>
         <Text style={styles.copyrightText}>
-          {i18n.t("copyright")}
+          copyright © 2025
         </Text>
       </View>
     </View>
@@ -54,13 +44,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.backgroundScreen,
   },
   logoImg: {
-    width: 360,
-    height: 80,
+    width: 420,
+    height: 120,
+    resizeMode: "contain",
     position: "absolute",
-    top: "30%",
+    top: "25%",
   },
   indicator: {
     position: "absolute",
@@ -73,7 +64,7 @@ const styles = StyleSheet.create({
     marginTop: "90%",
   },
   copyrightText: {
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 20,
     fontWeight: "500",
   },
