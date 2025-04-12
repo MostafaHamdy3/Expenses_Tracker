@@ -16,8 +16,8 @@ import { Colors } from "../constants/Styles";
 import Indicator from "../components/UI/Indicator";
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("mostafa44hamdy@gmail.com");
-  const [password, setPassword] = useState("Expenses4$App");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoginFailed, setIsLoginFailed] = useState(false);
@@ -139,8 +139,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 100,
-    height: 75,
-    marginTop: "35%",
+    height: 100,
+    resizeMode: "contain",
+    marginTop: "30%",
     marginBottom: 24,
   },
   title: {

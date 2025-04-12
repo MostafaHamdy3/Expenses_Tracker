@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundScreen,
   },
   logoImg: {
-    width: 420,
-    height: 120,
+    width: 150,
+    height: 150,
     resizeMode: "contain",
     position: "absolute",
-    top: "25%",
+    top: "20%",
   },
   indicator: {
     position: "absolute",
