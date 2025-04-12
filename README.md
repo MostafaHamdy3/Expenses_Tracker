@@ -4,11 +4,16 @@ A modern expense tracking application built with React Native and Firebase to he
 
 ## Table of Contents 📖
 
+- [Video](#video-)
 - [Features](#features-)
-- [Demo](#demo-)
 - [Installation](#installation-)
 - [Technologies Used](#technologies-used-)
 - [Author](#author-)
+
+## Video Tutorial  
+- Pressing on the image will direct you to view the video.  
+
+[![Watch the video](https://drive.google.com/uc?export=view&id=1KfJOfvJlsT4hlNrSjf7Q4pzuKZRZ1jIG)](https://drive.google.com/file/d/15SQvvz4kO-GzhIFItHrXjXwar2LPEWFH/view?usp=sharing)
 
 ## Features ✨
 
@@ -16,11 +21,6 @@ A modern expense tracking application built with React Native and Firebase to he
 - 💸 **Expense Management** - Add, edit, and delete expenses
 - 📅 **Smart Filtering** - View expenses by time period (7 days, all)
 - 📊 **Expense Analytics** - Automatic total calculation and spending overview
-
-## Video Tutorial  
-- Pressing on the image will direct you to view the video.  
-
-[![Watch the video](https://drive.google.com/uc?export=view&id=1KfJOfvJlsT4hlNrSjf7Q4pzuKZRZ1jIG)](https://drive.google.com/file/d/15SQvvz4kO-GzhIFItHrXjXwar2LPEWFH/view?usp=sharing)
 
 ## Installation ⚙️
 
