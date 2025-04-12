@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
 
 import IconButton from './../components/UI/IconButton';
 import { Colors } from './../constants/Styles';
@@ -9,11 +9,14 @@ import { getFormattedDate } from "../util/Date";
 import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
 
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 const ManageExpense = ({ route, navigation }) => {
   const data = route.params?.data;
 
   const [isLoading, setIsLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [error, setError] = useState(false);
   const [showDeleteConf, setShowDeleteConf] = useState(false);
   const [expenseTitle, setExpenseTitle] = useState(data?.title || "");
@@ -72,11 +75,6 @@ const ManageExpense = ({ route, navigation }) => {
     !amountIsValid && setAmountIsValid(true);
   };
 
-  const onChangeDate = (date) => {
-    setExpenseDate(date);
-    !dateIsValid && setDateIsValid(true);
-  };
-
   const onConfirm = async () => {
     setIsLoading(true)
     const expenseData = {
@@ -97,7 +95,22 @@ const ManageExpense = ({ route, navigation }) => {
       navigation.goBack()
     }
     setIsLoading(false);
-  }
+  };
+
+  const startTimeConfirm = (date) => {
+    const dateOnly = date.toISOString().split('T')[0];
+    setExpenseDate(dateOnly);
+    !dateIsValid && setDateIsValid(true);
+    hideDatePicker();
+  };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -125,7 +138,7 @@ const ManageExpense = ({ route, navigation }) => {
           )}
         </View>
         <View style={styles.inputsRow}>
-          <View style={{ height: 60, width: "45%" }}>
+          <View style={styles.field}>
             <Input
               label="Amount"
               isInvalid={!amountIsValid}
@@ -141,23 +154,42 @@ const ManageExpense = ({ route, navigation }) => {
               </Text>
             )}
           </View>
-          <View style={{ height: 60, width: "48%" }}>
-            <Input
-              label="Date"
-              isInvalid={!dateIsValid}
-              textInputConfig={{
-                placeholder: "YYYY-MM-DD",
-                maxLength: 10,
-                onChangeText: onChangeDate,
-                value: expenseDate,
-              }}
-            />
+          <View style={styles.field}>
+            <View style={styles.dateContent}>
+              <Text style={[styles.label, !dateIsValid && styles.invalidLabel]}>
+                Date
+              </Text>
+              <View style={[styles.datePicker, {
+                backgroundColor: dateIsValid ? Colors.textColor1 : Colors.error50,
+              }]}>
+                <Text style={styles.dateText}>
+                  {expenseDate || "YYYY-MMM-DD"}
+                </Text>
+                <TouchableOpacity
+                  style={styles.iconContainer}
+                  activeOpacity={0.7}
+                  onPress={showDatePicker}
+                >
+                  <Image
+                    source={require("../assets/icons/calendar.png")}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
             {!dateIsValid && (
               <Text style={styles.errorText}>
                 Invalid date!, must like this (YYYY-MM-DD)
               </Text>
             )}
           </View>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={startTimeConfirm}
+            onCancel={hideDatePicker}
+            accentColor={Colors.fieldBg}
+          />
         </View>
         <View style={styles.buttons}>
           <Button
@@ -178,7 +210,7 @@ const ManageExpense = ({ route, navigation }) => {
       </View>
       {data && (
         <View style={styles.deleteContainer}>
-          <IconButton 
+          <IconButton
             icon="trash"
             size={32}
             color={Colors.error500}
@@ -186,8 +218,11 @@ const ManageExpense = ({ route, navigation }) => {
           />
         </View>
       )}
+      {error && (
+        <Text style={styles.errorText}>Delete failed, please try again.</Text>
+      )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -199,6 +234,36 @@ const styles = StyleSheet.create({
   inputsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  field: {
+    height: 60,
+    width: "48%",
+  },
+  dateContent: {
+    marginHorizontal: 4,
+    marginVertical: 8,
+  },
+  label: {
+    fontSize: 12,
+    color: Colors.textColor1,
+  },
+  invalidLabel: {
+    color: Colors.error500,
+  },
+  datePicker: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  iconContainer: {
+    borderRadius: 24,
+    position: "absolute",
+    right: 4,
+    top: 8,
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
   buttons: {
     flexDirection: "row",
@@ -214,7 +279,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    textAlign: "center",
+    textAlign: "left",
   },
   deleteContainer: {
     marginTop: 16,

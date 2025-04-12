@@ -24,10 +24,14 @@ function RecentExpenses() {
 
   const recentExpenses = expenses?.filter((expense) => {
     const today = new Date();
-    const date7DaysAgo = getDateMinusDays(today, 7)
+    const date7DaysAgo = getDateMinusDays(today, 7);
+    const expenseDate = expense.date.seconds;
 
-    return (expense.date >= date7DaysAgo) && (expense.date <= today);
-  })
+    const date7DaysAgoInSeconds = Math.floor(date7DaysAgo.getTime() / 1000);
+    const todayInSeconds = Math.floor(today.getTime() / 1000);
+
+    return (expenseDate >= date7DaysAgoInSeconds) && (expenseDate <= todayInSeconds);
+  });
 
   return (
     <View style={styles.container}>
