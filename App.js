@@ -12,7 +12,6 @@ import AllExpenses from './screens/AllExpenses';
 import ManageExpense from './screens/ManageExpense';
 import { Colors } from './constants/Styles';
 import IconButton from './components/UI/IconButton';
-import ExpenseContextProvider from './store/expenses-context';
 import Login from './screens/Login';
 import Splash from './screens/Splash';
 import Signup from './screens/Signup';
@@ -85,38 +84,36 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <ExpenseContextProvider>
-        <NavigationContainer>
-          <stack.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: Colors.backgroundScreen },
-              headerTintColor: "white",
-            }}
-          >
-            <stack.Screen
-              name="Splash"
-              component={Splash}
-              options={{ headerShown: false }}
-            />
-            <stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <stack.Screen
-              name="Signup"
-              component={Signup}
-              options={{ headerShown: false }}
-            />
-            <stack.Screen
-              name="ExpensesOverview"
-              component={ExpensesOverview}
-              options={{ headerShown: false }}
-            />
-            <stack.Screen name="ManageExpense" component={ManageExpense} />
-          </stack.Navigator>
-        </NavigationContainer>
-      </ExpenseContextProvider>
+      <NavigationContainer>
+        <stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: Colors.backgroundScreen },
+            headerTintColor: "white",
+          }}
+        >
+          <stack.Screen
+            name="Splash"
+            component={Splash}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="ExpensesOverview"
+            component={ExpensesOverview}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen name="ManageExpense" component={ManageExpense} />
+        </stack.Navigator>
+      </NavigationContainer>
     </>
   );
 }

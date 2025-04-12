@@ -1,10 +1,10 @@
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 import { Colors } from "../../constants/Styles";
 
-const Indicator = () => {
+const Indicator = ({size, color}) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={Colors.white} />
+      <ActivityIndicator size={size || "large"} color={color || Colors.white} />
     </View>
   )
 }

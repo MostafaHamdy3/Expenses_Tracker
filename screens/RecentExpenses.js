@@ -1,38 +1,28 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
-import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
-import { ExpenseContext } from "../store/expenses-context";
+import ExpensesOutput from "../components/ExpensesOutput";
 import { getDateMinusDays } from "../util/Date";
-import { fetchExpense } from "../util/http";
-import LoadingOverlay from './../components/UI/LoadingOverlay';
-import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { fetchExpenses } from "../store/expense_store";
+import { useFocusEffect } from "@react-navigation/native";
+import Indicator from "../components/UI/Indicator";
+import { StyleSheet, View } from "react-native";
+import { Colors } from "../constants/Styles";
 
 function RecentExpenses() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState()
+  const [isLoading, setIsLoading] = useState(true);
+  const [expenses, setExpenses] = useState();
 
-  const expensesCtx = useContext(ExpenseContext);
-
-  useEffect(() => {
-    async function getExpenses() {
-      setIsLoading(true)
-      try {
-        const expenses = await fetchExpense();
-        expensesCtx.setExpense(expenses)
-      } catch (err) {
-        setError("Felid fetch data!")
-      }
+  useFocusEffect(useCallback(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const data = await fetchExpenses();
+      setExpenses(data);
       setIsLoading(false)
     }
-    getExpenses()
-  }, [])
+    fetchData();
+  }, []));
 
-  if (error && !isLoading) 
-    return <ErrorOverlay message={error} />
-
-  if (isLoading) return <LoadingOverlay />
-
-  const recentExpenses = expensesCtx.expenses.filter((expense) => {
+  const recentExpenses = expenses?.filter((expense) => {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7)
 
@@ -40,12 +30,25 @@ function RecentExpenses() {
   })
 
   return (
-    <ExpensesOutput 
-      expenses={recentExpenses} 
-      expensesName="Last 7 Days" 
-      fallBackText="No expenses registered for the last 7 days."
-    />
-  )
+    <View style={styles.container}>
+      {isLoading ? (
+        <Indicator />
+      ) : (
+        <ExpensesOutput
+          expenses={recentExpenses}
+          expensesName="Last 7 Days"
+          fallBackText="No expenses registered for the last 7 days."
+        />
+      )}
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.darkBg,
+  },
+});
 
 export default RecentExpenses;

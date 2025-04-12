@@ -30,21 +30,24 @@ const ConfirmModal = (props) => {
             />
             {props.title && (
               <View style={styles.content}>
-                <Text style={styles.textTitleStyle}>
-                  {props.title}
-                </Text>
+                <Text style={styles.textTitleStyle}>{props.title}</Text>
               </View>
             )}
             <View style={styles.buttons}>
               <Button
                 btnStyle={styles.cancelBtnStyle}
                 onPress={props.closeModal}
-              >Cancel</Button>
+              >
+                Cancel
+              </Button>
               <Button
                 btnStyle={styles.confirmBtnStyle}
                 textStyle={styles.cancelTextStyle}
                 onPress={props.confirm}
-              >Confirm</Button>
+                isLoading={props.isLoading}
+              >
+                Confirm
+              </Button>
             </View>
           </View>
         </View>

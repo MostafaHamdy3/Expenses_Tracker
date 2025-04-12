@@ -1,27 +1,28 @@
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native"
+import { StyleSheet, Text, View , TouchableOpacity} from 'react-native'
+import React from 'react'
+import { getFormattedDate } from '../util/Date'
+import { useNavigation } from '@react-navigation/native'
+import { Colors } from '../constants/Styles'
 
-import { Colors } from "../../constants/Styles";
-import { getFormattedDate } from "../../util/Date";
-
-function ExpenseItem({ title, date, amount, id }) {
+const ExpenseItem = ({item}) => {
   const navigation = useNavigation();
 
-  function expensePressHandler() {
-    navigation.navigate("ManageExpense", {
-      expenseId: id,
-    })
-  }
+  const expensePressHandler = (item) => {
+    navigation.navigate("ManageExpense", { data: item })
+  };
 
   return (
-    <TouchableOpacity onPress={expensePressHandler} activeOpacity={0.7}>
+    <TouchableOpacity
+      onPress={() => expensePressHandler(item)}
+      activeOpacity={0.7}
+    >
       <View style={styles.expense}>
         <View>
-          <Text style={[styles.textBase, styles.title]}>{title}</Text>
-          <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
+          <Text style={[styles.textBase, styles.title]}>{item.title}</Text>
+          <Text style={styles.textBase}>{getFormattedDate(item.date.seconds)}</Text>
         </View>
         <View style={styles.amountContainer}>
-          <Text style={styles.amount}>{amount.toFixed(2)}</Text>
+          <Text style={styles.amount}>{item.amount.toFixed(2)}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   amount: {
     color: Colors.backgroundScreen,
     fontWeight: "bold",
-  }
-})
+  },
+});
 
-export default ExpenseItem;
+export default ExpenseItem
