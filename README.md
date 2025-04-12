@@ -53,7 +53,7 @@ npm start
 <div align="center">
 
 **Mostafa Hamdy**  
-Full Stack Developer & Mobile App Specialist
+React Native | React Developer
 
 [![Portfolio](https://img.shields.io/badge/🌐_Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mostafa-portfolio.vercel.app/)
 [![LinkedIn](https://img.shields.io/badge/🔗_LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mostafa-7amdy/)
