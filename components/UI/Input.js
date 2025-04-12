@@ -1,5 +1,5 @@
 import { TextInput, View, Text, StyleSheet } from "react-native";
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 
 function Input({label, textInputConfig, isInvalid}) {
   return (
@@ -20,21 +20,21 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: GlobalStyles.colors.primary100,
+    color: Colors.textColor1,
   },
   input: {
     fontSize: 18,
-    color: GlobalStyles.colors.primary700,
-    backgroundColor: GlobalStyles.colors.primary100,
+    color: Colors.darkBg,
+    backgroundColor: Colors.textColor1,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 6,
   },
   invalidLabel: {
-    color: GlobalStyles.colors.error500,
+    color: Colors.error500,
   },
   invalidInput: {
-    backgroundColor: GlobalStyles.colors.error50
+    backgroundColor: Colors.error50
   },
 })
 

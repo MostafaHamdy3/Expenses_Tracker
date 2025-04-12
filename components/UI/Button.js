@@ -1,7 +1,8 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native"
-import { GlobalStyles } from "../../constants/Styles"
+import { Colors } from "../../constants/Styles"
+import Indicator from "./Indicator";
 
-const Button = ({children, onPress, disabled, btnStyle, textStyle}) => {
+const Button = ({children, onPress, isLoading, disabled, btnStyle, textStyle}) => {
   return (
     <TouchableOpacity
       style={[styles.button, btnStyle]}
@@ -9,7 +10,10 @@ const Button = ({children, onPress, disabled, btnStyle, textStyle}) => {
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.buttonText, textStyle]}>{children}</Text>
+      {isLoading
+        ? <Indicator size="small" color={btnStyle && Colors.darkBg} /> 
+        : <Text style={[styles.buttonText, textStyle]}>{children}</Text>
+      }
     </TouchableOpacity>
   );
 }
@@ -22,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 12,
     margin: 10,
-    backgroundColor: GlobalStyles.colors.primary500,
+    backgroundColor: Colors.backgroundScreen,
   },
   buttonText: {
     color: "white",

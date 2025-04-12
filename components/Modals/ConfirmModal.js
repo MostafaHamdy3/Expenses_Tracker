@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import Modal from "react-native-modal";
 
-import { GlobalStyles } from "../../constants/Styles";
+import { Colors } from "../../constants/Styles";
 import Button from "../UI/Button";
 
 const ConfirmModal = (props) => {
@@ -30,21 +30,24 @@ const ConfirmModal = (props) => {
             />
             {props.title && (
               <View style={styles.content}>
-                <Text style={styles.textTitleStyle}>
-                  {props.title}
-                </Text>
+                <Text style={styles.textTitleStyle}>{props.title}</Text>
               </View>
             )}
             <View style={styles.buttons}>
               <Button
                 btnStyle={styles.cancelBtnStyle}
                 onPress={props.closeModal}
-              >Cancel</Button>
+              >
+                Cancel
+              </Button>
               <Button
                 btnStyle={styles.confirmBtnStyle}
                 textStyle={styles.cancelTextStyle}
                 onPress={props.confirm}
-              >Confirm</Button>
+                isLoading={props.isLoading}
+              >
+                Confirm
+              </Button>
             </View>
           </View>
         </View>
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: GlobalStyles.colors.primary100,
+    backgroundColor: Colors.textColor1,
     overflow: "hidden",
   },
   centeredContent: {
@@ -107,14 +110,14 @@ const styles = StyleSheet.create({
   },
   confirmBtnStyle: {
     width: 300,
-    backgroundColor: GlobalStyles.colors.primary50,
+    backgroundColor: Colors.fieldBg,
   },
   cancelTextStyle: {
-    color: GlobalStyles.colors.gray700,
+    color: Colors.gray700,
   },
   cancelBtnStyle: {
     width: 300,
-    backgroundColor: GlobalStyles.colors.primary400,
+    backgroundColor: Colors.lightBg,
     marginBottom: 0,
   },
 });
