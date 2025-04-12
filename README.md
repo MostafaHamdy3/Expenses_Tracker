@@ -1,61 +1,65 @@
-## Expense Tracker
+# Expense Tracker 💰
 
-### Table of contents
+A modern expense tracking application built with React Native and Firebase to help users manage their finances effectively.
 
-- [Overview](#overview)
-  - [Clone Project](#clone_project)
-  - [Video Tutorial](#video_tutorial)
-  - [Project Description](#project_description)
-  - [Key Features](#key_features)
-- [My process](#my-process)
-  - [Built with](#built-with)
-- [Author](#author)
+## Table of Contents 📖
 
-### Overview
+- [Features](#features-)
+- [Demo](#demo-)
+- [Installation](#installation-)
+- [Technologies Used](#technologies-used-)
+- [Author](#author-)
 
-## Video Tutorial
-- Pressing on the image will direct you to view the video.
+## Features ✨
 
-[![Watch the video](https://drive.google.com/file/d/15SQvvz4kO-GzhIFItHrXjXwar2LPEWFH/view?usp=drive_link)]
+- 🔐 **Secure Authentication** - Firebase-powered login/registration
+- 💸 **Expense Management** - Add, edit, and delete expenses
+- 📅 **Smart Filtering** - View expenses by time period (7 days, all)
+- 📊 **Expense Analytics** - Automatic total calculation and spending overview
 
-#### Clone Project
+## Video Tutorial  
+- Pressing on the image will direct you to view the video.  
+
+[![Watch the video](https://drive.google.com/uc?export=view&id=1KfJOfvJlsT4hlNrSjf7Q4pzuKZRZ1jIG)](https://drive.google.com/file/d/15SQvvz4kO-GzhIFItHrXjXwar2LPEWFH/view?usp=sharing)
+
+## Installation ⚙️
 
 Clone the project from GitHub by running the following command in your terminal:
 
 ```bash
 git clone https://github.com/MostafaHamdy3/Expenses_Tracker.git
 
+cd Expenses_Tracker
+
 npm install
 
 npm start
 ```
 
-#### Project Description
+## Technologies Used 🛠️
 
-The Expense Tracker is a user-friendly application designed to help individuals manage their expenses efficiently.
-Users can securely register and log in, add, edit, and delete expenses, view recent expenses (last 7 days), and all.
-The app also calculates the total amount spent, providing a clear overview of financial activity.
+<div align="center">
+  
+| Category          | Technologies                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| **Frontend**      | ![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Expo](https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white) |
+| **Backend**       | ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white) ![Firestore](https://img.shields.io/badge/Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black) |
+| **State Management** | ![Context API](https://img.shields.io/badge/Context_API-61DAFB?style=for-the-badge&logo=react&logoColor=white) |
+| **Navigation**    | ![React Navigation](https://img.shields.io/badge/React_Navigation-6F52FF?style=for-the-badge) |
+| **UI Framework**  | ![React Native Paper](https://img.shields.io/badge/React_Native_Paper-2088FF?style=for-the-badge) |
+| **Testing**       | ![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white) |
 
-#### Key Features
+</div>
 
-- User Authentication: Secure login and registration system to protect user data.
-- Add Expenses: Users can log new expenses with details such as expense title, amount, and date.
-- Edit & Delete Expenses: Modify existing expense entries or remove them as needed.
-- Recent Expenses (Last 7 Days): A dedicated "Recent" tab displays expenses from the past week for quick reference.
-- All Expenses Overview: The "All" tab provides a comprehensive list of every recorded expense.
-- Total Expense Calculation: Automatically computes the sum of all expenses for better budget tracking.
-- User-Friendly Interface: Intuitive design with easy navigation between recent and all expenses.
+## Author 👨‍💻
 
-### My process
+<div align="center">
 
-#### Built with
+**Mostafa Hamdy**  
+Full Stack Developer & Mobile App Specialist
 
-- Expo
-- Firebase Authentication
-- Firestore database
-- React Navigation
-- Button Tab Navigation
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mostafa-portfolio.vercel.app/)
+[![LinkedIn](https://img.shields.io/badge/🔗_LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mostafa-7amdy/)
+[![Email](https://img.shields.io/badge/📧_Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mostafa44hamdy@gmail.com)
 
-### Author
-
-- Website - [Mostafa Hamdy](https://mostafa-portfolio.vercel.app/)
+</div>
