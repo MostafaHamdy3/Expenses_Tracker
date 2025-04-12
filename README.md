@@ -28,11 +28,12 @@ npm start
 #### Project Description
 
 The Expense Tracker is a user-friendly application designed to help individuals manage their expenses efficiently.
-Users can add, edit, and delete expenses, view recent expenses (last 7 days), and all.
+Users can securely register and log in, add, edit, and delete expenses, view recent expenses (last 7 days), and all.
 The app also calculates the total amount spent, providing a clear overview of financial activity.
 
 #### Key Features
 
+- User Authentication: Secure login and registration system to protect user data.
 - Add Expenses: Users can log new expenses with details such as expense title, amount, and date.
 - Edit & Delete Expenses: Modify existing expense entries or remove them as needed.
 - Recent Expenses (Last 7 Days): A dedicated "Recent" tab displays expenses from the past week for quick reference.
@@ -51,9 +52,8 @@ The app also calculates the total amount spent, providing a clear overview of fi
 #### Built with
 
 - Expo
-- Context API
-- JavaScript
-- Firebase DB
+- Firebase Authentication
+- Firestore database
 - React Navigation
 - Button Tab Navigation
 
