@@ -11,7 +11,6 @@ export const fetchExpenses = async () => {
     if (token) {
       const expenses = query(expensesCollection, where("userId", "==", id));
       const data = await getDocs(expenses);
-      console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     } else {
       console.log("No user logged in");
