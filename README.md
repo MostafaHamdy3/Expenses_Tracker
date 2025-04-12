@@ -4,14 +4,19 @@
 
 - [Overview](#overview)
   - [Clone Project](#clone_project)
+  - [Video Tutorial](#video_tutorial)
   - [Project Description](#project_description)
   - [Key Features](#key_features)
-  - [Screenshot](#screenshot)
 - [My process](#my-process)
   - [Built with](#built-with)
 - [Author](#author)
 
 ### Overview
+
+## Video Tutorial
+- Pressing on the image will direct you to view the video.
+
+[![Watch the video](https://drive.google.com/file/d/15SQvvz4kO-GzhIFItHrXjXwar2LPEWFH/view?usp=drive_link)]
 
 #### Clone Project
 
@@ -40,12 +45,6 @@ The app also calculates the total amount spent, providing a clear overview of fi
 - All Expenses Overview: The "All" tab provides a comprehensive list of every recorded expense.
 - Total Expense Calculation: Automatically computes the sum of all expenses for better budget tracking.
 - User-Friendly Interface: Intuitive design with easy navigation between recent and all expenses.
-
-#### Screenshot
-
-![All Expenses](https://github.com/MostafaHamdy3/Expenses_Tracker/blob/main/assets/screenshots/all.png)
-
-![Add&Edit Expense](https://github.com/MostafaHamdy3/Expenses_Tracker/blob/main/assets/screenshots/edit.png)
 
 ### My process
 
