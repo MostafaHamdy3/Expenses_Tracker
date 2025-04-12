@@ -44,10 +44,8 @@ npm start
 |-------------------|-----------------------------------------------------------------------------|
 | **Frontend**      | ![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Expo](https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white) |
 | **Backend**       | ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white) ![Firestore](https://img.shields.io/badge/Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black) |
-| **State Management** | ![Context API](https://img.shields.io/badge/Context_API-61DAFB?style=for-the-badge&logo=react&logoColor=white) |
 | **Navigation**    | ![React Navigation](https://img.shields.io/badge/React_Navigation-6F52FF?style=for-the-badge) |
 | **UI Framework**  | ![React Native Paper](https://img.shields.io/badge/React_Native_Paper-2088FF?style=for-the-badge) |
-| **Testing**       | ![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white) |
 
 </div>
 
