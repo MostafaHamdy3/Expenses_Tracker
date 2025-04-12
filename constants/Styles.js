@@ -4,7 +4,6 @@ export const Colors = {
   darkBg: '#2d0689',
   darkerBg: '#200364',
   lightBg: '#5721d4',
-  accent500: '#f7bc0c',
   error50: '#fcc4e4',
   error500: '#9b095c',
   gray500: '#39324a',

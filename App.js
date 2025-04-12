@@ -41,7 +41,7 @@ function ExpensesOverview() {
       headerStyle: { backgroundColor: Colors.backgroundScreen },
       headerTintColor: "white",
       tabBarStyle: { backgroundColor: Colors.backgroundScreen },
-      tabBarActiveTintColor: Colors.accent500,
+      tabBarActiveTintColor: Colors.fieldBg,
       headerRight: ({ tintColor }) => (
         <View style={{ flexDirection: "row", gap: -8 }}>
           <IconButton 
