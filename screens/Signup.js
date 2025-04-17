@@ -40,6 +40,10 @@ const Signup = ({ navigation }) => {
       console.log(error.code);
       if (error.code === "auth/email-already-in-use")
         setIsSignupMessage("Email already Exist");
+      else if (error.code === "auth/invalid-email")
+        setIsSignupMessage("Invalid Email");
+      else if (error.code === "auth/weak-password")
+        setIsSignupMessage("Password should be at least 6 characters");
     } finally {
       setIsLoading(false);
     }
