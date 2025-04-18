@@ -1,6 +1,7 @@
 import { getDocs, query, collection, addDoc, doc, updateDoc, where, deleteDoc } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ExpenseItemProps } from "../components/ExpenseItem";
 
 const expensesCollection = collection(db, "expenses");
 
@@ -21,7 +22,7 @@ export const fetchExpenses = async () => {
   }
 };
 
-export const addExpense = async (expenseData) => {
+export const addExpense = async (expenseData: ExpenseItemProps) => {
   try {
     const token = await AsyncStorage.getItem("authToken");
     const id = await AsyncStorage.getItem("userId");
@@ -40,7 +41,7 @@ export const addExpense = async (expenseData) => {
   }
 };
 
-export const updateExpense = async (id, expenseData) => {
+export const updateExpense = async (id: string, expenseData: ExpenseItemProps) => {
   try {
     const expenseDoc = doc(db, "expenses", id);
     await updateDoc(expenseDoc, {
@@ -53,7 +54,7 @@ export const updateExpense = async (id, expenseData) => {
   };
 };
 
-export const deleteExpense = async (id) => {
+export const deleteExpense = async (id: string) => {
   try {
     const expenseDoc = doc(db, "expenses", id);
     await deleteDoc(expenseDoc);

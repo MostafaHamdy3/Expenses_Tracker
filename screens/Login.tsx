@@ -6,23 +6,36 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  StyleProp,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
 } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth } from "../FirebaseConfig";
 import { Colors } from "../constants/Styles";
-import Indicator from "../components/UI/Indicator";
+import { RootStackParamList } from "../App";
 
-const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoginFailed, setIsLoginFailed] = useState(false);
+import { signInWithEmailAndPassword } from "firebase/auth";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Indicator } from "../components/UI/Indicator";
 
-  const handleLogin = async () => {
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
+
+interface LoginProps {
+  navigation: LoginScreenNavigationProp;
+}
+
+export const Login = ({ navigation }: LoginProps) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoginFailed, setIsLoginFailed] = useState<boolean>(false);
+
+  const handleLogin = async (): Promise<void> => {
     try {
       setIsLoading(true);
       const userCredential = await signInWithEmailAndPassword(
@@ -31,7 +44,7 @@ const Login = ({ navigation }) => {
         password
       );
       const user = userCredential.user;
-      const token = user.stsTokenManager.accessToken;
+      const token = await user.getIdToken();
       AsyncStorage.setItem("authToken", token);
       AsyncStorage.setItem("userId", user.uid);
       navigation.replace("ExpensesOverview");
@@ -42,11 +55,11 @@ const Login = ({ navigation }) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (): void => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const goToSignup = () => {
+  const goToSignup = (): void => {
     navigation.navigate("Signup");
   };
 
@@ -75,6 +88,8 @@ const Login = ({ navigation }) => {
             value={email}
             onChangeText={setEmail}
             style={styles.textInput}
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
         </View>
         <View style={styles.inputWrapper}>
@@ -91,6 +106,7 @@ const Login = ({ navigation }) => {
             onSubmitEditing={handleLogin}
             secureTextEntry={!isPasswordVisible}
             style={styles.textInput}
+            autoCapitalize="none"
           />
           <TouchableOpacity onPress={togglePasswordVisibility}>
             <MaterialIcons
@@ -101,7 +117,7 @@ const Login = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>Don’t have an account?</Text>
+          <Text style={styles.registerText}>Don't have an account?</Text>
           <TouchableOpacity onPress={goToSignup}>
             <Text style={styles.registerLink}>Sign Up</Text>
           </TouchableOpacity>
@@ -128,7 +144,26 @@ const Login = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  subContent: ViewStyle;
+  logo: ImageStyle;
+  title: TextStyle;
+  titleLogin: TextStyle;
+  inputContainer: ViewStyle;
+  inputWrapper: ViewStyle;
+  textInput: TextStyle;
+  icon: ViewStyle;
+  registerContainer: ViewStyle;
+  registerText: TextStyle;
+  registerLink: TextStyle;
+  loginButton: ViewStyle;
+  loginButtonText: TextStyle;
+  errorMessageContainer: ViewStyle;
+  errorMessage: TextStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     alignItems: "center",
@@ -203,5 +238,3 @@ const styles = StyleSheet.create({
     color: Colors.error500,
   },
 });
-
-export default Login;
