@@ -1,25 +1,39 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import Modal from "react-native-modal";
+import { StyleSheet, View, Text, Image, ViewStyle, ImageStyle, TextStyle } from "react-native";
+import Modal from 'react-native-modal';
 
 import { Colors } from "../../constants/Styles";
-import Button from "../UI/Button";
+import { Button } from "../UI/Button";
 
-const ConfirmModal = (props) => {
+interface ConfirmModalProps {
+  showModal: boolean;
+  closeModal: () => void;
+  confirm: () => void;
+  isLoading: boolean;
+  title: string;
+}
+
+export const ConfirmModal = ({
+  showModal,
+  closeModal,
+  confirm,
+  isLoading,
+  title,
+}: ConfirmModalProps) => {
   return (
     <Modal
-      isVisible={props.showModal}
+      isVisible={showModal}
       useNativeDriver={true}
       backdropOpacity={0.3}
-      backdropTransitionInTiming={250}
       backdropTransitionOutTiming={200}
       animationIn="slideInUp"
       animationOut="slideOutDown"
       animationInTiming={400}
       animationOutTiming={350}
       style={styles.modal}
-      onRequestClose={props.closeModal}
-      onBackdropPress={props.closeModal}
+      // onRequestClose={closeModal}
+      onBackButtonPress={closeModal}
+      onBackdropPress={closeModal}
     >
       <View style={styles.modalView}>
         <View style={styles.modalContent}>
@@ -28,26 +42,24 @@ const ConfirmModal = (props) => {
               source={require("../../assets/icons/exclamation.png")}
               style={styles.exclamationIcon}
             />
-            {props.title && (
+            {title && (
               <View style={styles.content}>
-                <Text style={styles.textTitleStyle}>{props.title}</Text>
+                <Text style={styles.textTitleStyle}>{title}</Text>
               </View>
             )}
             <View style={styles.buttons}>
               <Button
+                btnText="Cancel"
                 btnStyle={styles.cancelBtnStyle}
-                onPress={props.closeModal}
-              >
-                Cancel
-              </Button>
+                onPress={closeModal}
+              />
               <Button
+                btnText="Confirm"
                 btnStyle={styles.confirmBtnStyle}
                 textStyle={styles.cancelTextStyle}
-                onPress={props.confirm}
-                isLoading={props.isLoading}
-              >
-                Confirm
-              </Button>
+                onPress={confirm}
+                isLoading={isLoading}
+              />
             </View>
           </View>
         </View>
@@ -56,7 +68,21 @@ const ConfirmModal = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  modal: ViewStyle;
+  modalView: ViewStyle;
+  modalContent: ViewStyle;
+  centeredContent: ViewStyle;
+  exclamationIcon: ImageStyle;
+  content: ViewStyle;
+  textTitleStyle: TextStyle;
+  buttons: ViewStyle;
+  cancelBtnStyle: ViewStyle;
+  cancelTextStyle: TextStyle;
+  confirmBtnStyle: ViewStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   modal: {
     backgroundColor: "rgba(0,0,0,0.5)",
     margin: 0,
@@ -121,5 +147,3 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 });
-
-export default ConfirmModal;

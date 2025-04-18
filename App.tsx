@@ -1,26 +1,41 @@
+import React from 'react';
 import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from "@expo/vector-icons"
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import RecentExpenses from './screens/RecentExpenses';
-import AllExpenses from './screens/AllExpenses';
-import ManageExpense from './screens/ManageExpense';
 import { Colors } from './constants/Styles';
-import IconButton from './components/UI/IconButton';
-import Login from './screens/Login';
-import Splash from './screens/Splash';
-import Signup from './screens/Signup';
+import { Login } from './screens/Login';
+import { Signup } from './screens/Signup';
+import { IconButton } from './components/UI/IconButton';
+import { AllExpenses } from './screens/AllExpenses';
+import { Splash } from './screens/Splash';
+import { RecentExpenses } from './screens/RecentExpenses';
+import { ManageExpense } from './screens/ManageExpense';
+import { ExpenseItemProps } from './components/ExpenseItem';
 
-const stack = createNativeStackNavigator();
-const bottomTab = createBottomTabNavigator();
+export type RootStackParamList = {
+  Splash: undefined;
+  Login: undefined;
+  Signup: undefined;
+  ExpensesOverview: undefined;
+  ManageExpense: { data: ExpenseItemProps };
+};
+
+export type ExpensesOverviewParamList = {
+  'Recent Expenses': undefined;
+  'All Expenses': undefined;
+};
+
+const stack = createNativeStackNavigator<RootStackParamList>();
+const bottomTab = createBottomTabNavigator<ExpensesOverviewParamList>();
 
 function ExpensesOverview() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "ExpensesOverview">>();
 
   const addExpenseHandler = () => {
     navigation.navigate("ManageExpense");
@@ -44,16 +59,16 @@ function ExpensesOverview() {
       tabBarActiveTintColor: Colors.fieldBg,
       headerRight: ({ tintColor }) => (
         <View style={{ flexDirection: "row", gap: -8 }}>
-          <IconButton 
+          <IconButton
             icon="add" 
             size={24} 
-            color={tintColor} 
+            color={`${tintColor}`} 
             onPress={addExpenseHandler} 
           />
           <IconButton
             icon="log-out-outline" 
             size={24}
-            color={tintColor}
+            color={`${tintColor}`}
             onPress={logoutHandler}
           />
         </View>

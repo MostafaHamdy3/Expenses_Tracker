@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, ViewStyle, ImageStyle, TextStyle } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Colors } from "../constants/Styles";
-import Indicator from "../components/UI/Indicator";
+import { Indicator } from "../components/UI/Indicator";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../App";
 
-const Splash = ({ navigation }) => {
+export const Splash = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -28,7 +33,7 @@ const Splash = ({ navigation }) => {
         style={styles.logoImg}
       />
       <View style={styles.indicator}>
-        <Indicator/>
+        <Indicator />
       </View>
       <View style={styles.copyrightView}>
         <Text style={styles.copyrightText}>
@@ -39,7 +44,15 @@ const Splash = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  logoImg: ImageStyle;
+  indicator: ViewStyle;
+  copyrightView: ViewStyle;
+  copyrightText: TextStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     justifyContent: "center",
@@ -69,5 +82,3 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 });
-
-export default Splash;
