@@ -1,7 +1,14 @@
-import { TextInput, View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { TextInput, View, Text, StyleSheet, TextInputProps } from "react-native";
 import { Colors } from "../../constants/Styles";
 
-function Input({label, textInputConfig, isInvalid}) {
+interface InputProps {
+  label: string;
+  textInputConfig: TextInputProps;
+  isInvalid: boolean;
+}
+
+export const Input = ({ label, textInputConfig, isInvalid }: InputProps) => {
   return (
     <View style={styles.inputContainer}>
       <Text style={[styles.label, isInvalid && styles.invalidLabel]}>{label}</Text>
@@ -36,6 +43,4 @@ const styles = StyleSheet.create({
   invalidInput: {
     backgroundColor: Colors.error50
   },
-})
-
-export default Input;
+});

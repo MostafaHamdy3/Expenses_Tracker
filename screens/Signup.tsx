@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,35 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
 } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import { auth } from "../FirebaseConfig";
-
 import { Colors } from "../constants/Styles";
-import Indicator from "../components/UI/Indicator";
+import { RootStackParamList } from "../App";
 
-const Signup = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSignupMessage, setIsSignupMessage] = useState(null);
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Indicator } from "../components/UI/Indicator";
 
-  const handleSignup = async () => {
+type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
+
+interface SignupProps {
+  navigation: SignupScreenNavigationProp;
+}
+
+export const Signup = ({ navigation }: SignupProps) => {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSignupMessage, setIsSignupMessage] = useState<string | null>(null);
+
+  const handleSignup = async (): Promise<void> => {
     try {
       setIsLoading(true);
       const userCredential = await createUserWithEmailAndPassword(
@@ -49,7 +60,7 @@ const Signup = ({ navigation }) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (): void => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
@@ -149,7 +160,27 @@ const Signup = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  scrollContainer: ViewStyle;
+  container: ViewStyle;
+  subContent: ViewStyle;
+  logo: ImageStyle;
+  title: TextStyle;
+  titleSignup: TextStyle;
+  inputContainer: ViewStyle;
+  inputWrapper: ViewStyle;
+  textInput: TextStyle;
+  icon: ViewStyle;
+  loginContainer: ViewStyle;
+  loginText: TextStyle;
+  loginLink: TextStyle;
+  signupButton: ViewStyle;
+  signupButtonText: TextStyle;
+  errorMessageContainer: ViewStyle;
+  errorMessage: TextStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   scrollContainer: {
     flexGrow: 1,
   },
@@ -229,5 +260,3 @@ const styles = StyleSheet.create({
     color: Colors.error500,
   },
 });
-
-export default Signup;

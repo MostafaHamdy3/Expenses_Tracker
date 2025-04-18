@@ -1,30 +1,38 @@
-import { useLayoutEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
+import React, { useLayoutEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity, Image, Text, ViewStyle, TextStyle, ImageStyle } from "react-native";
 
-import IconButton from './../components/UI/IconButton';
-import { Colors } from './../constants/Styles';
-import ConfirmModal from "../components/Modals/ConfirmModal";
+import { Colors } from '../constants/Styles';
 import { addExpense, deleteExpense, updateExpense } from "../store/expense_store";
 import { getFormattedDate } from "../util/Date";
-import Input from "../components/UI/Input";
-import Button from "../components/UI/Button";
+import { ConfirmModal } from "../components/Modals/ConfirmModal";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { IconButton } from "../components/UI/IconButton";
+import { Input } from "../components/UI/Input";
+import { Button } from "../components/UI/Button";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ExpenseItemProps } from "../components/ExpenseItem";
+import { RootStackParamList } from "../App";
 
-const ManageExpense = ({ route, navigation }) => {
+interface ManageExpenseProps {
+  route: { params: { data: ExpenseItemProps } };
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   const data = route.params?.data;
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [error, setError] = useState(false);
-  const [showDeleteConf, setShowDeleteConf] = useState(false);
-  const [expenseTitle, setExpenseTitle] = useState(data?.title || "");
-  const [expenseAmount, setExpenseAmount] = useState(data?.amount || 0);
-  const [expenseDate, setExpenseDate] = useState(data?.date ? getFormattedDate(data.date.seconds) : "");
-  const [titleIsValid, setTitleIsValid] = useState(true);
-  const [amountIsValid, setAmountIsValid] = useState(true);
-  const [dateIsValid, setDateIsValid] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [titleIsValid, setTitleIsValid] = useState<boolean>(true);
+  const [amountIsValid, setAmountIsValid] = useState<boolean>(true);
+  const [dateIsValid, setDateIsValid] = useState<boolean>(true);
+  const [showDeleteConf, setShowDeleteConf] = useState<boolean>(false);
+  const [expenseTitle, setExpenseTitle] = useState<string>(data?.title || "");
+  const [expenseDate, setExpenseDate] = useState<string>(data?.date ? getFormattedDate(data.date.seconds) : "");
+  const [expenseAmount, setExpenseAmount] = useState<number>(data?.amount || 0);
 
   const isChanged = (
     data ?
@@ -65,12 +73,12 @@ const ManageExpense = ({ route, navigation }) => {
     navigation.goBack()
   }
 
-  const onChangeTitle = (text) => {
+  const onChangeTitle = (text: string) => {
     setExpenseTitle(text);
     !titleIsValid && setTitleIsValid(true);
   };
 
-  const onChangeAmount = (value) => {
+  const onChangeAmount = (value: string) => {
     setExpenseAmount(Number(value));
     !amountIsValid && setAmountIsValid(true);
   };
@@ -97,7 +105,7 @@ const ManageExpense = ({ route, navigation }) => {
     setIsLoading(false);
   };
 
-  const startTimeConfirm = (date) => {
+  const startTimeConfirm = (date: Date) => {
     const dateOnly = date.toISOString().split('T')[0];
     setExpenseDate(dateOnly);
     !dateIsValid && setDateIsValid(true);
@@ -162,9 +170,7 @@ const ManageExpense = ({ route, navigation }) => {
               <View style={[styles.datePicker, {
                 backgroundColor: dateIsValid ? Colors.textColor1 : Colors.error50,
               }]}>
-                <Text style={styles.dateText}>
-                  {expenseDate || "YYYY-MMM-DD"}
-                </Text>
+                <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
                 <TouchableOpacity
                   style={styles.iconContainer}
                   activeOpacity={0.7}
@@ -193,19 +199,17 @@ const ManageExpense = ({ route, navigation }) => {
         </View>
         <View style={styles.buttons}>
           <Button
+            btnText="Cancel"
             btnStyle={styles.cancelBtnStyle}
             textStyle={styles.cancelTextStyle}
             onPress={cancelHandler}
-          >
-            Cancel
-          </Button>
+          />
           <Button
+            btnText={data ? "Update" : "Add"}
             onPress={onConfirm}
             disabled={!isChanged}
             isLoading={isLoading}
-          >
-            {data ? "Update" : "Add"}
-          </Button>
+          />
         </View>
       </View>
       {data && (
@@ -225,7 +229,24 @@ const ManageExpense = ({ route, navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  inputsRow: ViewStyle;
+  field: ViewStyle;
+  dateContent: ViewStyle;
+  label: TextStyle;
+  invalidLabel: TextStyle;
+  datePicker: ViewStyle;
+  iconContainer: ViewStyle;
+  icon: ImageStyle;
+  buttons: ViewStyle;
+  cancelBtnStyle: ViewStyle;
+  cancelTextStyle: TextStyle;
+  errorText: TextStyle;
+  deleteContainer: ViewStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     backgroundColor: Colors.darkerBg,
@@ -289,5 +310,3 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
 })
-
-export default ManageExpense;
