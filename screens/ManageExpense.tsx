@@ -25,7 +25,6 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
   const [titleIsValid, setTitleIsValid] = useState<boolean>(true);
   const [amountIsValid, setAmountIsValid] = useState<boolean>(true);
   const [dateIsValid, setDateIsValid] = useState<boolean>(true);
@@ -58,15 +57,10 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
 
   const deleteExpenseHandler = async () => {
     setDeleteLoading(true)
-    try {
-      await deleteExpense(data.id);
-      closeConfirmDelete();
-      navigation.goBack();
-    }catch (err) {
-      setError(true)
-    } finally {
-      setDeleteLoading(false);
-    }
+    await deleteExpense(data.id);
+    closeConfirmDelete();
+    navigation.goBack();
+    setDeleteLoading(false);
   }
 
   const cancelHandler = () => {
@@ -85,10 +79,10 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
 
   const onConfirm = async () => {
     setIsLoading(true)
-    const expenseData = {
+    const expenseData: ExpenseItemProps = {
       title: expenseTitle,
       amount: expenseAmount,
-      date: new Date(expenseDate)
+      date: { seconds: new Date(expenseDate).getTime() / 1000 },
     }
 
     const isValidTitle = expenseData.title.trim().length > 0;
@@ -139,11 +133,6 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
               value: expenseTitle,
             }}
           />
-          {!titleIsValid && (
-            <Text style={[styles.errorText, { marginTop: 0 }]}>
-              Invalid title!
-            </Text>
-          )}
         </View>
         <View style={styles.inputsRow}>
           <View style={styles.field}>
@@ -156,11 +145,6 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
                 value: expenseAmount.toString(),
               }}
             />
-            {!amountIsValid && (
-              <Text style={styles.errorText}>
-                Invalid amount!, must be greater than 0
-              </Text>
-            )}
           </View>
           <View style={styles.field}>
             <View style={styles.dateContent}>
@@ -168,7 +152,7 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
                 Date
               </Text>
               <View style={[styles.datePicker, {
-                backgroundColor: dateIsValid ? Colors.textColor1 : Colors.error50,
+                borderColor: dateIsValid ? Colors.borderColor : Colors.error500,
               }]}>
                 <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
                 <TouchableOpacity
@@ -183,18 +167,12 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
                 </TouchableOpacity>
               </View>
             </View>
-            {!dateIsValid && (
-              <Text style={styles.errorText}>
-                Invalid date!, must like this (YYYY-MM-DD)
-              </Text>
-            )}
           </View>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={startTimeConfirm}
             onCancel={hideDatePicker}
-            accentColor={Colors.fieldBg}
           />
         </View>
         <View style={styles.buttons}>
@@ -222,9 +200,6 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
           />
         </View>
       )}
-      {error && (
-        <Text style={styles.errorText}>Delete failed, please try again.</Text>
-      )}
     </View>
   );
 }
@@ -242,14 +217,13 @@ interface Styles {
   buttons: ViewStyle;
   cancelBtnStyle: ViewStyle;
   cancelTextStyle: TextStyle;
-  errorText: TextStyle;
   deleteContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
-    backgroundColor: Colors.darkerBg,
+    backgroundColor: Colors.bgScreen,
     padding: 16,
   },
   inputsRow: {
@@ -266,7 +240,9 @@ const styles = StyleSheet.create<Styles>({
   },
   label: {
     fontSize: 12,
-    color: Colors.textColor1,
+    color: Colors.mainColor,
+    marginBottom: 4,
+    marginLeft: 4,
   },
   invalidLabel: {
     color: Colors.error500,
@@ -275,11 +251,13 @@ const styles = StyleSheet.create<Styles>({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 6,
+    backgroundColor: Colors.bgContainer,
+    borderWidth: 1,
   },
   iconContainer: {
     borderRadius: 24,
     position: "absolute",
-    right: 4,
+    right: 8,
     top: 8,
   },
   icon: {
@@ -293,20 +271,16 @@ const styles = StyleSheet.create<Styles>({
     marginTop: 60,
   },
   cancelBtnStyle: {
-    backgroundColor: Colors.fieldBg,
+    backgroundColor: Colors.bgContainer,
   },
   cancelTextStyle: {
-    color: Colors.gray700,
-  },
-  errorText: {
-    color: "red",
-    textAlign: "left",
+    color: Colors.mainColor,
   },
   deleteContainer: {
     marginTop: 16,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: Colors.textColor1,
+    borderTopColor: Colors.borderColor,
     alignItems: 'center'
   },
 })

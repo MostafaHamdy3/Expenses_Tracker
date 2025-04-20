@@ -8,7 +8,7 @@ import { RootStackParamList } from '../App'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export interface ExpenseItemProps {
-  id: string;
+  id?: string;
   title: string;
   amount: number;
   date: { seconds: number };
@@ -24,16 +24,15 @@ export const ExpenseItem = ({id, title, amount, date}: ExpenseItemProps) => {
   return (
     <TouchableOpacity
       onPress={() => expensePressHandler({ id, title, amount, date })}
-      activeOpacity={0.7}
+      activeOpacity={0.9}
+      style={styles.expense}
     >
-      <View style={styles.expense}>
-        <View>
-          <Text style={[styles.textBase, styles.title]}>{title}</Text>
-          <Text style={styles.textBase}>{getFormattedDate(date.seconds)}</Text>
-        </View>
-        <View style={styles.amountContainer}>
-          <Text style={styles.amount}>{amount.toFixed(2)}</Text>
-        </View>
+      <View>
+        <Text style={[styles.textBase, styles.title]}>{title}</Text>
+        <Text style={styles.textBase}>{getFormattedDate(date.seconds)}</Text>
+      </View>
+      <View style={styles.amountContainer}>
+        <Text style={styles.amount}>{amount.toFixed(2)}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -49,21 +48,22 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   expense: {
-    padding: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     marginVertical: 4,
     marginHorizontal: 16,
-    backgroundColor: Colors.backgroundScreen,
+    backgroundColor: Colors.bgContainer,
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "space-between",
-    elevation: 4,
-    shadowColor: Colors.gray500,
+    elevation: 1,
+    shadowColor: Colors.shadowColor,
     shadowOffset: { width: 1, height: 1 },
-    shadowRadius: 4,
-    shadowOpacity: 0.4
+    shadowRadius: 6,
+    shadowOpacity: 0.2
   },
   textBase: {
-    color: Colors.fieldBg
+    color: Colors.mainColor,
   },
   title: {
     fontSize: 16,
@@ -72,14 +72,15 @@ const styles = StyleSheet.create<Styles>({
   },
   amountContainer: {
     paddingHorizontal: 12,
-    paddingVertical: 4,
-    backgroundColor: "white",
+    backgroundColor: Colors.bgContainer,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: Colors.borderColor,
+    borderRadius: 12,
   },
   amount: {
-    color: Colors.backgroundScreen,
+    color: Colors.primaryColor,
     fontWeight: "bold",
   },
 });

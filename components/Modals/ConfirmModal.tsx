@@ -31,7 +31,6 @@ export const ConfirmModal = ({
       animationInTiming={400}
       animationOutTiming={350}
       style={styles.modal}
-      // onRequestClose={closeModal}
       onBackButtonPress={closeModal}
       onBackdropPress={closeModal}
     >
@@ -99,7 +98,7 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: Colors.textColor1,
+    backgroundColor: Colors.bgContainer,
     overflow: "hidden",
   },
   centeredContent: {
@@ -123,7 +122,7 @@ const styles = StyleSheet.create<Styles>({
     textAlign: "center",
     fontSize: 18,
     fontWeight: "600",
-    color: 'black',
+    color: Colors.mainColor,
     marginHorizontal: 24,
     lineHeight: 24,
   },
@@ -136,10 +135,10 @@ const styles = StyleSheet.create<Styles>({
   },
   confirmBtnStyle: {
     width: 300,
-    backgroundColor: Colors.fieldBg,
+    backgroundColor: Colors.bgContainer,
   },
   cancelTextStyle: {
-    color: Colors.gray700,
+    color: Colors.mainColor,
   },
   cancelBtnStyle: {
     width: 300,

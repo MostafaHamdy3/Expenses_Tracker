@@ -48,7 +48,7 @@ const styles = StyleSheet.create<Styles>({
     alignItems: "center",
     borderRadius: 12,
     margin: 10,
-    backgroundColor: Colors.backgroundScreen,
+    backgroundColor: Colors.primaryColor,
   },
   buttonText: {
     color: Colors.white,
