@@ -8,7 +8,7 @@ interface IndicatorProps {
   indicatorStyle?: ViewStyle;
 }
 
-export const Indicator = ({ size = "large", color = Colors.white, indicatorStyle }: IndicatorProps) => {
+export const Indicator = ({ size = "large", color = Colors.primaryColor, indicatorStyle }: IndicatorProps) => {
   return (
     <View style={[styles.container, indicatorStyle]}>
       <ActivityIndicator size={size} color={color} />

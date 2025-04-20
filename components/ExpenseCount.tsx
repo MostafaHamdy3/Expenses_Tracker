@@ -25,22 +25,25 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   countContent: {
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 16,
     margin: 16,
-    backgroundColor: Colors.fieldBg,
-    borderRadius: 8,
+    backgroundColor: Colors.bgContainer,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.borderColor,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   periodTitle: {
     fontSize: 12,
-    color: Colors.lightBg,
+    fontWeight: "500",
+    color: Colors.mainColor,
   },
   sumTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: Colors.backgroundScreen,
+    color: Colors.primaryColor,
   },
 });

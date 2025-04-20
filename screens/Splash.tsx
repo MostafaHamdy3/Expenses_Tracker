@@ -57,7 +57,7 @@ const styles = StyleSheet.create<Styles>({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.backgroundScreen,
+    backgroundColor: Colors.bgScreen,
   },
   logoImg: {
     width: 150,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create<Styles>({
     marginTop: "90%",
   },
   copyrightText: {
-    color: Colors.white,
+    color: Colors.mainColor,
     fontSize: 20,
     fontWeight: "500",
   },

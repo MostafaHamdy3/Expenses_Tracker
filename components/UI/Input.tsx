@@ -11,7 +11,7 @@ interface InputProps {
 export const Input = ({ label, textInputConfig, isInvalid }: InputProps) => {
   return (
     <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.invalidLabel]}>{label}</Text>
+      <Text style={styles.label}>{label}</Text>
       <TextInput 
         {...textInputConfig}
         style={[styles.input, isInvalid && styles.invalidInput]} 
@@ -27,20 +27,22 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: Colors.textColor1,
+    color: Colors.mainColor,
+    marginBottom: 4,
+    marginLeft: 4,
   },
   input: {
     fontSize: 18,
-    color: Colors.darkBg,
-    backgroundColor: Colors.textColor1,
-    paddingVertical: 6,
+    color: Colors.mainColor,
+    backgroundColor: Colors.bgContainer,
+    paddingVertical: 8,
     paddingHorizontal: 12,
-    borderRadius: 6,
-  },
-  invalidLabel: {
-    color: Colors.error500,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors.borderColor,
   },
   invalidInput: {
-    backgroundColor: Colors.error50
+    borderColor: Colors.error500,
+    borderWidth: 1,
   },
 });

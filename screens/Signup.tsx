@@ -84,7 +84,7 @@ export const Signup = ({ navigation }: SignupProps) => {
             <MaterialIcons
               name="person"
               size={20}
-              color={Colors.backgroundScreen}
+              color={Colors.primaryColor}
               style={styles.icon}
             />
             <TextInput
@@ -98,7 +98,7 @@ export const Signup = ({ navigation }: SignupProps) => {
             <MaterialIcons
               name="mail"
               size={20}
-              color={Colors.backgroundScreen}
+              color={Colors.primaryColor}
               style={styles.icon}
             />
             <TextInput
@@ -114,7 +114,7 @@ export const Signup = ({ navigation }: SignupProps) => {
             <MaterialIcons
               name="lock"
               size={20}
-              color={Colors.backgroundScreen}
+              color={Colors.primaryColor}
               style={styles.icon}
             />
             <TextInput
@@ -128,7 +128,7 @@ export const Signup = ({ navigation }: SignupProps) => {
               <MaterialIcons
                 name={isPasswordVisible ? "visibility" : "visibility-off"}
                 size={20}
-                color={Colors.backgroundScreen}
+                color={Colors.primaryColor}
               />
             </TouchableOpacity>
           </View>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: Colors.darkerBg,
+    backgroundColor: Colors.bgScreen,
   },
   subContent: {
     alignItems: "center",
@@ -200,12 +200,12 @@ const styles = StyleSheet.create<Styles>({
     marginBottom: 24,
   },
   title: {
-    color: Colors.white,
+    color: Colors.mainColor,
     fontSize: 26,
     fontWeight: "bold",
   },
   titleSignup: {
-    color: Colors.white,
+    color: Colors.mainColor,
     fontSize: 12,
     marginTop: 6,
   },
@@ -218,7 +218,7 @@ const styles = StyleSheet.create<Styles>({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.fieldBg,
+    backgroundColor: Colors.bgContainer,
     paddingHorizontal: 16,
     borderRadius: 12,
   },
@@ -235,15 +235,15 @@ const styles = StyleSheet.create<Styles>({
     marginBottom: 12,
   },
   loginText: {
-    color: Colors.white,
+    color: Colors.mainColor,
   },
   loginLink: {
-    color: Colors.textColor1,
+    color: Colors.primaryColor,
     fontWeight: "600",
   },
   signupButton: {
     alignItems: "center",
-    backgroundColor: Colors.backgroundScreen,
+    backgroundColor: Colors.primaryColor,
     paddingVertical: 14,
     borderRadius: 12,
   },

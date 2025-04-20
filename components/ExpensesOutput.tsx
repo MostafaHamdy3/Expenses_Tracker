@@ -40,9 +40,11 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   infoText: {
-    color: "white",
-    fontSize: 16,
+    color: Colors.mainColor,
+    fontSize: 20,
+    marginHorizontal: 42,
     textAlign: "center",
     marginTop: "50%",
+    lineHeight: 30,
   }
 })
