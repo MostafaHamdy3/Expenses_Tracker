@@ -195,7 +195,7 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
           <IconButton
             icon="trash"
             size={32}
-            color={Colors.error500}
+            color={Colors.secondaryColor}
             onPress={onShowConfirmDelete}
           />
         </View>

@@ -4,9 +4,10 @@ export const Colors: Record<string, string> = {
   borderColor: '#DBDBDB',
   mainColor: '#333',
   white: '#eee',
-  primaryColor: '#3e04c3',
-  lightBg: '#5721d4',
-  darkBg: '#2d0689',
+  primaryColor: '#2f9e44',
+  lightBg: '#51cf66',
+  darkBg: '#087f5b',
   shadowColor: '#39324a',
   error500: '#d40e0e',
+  secondaryColor: '#048ABF',
 };
