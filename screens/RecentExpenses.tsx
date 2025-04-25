@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
 
 import { getDateMinusDays } from "../util/Date";
-import { fetchExpenses } from "../store/expense_store";
+import { useExpenseStore } from "../store/expense_store";
 import { Colors } from "../constants/Styles";
 import { Indicator } from "../components/UI/Indicator";
 import { ExpenseItemProps } from "../components/ExpenseItem";
@@ -11,18 +10,18 @@ import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
 
 export const RecentExpenses = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [expenses, setExpenses] = useState<ExpenseItemProps[]>([]);
+  const { expenses, fetchExpenses } = useExpenseStore();
 
-  useFocusEffect(useCallback(() => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const data = await fetchExpenses();
-      setExpenses(data as ExpenseItemProps[]);
+      await fetchExpenses();
       setIsLoading(false)
     }
     fetchData();
-  }, []));
+  }, []);
 
   const recentExpenses = expenses?.filter((expense: ExpenseItemProps) => {
     const today = new Date();
