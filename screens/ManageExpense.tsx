@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Image, Text, ViewStyle, TextStyle, ImageStyle } from "react-native";
 
 import { Colors } from '../constants/Styles';
-import { addExpense, deleteExpense, updateExpense } from "../store/expense_store";
+import { ExpenseItemWithId, useExpenseStore } from "../store/expense_store";
 import { getFormattedDate } from "../util/Date";
 import { ConfirmModal } from "../components/Modals/ConfirmModal";
 
@@ -15,12 +15,14 @@ import { ExpenseItemProps } from "../components/ExpenseItem";
 import { RootStackParamList } from "../App";
 
 interface ManageExpenseProps {
-  route: { params: { data: ExpenseItemProps } };
+  route: { params: { data: ExpenseItemWithId } };
   navigation: NativeStackNavigationProp<RootStackParamList>;
 }
 
 export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   const data = route.params?.data;
+
+  const { addExpense, updateExpense, deleteExpense } = useExpenseStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);

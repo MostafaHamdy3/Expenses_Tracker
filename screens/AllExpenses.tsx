@@ -1,27 +1,25 @@
-import React, { useCallback, useState } from "react";
-
-import { fetchExpenses } from "../store/expense_store";
-import { useFocusEffect } from "@react-navigation/native";
-import { Colors } from "../constants/Styles";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
+
+import { useExpenseStore } from "../store/expense_store";
+import { Colors } from "../constants/Styles";
 import { Indicator } from "../components/UI/Indicator";
-import { ExpenseItemProps } from "../components/ExpenseItem";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
 
 export const AllExpenses = () => {
-  const [expenses, setExpenses] = useState<ExpenseItemProps[]>([]);
+  const { expenses, fetchExpenses } = useExpenseStore();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useFocusEffect(useCallback(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const data = await fetchExpenses();
-      setExpenses(data as ExpenseItemProps[]);
+      await fetchExpenses();
       setIsLoading(false);
     }
     fetchData();
-  }, []));
+  }, []);
 
   const expensesSum = expenses?.reduce((sum, expense) => {
     return sum + Number(expense.amount);

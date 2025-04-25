@@ -39,12 +39,13 @@ npm start
 ## Technologies Used 🛠️
 
 <div align="center">
-  
+
 | Category          | Technologies                                                                 |
 |-------------------|-----------------------------------------------------------------------------|
 | **Frontend**      | ![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![Expo](https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white) |
 | **Backend**       | ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white) ![Firestore](https://img.shields.io/badge/Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black) |
 | **Navigation**    | ![React Navigation](https://img.shields.io/badge/React_Navigation-6F52FF?style=for-the-badge) |
+| **State Management** | ![Zustand](https://img.shields.io/badge/Zustand-764ABC?style=for-the-badge&logo=redux&logoColor=white) |
 
 </div>
 
