@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, ViewStyle, TextStyle } from "react-native";
+import { Text, StyleSheet, FlatList, TextStyle } from "react-native";
 
 import { Colors } from "../constants/Styles";
 import { ExpenseItem, ExpenseItemProps } from "./ExpenseItem";
-import { ExpenseCount } from "./ExpenseCount";
+import { isRTL } from "../assets/translation/resources";
+import { fontsAR, fontsEN } from "../constants/config";
 
 interface ExpensesOutputProps {
   expenses: ExpenseItemProps[];
@@ -42,6 +43,7 @@ const styles = StyleSheet.create<Styles>({
   infoText: {
     color: Colors.mainColor,
     fontSize: 20,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     marginHorizontal: 42,
     textAlign: "center",
     marginTop: "50%",

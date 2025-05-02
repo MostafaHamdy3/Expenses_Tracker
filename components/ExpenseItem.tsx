@@ -6,6 +6,8 @@ import { getFormattedDate } from '../util/Date'
 import { Colors } from '../constants/Styles'
 import { RootStackParamList } from '../App'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { isRTL } from '../assets/translation/resources'
+import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
 
 export interface ExpenseItemProps {
   id?: string;
@@ -63,11 +65,13 @@ const styles = StyleSheet.create<Styles>({
     shadowOpacity: 0.2
   },
   textBase: {
+    alignSelf: 'flex-start',
     color: Colors.mainColor,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: isRTL() ? fontsAR.bold : fontsEN.bold,
     marginBottom: 4,
   },
   amountContainer: {
@@ -81,6 +85,6 @@ const styles = StyleSheet.create<Styles>({
   },
   amount: {
     color: Colors.primaryColor,
-    fontWeight: "bold",
+    fontFamily: fontsNUM.bold,
   },
 });

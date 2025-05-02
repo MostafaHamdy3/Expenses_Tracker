@@ -6,10 +6,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  StyleProp,
   ViewStyle,
   ImageStyle,
   TextStyle,
+  StatusBar,
 } from "react-native";
 
 import { auth } from "../FirebaseConfig";
@@ -21,6 +21,9 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Indicator } from "../components/UI/Indicator";
+import i18n from "../assets/translation/config";
+import { isRTL } from "../assets/translation/resources";
+import { fontsAR, fontsEN } from "../constants/config";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 
@@ -65,6 +68,7 @@ export const Login = ({ navigation }: LoginProps) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.subContent}>
         <Image
           source={require("../assets/icons/logo.png")}
@@ -72,8 +76,8 @@ export const Login = ({ navigation }: LoginProps) => {
         />
       </View>
       <View style={styles.subContent}>
-        <Text style={styles.title}>Welcome Back</Text>
-        <Text style={styles.titleLogin}>Please login to continue.</Text>
+        <Text style={styles.title}>{i18n.t("welcomeBack")}</Text>
+        <Text style={styles.titleLogin}>{i18n.t("loginToContinue")}</Text>
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
@@ -81,10 +85,9 @@ export const Login = ({ navigation }: LoginProps) => {
             name="mail"
             size={20}
             color={Colors.primaryColor}
-            style={styles.icon}
           />
           <TextInput
-            placeholder="Email"
+            placeholder={i18n.t("email")}
             value={email}
             onChangeText={setEmail}
             style={styles.textInput}
@@ -97,10 +100,9 @@ export const Login = ({ navigation }: LoginProps) => {
             name="lock"
             size={20}
             color={Colors.primaryColor}
-            style={styles.icon}
           />
           <TextInput
-            placeholder="Password"
+            placeholder={i18n.t("password")}
             value={password}
             onChangeText={setPassword}
             onSubmitEditing={handleLogin}
@@ -117,9 +119,9 @@ export const Login = ({ navigation }: LoginProps) => {
           </TouchableOpacity>
         </View>
         <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>Don't have an account?</Text>
+          <Text style={styles.registerText}>{i18n.t("noAccount")}</Text>
           <TouchableOpacity onPress={goToSignup}>
-            <Text style={styles.registerLink}>Sign Up</Text>
+            <Text style={styles.registerLink}>{i18n.t("signUp")}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin} activeOpacity={0.9}>
@@ -127,16 +129,14 @@ export const Login = ({ navigation }: LoginProps) => {
             <Indicator />
           ) : (
             <View style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Login</Text>
+              <Text style={styles.loginButtonText}>{i18n.t("login")}</Text>
             </View>
           )}
         </TouchableOpacity>
 
         {isLoginFailed && (
           <View style={styles.errorMessageContainer}>
-            <Text style={styles.errorMessage}>
-              Email or Password are invalid!
-            </Text>
+            <Text style={styles.errorMessage}>{i18n.t("invalidLogin")}</Text>
           </View>
         )}
       </View>
@@ -153,7 +153,6 @@ interface Styles {
   inputContainer: ViewStyle;
   inputWrapper: ViewStyle;
   textInput: TextStyle;
-  icon: ViewStyle;
   registerContainer: ViewStyle;
   registerText: TextStyle;
   registerLink: TextStyle;
@@ -182,11 +181,12 @@ const styles = StyleSheet.create<Styles>({
   title: {
     color: Colors.mainColor,
     fontSize: 26,
-    fontWeight: "bold",
+    fontFamily: isRTL() ? fontsAR.bold : fontsEN.bold,
   },
   titleLogin: {
     color: Colors.mainColor,
     fontSize: 12,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     marginTop: 6,
   },
   inputContainer: {
@@ -197,16 +197,16 @@ const styles = StyleSheet.create<Styles>({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
     backgroundColor: Colors.bgContainer,
     paddingHorizontal: 16,
     borderRadius: 12,
   },
   textInput: {
     flex: 1,
+    textAlign: isRTL() ? 'right' : 'left',
     paddingVertical: 12,
-  },
-  icon: {
-    marginRight: 10,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   registerContainer: {
     flexDirection: "row",
@@ -215,10 +215,11 @@ const styles = StyleSheet.create<Styles>({
   },
   registerText: {
     color: Colors.mainColor,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   registerLink: {
     color: Colors.primaryColor,
-    fontWeight: "600",
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   loginButton: {
     alignItems: "center",
@@ -229,6 +230,7 @@ const styles = StyleSheet.create<Styles>({
   loginButtonText: {
     color: Colors.white,
     fontSize: 15,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   errorMessageContainer: {
     justifyContent: "center",
@@ -236,5 +238,6 @@ const styles = StyleSheet.create<Styles>({
   },
   errorMessage: {
     color: Colors.error500,
+    fontFamily: isRTL() ? fontsAR.regular : fontsEN.regular,
   },
 });

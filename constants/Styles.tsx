@@ -5,7 +5,7 @@ export const Colors: Record<string, string> = {
   mainColor: '#333',
   white: '#eee',
   primaryColor: '#2f9e44',
-  lightBg: '#51cf66',
+  lightBg: '#34c04b',
   darkBg: '#087f5b',
   shadowColor: '#39324a',
   error500: '#d40e0e',

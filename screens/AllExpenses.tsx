@@ -6,6 +6,7 @@ import { Colors } from "../constants/Styles";
 import { Indicator } from "../components/UI/Indicator";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
+import i18n from "../assets/translation/config";
 
 export const AllExpenses = () => {
   const { expenses, fetchExpenses } = useExpenseStore();
@@ -28,13 +29,13 @@ export const AllExpenses = () => {
   return (
     <View style={styles.container}>
       <ExpenseCount
-        expensesName="Total"
+        expensesName={i18n.t("total")}
         expensesSum={expensesSum}
       />
       {isLoading ? <Indicator indicatorStyle={styles.indicator} /> : (
         <ExpensesOutput
           expenses={expenses}
-          fallBackText="No registered expenses found!"
+          fallBackText={i18n.t("noExpenses")}
         />
       )}
     </View>

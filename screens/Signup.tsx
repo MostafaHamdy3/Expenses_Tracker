@@ -10,6 +10,7 @@ import {
   ViewStyle,
   ImageStyle,
   TextStyle,
+  StatusBar,
 } from "react-native";
 
 import { auth } from "../FirebaseConfig";
@@ -20,6 +21,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Indicator } from "../components/UI/Indicator";
+import i18n from "../assets/translation/config";
+import { isRTL } from "../assets/translation/resources";
+import { fontsAR, fontsEN } from "../constants/config";
 
 type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
@@ -50,11 +54,11 @@ export const Signup = ({ navigation }: SignupProps) => {
     } catch (error) {
       console.log(error.code);
       if (error.code === "auth/email-already-in-use")
-        setIsSignupMessage("Email already Exist");
+        setIsSignupMessage(i18n.t("emailAlreadyExist"));
       else if (error.code === "auth/invalid-email")
-        setIsSignupMessage("Invalid Email");
+        setIsSignupMessage(i18n.t("invalidEmail"));
       else if (error.code === "auth/weak-password")
-        setIsSignupMessage("Password should be at least 6 characters");
+        setIsSignupMessage(i18n.t("passwordRules"));
     } finally {
       setIsLoading(false);
     }
@@ -66,6 +70,7 @@ export const Signup = ({ navigation }: SignupProps) => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <View style={styles.subContent}>
           <Image
@@ -74,10 +79,8 @@ export const Signup = ({ navigation }: SignupProps) => {
           />
         </View>
         <View style={styles.subContent}>
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.titleSignup}>
-            Please fill in the details to sign up.
-          </Text>
+          <Text style={styles.title}>{i18n.t("createAccount")}</Text>
+          <Text style={styles.titleSignup}>{i18n.t("fillDetails")}</Text>
         </View>
         <View style={styles.inputContainer}>
           <View style={styles.inputWrapper}>
@@ -85,10 +88,9 @@ export const Signup = ({ navigation }: SignupProps) => {
               name="person"
               size={20}
               color={Colors.primaryColor}
-              style={styles.icon}
             />
             <TextInput
-              placeholder="Full Name"
+              placeholder={i18n.t("fullName")}
               value={name}
               onChangeText={setName}
               style={styles.textInput}
@@ -99,10 +101,9 @@ export const Signup = ({ navigation }: SignupProps) => {
               name="mail"
               size={20}
               color={Colors.primaryColor}
-              style={styles.icon}
             />
             <TextInput
-              placeholder="Email"
+              placeholder={i18n.t("email")}
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -115,10 +116,9 @@ export const Signup = ({ navigation }: SignupProps) => {
               name="lock"
               size={20}
               color={Colors.primaryColor}
-              style={styles.icon}
             />
             <TextInput
-              placeholder="Password"
+              placeholder={i18n.t("password")}
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!isPasswordVisible}
@@ -133,11 +133,9 @@ export const Signup = ({ navigation }: SignupProps) => {
             </TouchableOpacity>
           </View>
           <View style={styles.loginContainer}>
+            <Text style={styles.loginText}>{i18n.t("haveAccount")}</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.loginText}>
-                Already have an account?{" "}
-                <Text style={styles.loginLink}>Login</Text>
-              </Text>
+              <Text style={styles.loginLink}>{i18n.t("login")}</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={handleSignup}>
@@ -145,7 +143,7 @@ export const Signup = ({ navigation }: SignupProps) => {
               <Indicator />
             ) : (
               <View style={styles.signupButton}>
-                <Text style={styles.signupButtonText}>Sign Up</Text>
+                <Text style={styles.signupButtonText}>{i18n.t("signUp")}</Text>
               </View>
             )}
           </TouchableOpacity>
@@ -170,7 +168,6 @@ interface Styles {
   inputContainer: ViewStyle;
   inputWrapper: ViewStyle;
   textInput: TextStyle;
-  icon: ViewStyle;
   loginContainer: ViewStyle;
   loginText: TextStyle;
   loginLink: TextStyle;
@@ -202,11 +199,12 @@ const styles = StyleSheet.create<Styles>({
   title: {
     color: Colors.mainColor,
     fontSize: 26,
-    fontWeight: "bold",
+    fontFamily: isRTL() ? fontsAR.bold : fontsEN.bold,
   },
   titleSignup: {
     color: Colors.mainColor,
     fontSize: 12,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     marginTop: 6,
   },
   inputContainer: {
@@ -218,28 +216,29 @@ const styles = StyleSheet.create<Styles>({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 10,
     backgroundColor: Colors.bgContainer,
     paddingHorizontal: 16,
     borderRadius: 12,
   },
   textInput: {
     flex: 1,
+    textAlign: isRTL() ? 'right' : 'left',
     paddingVertical: 12,
-  },
-  icon: {
-    marginRight: 10,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   loginContainer: {
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    gap: 6,
     marginBottom: 12,
   },
   loginText: {
     color: Colors.mainColor,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   loginLink: {
     color: Colors.primaryColor,
-    fontWeight: "600",
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   signupButton: {
     alignItems: "center",
@@ -250,6 +249,7 @@ const styles = StyleSheet.create<Styles>({
   signupButtonText: {
     color: Colors.white,
     fontSize: 15,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   errorMessageContainer: {
     justifyContent: "center",
@@ -258,5 +258,6 @@ const styles = StyleSheet.create<Styles>({
   },
   errorMessage: {
     color: Colors.error500,
+    fontFamily: isRTL() ? fontsAR.regular : fontsEN.regular,
   },
 });

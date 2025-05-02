@@ -2,6 +2,8 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from "react-native"
 import { Colors } from "../../constants/Styles"
 import { Indicator } from "./Indicator";
+import { isRTL } from "../../assets/translation/resources";
+import { fontsAR, fontsEN } from "../../constants/config";
 
 interface ButtonProps {
   btnText: string;
@@ -54,6 +56,6 @@ const styles = StyleSheet.create<Styles>({
     color: Colors.white,
     textAlign: "center",
     fontSize: 15,
-    fontWeight: '500',
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
 });

@@ -2,6 +2,8 @@ import React from 'react'
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
 
 import { Colors } from '../constants/Styles';
+import { isRTL } from '../assets/translation/resources';
+import { fontsAR, fontsEN, fontsNUM } from '../constants/config';
 
 interface ExpenseCountProps {
   expensesName: string;
@@ -12,13 +14,17 @@ export const ExpenseCount = ({expensesName, expensesSum}: ExpenseCountProps) => 
   return (
     <View style={styles.countContent}>
       <Text style={styles.periodTitle}>{expensesName}</Text>
-      <Text style={styles.sumTitle}>${expensesSum.toFixed(2)}</Text>
+      <View style={styles.priceContent}>
+        <Text style={styles.sumTitle}>$</Text>
+        <Text style={styles.sumTitle}>{expensesSum.toFixed(2)}</Text>
+      </View>
     </View>
   )
 }
 
 interface Styles {
   countContent: ViewStyle;
+  priceContent: ViewStyle;
   periodTitle: TextStyle;
   sumTitle: TextStyle;
 }
@@ -36,14 +42,18 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  priceContent: {
+    flexDirection: 'row-reverse',
+    gap: 4,
+  },
   periodTitle: {
-    fontSize: 12,
-    fontWeight: "500",
+    fontSize: 14,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
   },
   sumTitle: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: fontsNUM.medium,
     color: Colors.primaryColor,
   },
 });
