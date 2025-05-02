@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image, ViewStyle, ImageStyle, TextStyle } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Colors } from "../constants/Styles";
-import { Indicator } from "../components/UI/Indicator";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { Colors } from "../constants/Styles";
+import { Indicator } from "../components/UI/Indicator";
 import { RootStackParamList } from "../App";
 
 export const Splash = () => {
@@ -14,9 +15,7 @@ export const Splash = () => {
     const checkLoginStatus = async () => {
       try {
         const token = await AsyncStorage.getItem("authToken");
-        const id = await AsyncStorage.getItem("userId");
 
-        // if (token && id) await dispatch(getUserInfo(id));
         token ? navigation.replace("ExpensesOverview") : navigation.replace("Login");
       } catch (err) {
         console.log(err);

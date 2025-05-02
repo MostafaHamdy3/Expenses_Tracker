@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { getDateMinusDays } from "../util/Date";
 import { useExpenseStore } from "../store/expense_store";
 import { Colors } from "../constants/Styles";
 import { Indicator } from "../components/UI/Indicator";
 import { ExpenseItemProps } from "../components/ExpenseItem";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
+import i18n from "../assets/translation/config"
 
 export const RecentExpenses = () => {
   const { expenses, fetchExpenses } = useExpenseStore();
@@ -25,13 +25,14 @@ export const RecentExpenses = () => {
 
   const recentExpenses = expenses?.filter((expense: ExpenseItemProps) => {
     const today = new Date();
-    const date7DaysAgo = getDateMinusDays(today, 7);
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
     const expenseDate = expense.date.seconds;
+    const firstDayInSeconds = Math.floor(firstDayOfMonth.getTime() / 1000);
+    const lastDayInSeconds = Math.floor(lastDayOfMonth.getTime() / 1000);
 
-    const date7DaysAgoInSeconds = Math.floor(date7DaysAgo.getTime() / 1000);
-    const todayInSeconds = Math.floor(today.getTime() / 1000);
-
-    return (expenseDate >= date7DaysAgoInSeconds) && (expenseDate <= todayInSeconds);
+    return (expenseDate >= firstDayInSeconds) && (expenseDate <= lastDayInSeconds);
   });
 
   const expensesSum = recentExpenses?.reduce((sum, expense) => {
@@ -41,7 +42,7 @@ export const RecentExpenses = () => {
   return (
     <View style={styles.container}>
       <ExpenseCount
-        expensesName="Last 7 Days"
+        expensesName={i18n.t("thisMonth")}
         expensesSum={expensesSum}
       />
       {isLoading ? (
@@ -49,7 +50,7 @@ export const RecentExpenses = () => {
       ) : (
         <ExpensesOutput
           expenses={recentExpenses}
-          fallBackText="No expenses registered for the last 7 days."
+          fallBackText={i18n.t("noExpensesThisMonth")}
         />
       )}
     </View>

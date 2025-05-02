@@ -17,6 +17,10 @@ import { Splash } from './screens/Splash';
 import { RecentExpenses } from './screens/RecentExpenses';
 import { ManageExpense } from './screens/ManageExpense';
 import { ExpenseItemProps } from './components/ExpenseItem';
+import { FontLoader } from './constants/FontLoader';
+import i18n from './assets/translation/config';
+import { isRTL } from './assets/translation/resources';
+import { fontsAR, fontsEN } from './constants/config';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -27,8 +31,8 @@ export type RootStackParamList = {
 };
 
 export type ExpensesOverviewParamList = {
-  'Recent Expenses': undefined;
-  'All Expenses': undefined;
+  RecentExpenses: undefined;
+  AllExpenses: undefined;
 };
 
 const stack = createNativeStackNavigator<RootStackParamList>();
@@ -53,39 +57,60 @@ function ExpensesOverview() {
 
   return (
     <bottomTab.Navigator screenOptions={{
-      headerStyle: { backgroundColor: Colors.primaryColor },
+      headerStyle: {
+        height: 90,
+        backgroundColor: Colors.primaryColor,
+        borderBottomLeftRadius: 6,
+        borderBottomRightRadius: 6,
+      },
       headerTintColor: Colors.white,
-      tabBarStyle: { backgroundColor: Colors.bgScreen },
+      tabBarStyle: {
+        height: 55,
+        backgroundColor: Colors.bgScreen,
+      },
       tabBarActiveTintColor: Colors.darkBg,
+      headerTitleStyle: {
+        fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
+        fontSize: 20,
+        marginTop: -20,
+      },
+      tabBarLabelStyle: {
+        fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
+        fontSize: 12,
+        marginBottom: 4,
+      },
       headerRight: ({ tintColor }) => (
-        <View style={{ flexDirection: "row", gap: -8 }}>
+        <View style={{ flexDirection: "row", marginTop: -20 }}>
           <IconButton
-            icon="add" 
+            icon="add"
             size={24} 
             color={`${tintColor}`} 
-            onPress={addExpenseHandler} 
+            onPress={addExpenseHandler}
           />
           <IconButton
-            icon="log-out-outline" 
+            icon="log-out-outline"
             size={24}
             color={`${tintColor}`}
             onPress={logoutHandler}
+            style={{ marginRight: 12 }}
           />
         </View>
       )}}>
       <bottomTab.Screen 
-        name="Recent Expenses" 
+        name="RecentExpenses"
         component={RecentExpenses} 
         options={{
+          title: i18n.t("recentExpenses"),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar" color={color} size={size} />
           )
         }}
       />
       <bottomTab.Screen 
-        name="All Expenses" 
-        component={AllExpenses} 
+        name="AllExpenses"
+        component={AllExpenses}
         options={{
+          title: i18n.t("allExpenses"),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="hourglass" color={color} size={size} />
           )
@@ -97,38 +122,23 @@ function ExpensesOverview() {
 
 export default function App() {
   return (
-    <>
+    <FontLoader>
       <StatusBar style="light" />
       <NavigationContainer>
         <stack.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: Colors.primaryColor },
             headerTintColor: Colors.white,
+            headerShown: false
           }}
         >
-          <stack.Screen
-            name="Splash"
-            component={Splash}
-            options={{ headerShown: false }}
-          />
-          <stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          <stack.Screen
-            name="Signup"
-            component={Signup}
-            options={{ headerShown: false }}
-          />
-          <stack.Screen
-            name="ExpensesOverview"
-            component={ExpensesOverview}
-            options={{ headerShown: false }}
-          />
+          <stack.Screen name="Splash" component={Splash} />
+          <stack.Screen name="Login" component={Login} />
+          <stack.Screen name="Signup" component={Signup} />
+          <stack.Screen name="ExpensesOverview" component={ExpensesOverview} />
           <stack.Screen name="ManageExpense" component={ManageExpense} />
         </stack.Navigator>
       </NavigationContainer>
-    </>
+    </FontLoader>
   );
 }

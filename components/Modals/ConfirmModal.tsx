@@ -4,6 +4,9 @@ import Modal from 'react-native-modal';
 
 import { Colors } from "../../constants/Styles";
 import { Button } from "../UI/Button";
+import i18n from "../../assets/translation/config";
+import { isRTL } from "../../assets/translation/resources";
+import { fontsAR, fontsEN } from "../../constants/config";
 
 interface ConfirmModalProps {
   showModal: boolean;
@@ -48,12 +51,12 @@ export const ConfirmModal = ({
             )}
             <View style={styles.buttons}>
               <Button
-                btnText="Cancel"
+                btnText={i18n.t("cancel")}
                 btnStyle={styles.cancelBtnStyle}
                 onPress={closeModal}
               />
               <Button
-                btnText="Confirm"
+                btnText={i18n.t("confirm")}
                 btnStyle={styles.confirmBtnStyle}
                 textStyle={styles.cancelTextStyle}
                 onPress={confirm}
@@ -121,10 +124,10 @@ const styles = StyleSheet.create<Styles>({
   textTitleStyle: {
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "600",
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
     marginHorizontal: 24,
-    lineHeight: 24,
+    lineHeight: 26,
   },
   buttons: {
     width: "100%",

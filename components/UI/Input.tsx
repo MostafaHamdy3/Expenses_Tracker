@@ -1,6 +1,8 @@
 import React from "react";
 import { TextInput, View, Text, StyleSheet, TextInputProps } from "react-native";
 import { Colors } from "../../constants/Styles";
+import { isRTL } from "../../assets/translation/resources";
+import { fontsAR, fontsEN } from "../../constants/config";
 
 interface InputProps {
   label: string;
@@ -27,12 +29,15 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
     marginBottom: 4,
     marginLeft: 4,
   },
   input: {
-    fontSize: 18,
+    textAlign: isRTL() ? 'right' : 'left',
+    fontSize: 17,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
     backgroundColor: Colors.bgContainer,
     paddingVertical: 8,

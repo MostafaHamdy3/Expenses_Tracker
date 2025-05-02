@@ -5,14 +5,18 @@ import { Colors } from '../constants/Styles';
 import { ExpenseItemWithId, useExpenseStore } from "../store/expense_store";
 import { getFormattedDate } from "../util/Date";
 import { ConfirmModal } from "../components/Modals/ConfirmModal";
-
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { IconButton } from "../components/UI/IconButton";
 import { Input } from "../components/UI/Input";
 import { Button } from "../components/UI/Button";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ExpenseItemProps } from "../components/ExpenseItem";
 import { RootStackParamList } from "../App";
+import i18n from "../assets/translation/config";
+
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { isRTL } from "../assets/translation/resources";
+import { fontsAR, fontsEN } from "../constants/config";
+import { NavigationHeader } from "../components/UI/NavigationHeader";
 
 interface ManageExpenseProps {
   route: { params: { data: ExpenseItemWithId } };
@@ -45,7 +49,11 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: data ? "Edit Expense" : "Add Expense",
+      title: data ? i18n.t("editExpense") : i18n.t("addExpense"),
+      headerTitleStyle: {
+        fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
+        fontSize: 20,
+      },
     })
   }, [navigation])
 
@@ -117,92 +125,95 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ConfirmModal
-        showModal={showDeleteConf}
-        closeModal={closeConfirmDelete}
-        title="Are you sure you want to delete this expense?"
-        isLoading={deleteLoading}
-        confirm={deleteExpenseHandler}
-      />
-      <View>
+    <>
+      <NavigationHeader title={data ? i18n.t("editExpense") : i18n.t("addExpense")} />
+      <View style={styles.container}>
+        <ConfirmModal
+          showModal={showDeleteConf}
+          closeModal={closeConfirmDelete}
+          title={i18n.t("confirmDelete")}
+          isLoading={deleteLoading}
+          confirm={deleteExpenseHandler}
+        />
         <View>
-          <Input
-            label="Title"
-            isInvalid={!titleIsValid}
-            textInputConfig={{
-              onChangeText: onChangeTitle,
-              value: expenseTitle,
-            }}
-          />
-        </View>
-        <View style={styles.inputsRow}>
-          <View style={styles.field}>
+          <View>
             <Input
-              label="Amount"
-              isInvalid={!amountIsValid}
+              label={i18n.t("title")}
+              isInvalid={!titleIsValid}
               textInputConfig={{
-                keyboardType: "decimal-pad",
-                onChangeText: onChangeAmount,
-                value: expenseAmount.toString(),
+                onChangeText: onChangeTitle,
+                value: expenseTitle,
               }}
             />
           </View>
-          <View style={styles.field}>
-            <View style={styles.dateContent}>
-              <Text style={[styles.label, !dateIsValid && styles.invalidLabel]}>
-                Date
-              </Text>
-              <View style={[styles.datePicker, {
-                borderColor: dateIsValid ? Colors.borderColor : Colors.error500,
-              }]}>
-                <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
-                <TouchableOpacity
-                  style={styles.iconContainer}
-                  activeOpacity={0.7}
-                  onPress={showDatePicker}
-                >
-                  <Image
-                    source={require("../assets/icons/calendar.png")}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
+          <View style={styles.inputsRow}>
+            <View style={styles.field}>
+              <Input
+                label={i18n.t("price")}
+                isInvalid={!amountIsValid}
+                textInputConfig={{
+                  keyboardType: "decimal-pad",
+                  onChangeText: onChangeAmount,
+                  value: expenseAmount.toString(),
+                }}
+              />
+            </View>
+            <View style={styles.field}>
+              <View style={styles.dateContent}>
+                <Text style={[styles.label, !dateIsValid && styles.invalidLabel]}>
+                  {i18n.t("date")}
+                </Text>
+                <View style={[styles.datePicker, {
+                  borderColor: dateIsValid ? Colors.borderColor : Colors.error500,
+                }]}>
+                  <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
+                  <TouchableOpacity
+                    style={styles.iconContainer}
+                    activeOpacity={0.7}
+                    onPress={showDatePicker}
+                  >
+                    <Image
+                      source={require("../assets/icons/calendar.png")}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={startTimeConfirm}
+              onCancel={hideDatePicker}
+            />
           </View>
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={startTimeConfirm}
-            onCancel={hideDatePicker}
-          />
+          <View style={styles.buttons}>
+            <Button
+              btnText={i18n.t("cancel")}
+              btnStyle={styles.cancelBtnStyle}
+              textStyle={styles.cancelTextStyle}
+              onPress={cancelHandler}
+            />
+            <Button
+              btnText={data ? i18n.t("update") : i18n.t("add")}
+              onPress={onConfirm}
+              disabled={!isChanged}
+              isLoading={isLoading}
+            />
+          </View>
         </View>
-        <View style={styles.buttons}>
-          <Button
-            btnText="Cancel"
-            btnStyle={styles.cancelBtnStyle}
-            textStyle={styles.cancelTextStyle}
-            onPress={cancelHandler}
-          />
-          <Button
-            btnText={data ? "Update" : "Add"}
-            onPress={onConfirm}
-            disabled={!isChanged}
-            isLoading={isLoading}
-          />
-        </View>
+        {data && (
+          <View style={styles.deleteContainer}>
+            <IconButton
+              icon="trash"
+              size={32}
+              color={Colors.secondaryColor}
+              onPress={onShowConfirmDelete}
+            />
+          </View>
+        )}
       </View>
-      {data && (
-        <View style={styles.deleteContainer}>
-          <IconButton
-            icon="trash"
-            size={32}
-            color={Colors.secondaryColor}
-            onPress={onShowConfirmDelete}
-          />
-        </View>
-      )}
-    </View>
+    </>
   );
 }
 
@@ -242,6 +253,7 @@ const styles = StyleSheet.create<Styles>({
   },
   label: {
     fontSize: 12,
+    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
     marginBottom: 4,
     marginLeft: 4,
@@ -250,6 +262,7 @@ const styles = StyleSheet.create<Styles>({
     color: Colors.error500,
   },
   datePicker: {
+    flexDirection: 'row',
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 6,
