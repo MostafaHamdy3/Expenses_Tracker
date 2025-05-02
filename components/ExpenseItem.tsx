@@ -58,6 +58,7 @@ const styles = StyleSheet.create<Styles>({
     borderRadius: 6,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: 'center',
     elevation: 1,
     shadowColor: Colors.shadowColor,
     shadowOffset: { width: 1, height: 1 },
@@ -76,6 +77,7 @@ const styles = StyleSheet.create<Styles>({
   },
   amountContainer: {
     paddingHorizontal: 12,
+    paddingVertical: 8,
     backgroundColor: Colors.bgContainer,
     justifyContent: "center",
     alignItems: "center",
