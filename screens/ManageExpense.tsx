@@ -1,9 +1,17 @@
-import React, { useLayoutEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Image, Text, ViewStyle, TextStyle, ImageStyle } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Text,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from "react-native";
 
-import { Colors } from '../constants/Styles';
+import { Colors } from "../constants/Styles";
 import { ExpenseItemWithId, useExpenseStore } from "../store/expense_store";
-import { getFormattedDate } from "../util/Date";
 import { ConfirmModal } from "../components/Modals/ConfirmModal";
 import { IconButton } from "../components/UI/IconButton";
 import { Input } from "../components/UI/Input";
@@ -12,11 +20,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ExpenseItemProps } from "../components/ExpenseItem";
 import { RootStackParamList } from "../App";
 import i18n from "../assets/translation/config";
-
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { isRTL } from "../assets/translation/resources";
 import { fontsAR, fontsEN } from "../constants/config";
 import { NavigationHeader } from "../components/UI/NavigationHeader";
+
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { getFormattedDate } from "../utility/utility";
 
 interface ManageExpenseProps {
   route: { params: { data: ExpenseItemWithId } };
@@ -39,23 +48,11 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   const [expenseDate, setExpenseDate] = useState<string>(data?.date ? getFormattedDate(data.date.seconds) : "");
   const [expenseAmount, setExpenseAmount] = useState<number>(data?.amount || 0);
 
-  const isChanged = (
-    data ?
-      expenseTitle !== data.title ||
+  const isChanged = data
+    ? expenseTitle !== data.title ||
       expenseAmount !== data.amount ||
       expenseDate !== getFormattedDate(data.date.seconds)
-    : !data
-  );
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: data ? i18n.t("editExpense") : i18n.t("addExpense"),
-      headerTitleStyle: {
-        fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-        fontSize: 20,
-      },
-    })
-  }, [navigation])
+    : !data;
 
   const onShowConfirmDelete = () => {
     setShowDeleteConf(true);
@@ -66,16 +63,16 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   };
 
   const deleteExpenseHandler = async () => {
-    setDeleteLoading(true)
+    setDeleteLoading(true);
     await deleteExpense(data.id);
     closeConfirmDelete();
     navigation.goBack();
     setDeleteLoading(false);
-  }
+  };
 
   const cancelHandler = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   const onChangeTitle = (text: string) => {
     setExpenseTitle(text);
@@ -88,12 +85,12 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   };
 
   const onConfirm = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const expenseData: ExpenseItemProps = {
       title: expenseTitle,
       amount: expenseAmount,
       date: { seconds: new Date(expenseDate).getTime() / 1000 },
-    }
+    };
 
     const isValidTitle = expenseData.title.trim().length > 0;
     const isValidAmount = !isNaN(expenseData.amount) && expenseData.amount > 0;
@@ -103,14 +100,16 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
     setDateIsValid(isValidDate);
 
     if (isValidTitle && isValidAmount && isValidDate) {
-      data ? await updateExpense(data.id, expenseData) : await addExpense(expenseData);
-      navigation.goBack()
+      data
+        ? await updateExpense(data.id, expenseData)
+        : await addExpense(expenseData);
+      navigation.goBack();
     }
     setIsLoading(false);
   };
 
   const startTimeConfirm = (date: Date) => {
-    const dateOnly = date.toISOString().split('T')[0];
+    const dateOnly = date.toISOString().split("T")[0];
     setExpenseDate(dateOnly);
     !dateIsValid && setDateIsValid(true);
     hideDatePicker();
@@ -126,67 +125,70 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
 
   return (
     <>
-      <NavigationHeader title={data ? i18n.t("editExpense") : i18n.t("addExpense")} />
+      <NavigationHeader
+        title={data ? i18n.t("editExpense") : i18n.t("addExpense")}
+        showArrow={true}
+      />
+      <ConfirmModal
+        showModal={showDeleteConf}
+        closeModal={closeConfirmDelete}
+        title={i18n.t("confirmDelete")}
+        isLoading={deleteLoading}
+        confirm={deleteExpenseHandler}
+      />
       <View style={styles.container}>
-        <ConfirmModal
-          showModal={showDeleteConf}
-          closeModal={closeConfirmDelete}
-          title={i18n.t("confirmDelete")}
-          isLoading={deleteLoading}
-          confirm={deleteExpenseHandler}
+        <Input
+          label={i18n.t("title")}
+          isInvalid={!titleIsValid}
+          textInputConfig={{
+            onChangeText: onChangeTitle,
+            value: expenseTitle,
+            maxLength: 30,
+          }}
         />
-        <View>
-          <View>
-            <Input
-              label={i18n.t("title")}
-              isInvalid={!titleIsValid}
-              textInputConfig={{
-                onChangeText: onChangeTitle,
-                value: expenseTitle,
-              }}
-            />
-          </View>
-          <View style={styles.inputsRow}>
-            <View style={styles.field}>
-              <Input
-                label={i18n.t("price")}
-                isInvalid={!amountIsValid}
-                textInputConfig={{
-                  keyboardType: "decimal-pad",
-                  onChangeText: onChangeAmount,
-                  value: expenseAmount.toString(),
-                }}
+        <Input
+          label={i18n.t("price")}
+          isInvalid={!amountIsValid}
+          textInputConfig={{
+            keyboardType: "decimal-pad",
+            onChangeText: onChangeAmount,
+            value: expenseAmount.toString(),
+            maxLength: 9,
+          }}
+        />
+        <View style={styles.dateContent}>
+          <Text style={[styles.label, !dateIsValid && styles.invalidLabel]}>
+            {i18n.t("date")}
+          </Text>
+          <View
+            style={[
+              styles.datePicker,
+              {
+                borderColor: dateIsValid ? Colors.borderColor : Colors.error500,
+              },
+            ]}
+          >
+            <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
+            <TouchableOpacity
+              style={styles.iconContainer}
+              activeOpacity={0.7}
+              onPress={showDatePicker}
+            >
+              <Image
+                source={require("../assets/icons/calendar.png")}
+                style={styles.icon}
               />
-            </View>
-            <View style={styles.field}>
-              <View style={styles.dateContent}>
-                <Text style={[styles.label, !dateIsValid && styles.invalidLabel]}>
-                  {i18n.t("date")}
-                </Text>
-                <View style={[styles.datePicker, {
-                  borderColor: dateIsValid ? Colors.borderColor : Colors.error500,
-                }]}>
-                  <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
-                  <TouchableOpacity
-                    style={styles.iconContainer}
-                    activeOpacity={0.7}
-                    onPress={showDatePicker}
-                  >
-                    <Image
-                      source={require("../assets/icons/calendar.png")}
-                      style={styles.icon}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={startTimeConfirm}
-              onCancel={hideDatePicker}
-            />
+            </TouchableOpacity>
           </View>
+        </View>
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={startTimeConfirm}
+          onCancel={hideDatePicker}
+          maximumDate={new Date()}
+        />
+        <View style={styles.footer}>
           <View style={styles.buttons}>
             <Button
               btnText={i18n.t("cancel")}
@@ -201,32 +203,31 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
               isLoading={isLoading}
             />
           </View>
+          {data && (
+            <View style={styles.deleteContainer}>
+              <IconButton
+                icon="trash"
+                size={32}
+                color={Colors.secondaryColor}
+                onPress={onShowConfirmDelete}
+              />
+            </View>
+          )}
         </View>
-        {data && (
-          <View style={styles.deleteContainer}>
-            <IconButton
-              icon="trash"
-              size={32}
-              color={Colors.secondaryColor}
-              onPress={onShowConfirmDelete}
-            />
-          </View>
-        )}
       </View>
     </>
   );
-}
+};
 
 interface Styles {
   container: ViewStyle;
-  inputsRow: ViewStyle;
-  field: ViewStyle;
   dateContent: ViewStyle;
   label: TextStyle;
   invalidLabel: TextStyle;
   datePicker: ViewStyle;
   iconContainer: ViewStyle;
   icon: ImageStyle;
+  footer: ViewStyle;
   buttons: ViewStyle;
   cancelBtnStyle: ViewStyle;
   cancelTextStyle: TextStyle;
@@ -237,18 +238,10 @@ const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     backgroundColor: Colors.bgScreen,
-    padding: 16,
-  },
-  inputsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  field: {
-    height: 60,
-    width: "48%",
+    paddingHorizontal: 16,
+    paddingTop: 24,
   },
   dateContent: {
-    marginHorizontal: 4,
     marginVertical: 8,
   },
   label: {
@@ -256,34 +249,37 @@ const styles = StyleSheet.create<Styles>({
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
     marginBottom: 4,
-    marginLeft: 4,
+    marginHorizontal: 4,
   },
   invalidLabel: {
     color: Colors.error500,
   },
   datePicker: {
-    flexDirection: 'row',
-    paddingVertical: 10,
+    flexDirection: isRTL() ? "row-reverse" : "row",
+    paddingVertical: 12,
     paddingHorizontal: 12,
     borderRadius: 6,
     backgroundColor: Colors.bgContainer,
     borderWidth: 1,
   },
   iconContainer: {
-    borderRadius: 24,
     position: "absolute",
-    right: 8,
-    top: 8,
+    right: 12,
+    top: 10,
   },
   icon: {
     width: 24,
     height: 24,
   },
+  footer: {
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 42,
+  },
   buttons: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 60,
   },
   cancelBtnStyle: {
     backgroundColor: Colors.bgContainer,
@@ -293,9 +289,9 @@ const styles = StyleSheet.create<Styles>({
   },
   deleteContainer: {
     marginTop: 16,
-    paddingTop: 8,
+    paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: Colors.borderColor,
-    alignItems: 'center'
+    alignItems: "center",
   },
-})
+});

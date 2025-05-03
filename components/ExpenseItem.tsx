@@ -2,12 +2,12 @@ import React from 'react'
 import { StyleSheet, Text, View , TouchableOpacity, ViewStyle, TextStyle} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
-import { getFormattedDate } from '../util/Date'
 import { Colors } from '../constants/Styles'
 import { RootStackParamList } from '../App'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { isRTL } from '../assets/translation/resources'
 import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
+import { getFormattedDate, nFormatter } from '../utility/utility'
 
 export interface ExpenseItemProps {
   id?: string;
@@ -34,7 +34,7 @@ export const ExpenseItem = ({id, title, amount, date}: ExpenseItemProps) => {
         <Text style={styles.textBase}>{getFormattedDate(date.seconds)}</Text>
       </View>
       <View style={styles.amountContainer}>
-        <Text style={styles.amount}>{amount.toFixed(2)}</Text>
+        <Text style={styles.amount}>{nFormatter(+amount)}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -56,7 +56,7 @@ const styles = StyleSheet.create<Styles>({
     marginHorizontal: 16,
     backgroundColor: Colors.bgContainer,
     borderRadius: 6,
-    flexDirection: "row",
+    flexDirection: isRTL() ? 'row-reverse' : "row",
     justifyContent: "space-between",
     alignItems: 'center',
     elevation: 1,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create<Styles>({
     shadowOpacity: 0.2
   },
   textBase: {
-    alignSelf: 'flex-start',
+    alignSelf: isRTL() ? 'flex-end' : 'flex-start',
     color: Colors.mainColor,
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },

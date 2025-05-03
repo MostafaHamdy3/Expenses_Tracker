@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { useExpenseStore } from "../store/expense_store";
@@ -8,6 +8,7 @@ import { ExpenseItemProps } from "../components/ExpenseItem";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
 import i18n from "../assets/translation/config"
+import { NavigationHeader } from "../components/UI/NavigationHeader";
 
 export const RecentExpenses = () => {
   const { expenses, fetchExpenses } = useExpenseStore();
@@ -23,24 +24,32 @@ export const RecentExpenses = () => {
     fetchData();
   }, []);
 
-  const recentExpenses = expenses?.filter((expense: ExpenseItemProps) => {
+  const recentExpenses = useMemo(() => {
+    if (!expenses) return [];
+
     const today = new Date();
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    const expenseDate = expense.date.seconds;
     const firstDayInSeconds = Math.floor(firstDayOfMonth.getTime() / 1000);
     const lastDayInSeconds = Math.floor(lastDayOfMonth.getTime() / 1000);
 
-    return (expenseDate >= firstDayInSeconds) && (expenseDate <= lastDayInSeconds);
-  });
+    return expenses.filter((expense) => {
+      const expenseDate = expense.date.seconds;
+      return expenseDate >= firstDayInSeconds && expenseDate <= lastDayInSeconds;
+    });
+  }, [expenses, new Date().getMonth()]);
 
-  const expensesSum = recentExpenses?.reduce((sum, expense) => {
-    return sum + Number(expense.amount);
-  }, 0);
+  const expensesSum = useMemo(() => (
+    recentExpenses?.reduce((sum, expense) => sum + Number(expense.amount), 0)
+  ), [recentExpenses]);
 
   return (
     <View style={styles.container}>
+      <NavigationHeader
+        title={i18n.t("recentExpenses")}
+        showAction={true}
+      />
       <ExpenseCount
         expensesName={i18n.t("thisMonth")}
         expensesSum={expensesSum}

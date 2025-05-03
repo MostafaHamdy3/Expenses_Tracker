@@ -5,7 +5,7 @@ import { isRTL } from "../../assets/translation/resources";
 import { fontsAR, fontsEN } from "../../constants/config";
 
 interface InputProps {
-  label: string;
+  label?: string;
   textInputConfig: TextInputProps;
   isInvalid: boolean;
 }
@@ -24,7 +24,6 @@ export const Input = ({ label, textInputConfig, isInvalid }: InputProps) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginHorizontal: 4,
     marginVertical: 8,
   },
   label: {
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,
     marginBottom: 4,
-    marginLeft: 4,
+    marginHorizontal: 4,
   },
   input: {
     textAlign: isRTL() ? 'right' : 'left',

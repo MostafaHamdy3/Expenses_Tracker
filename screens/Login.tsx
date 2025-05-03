@@ -206,6 +206,7 @@ const styles = StyleSheet.create<Styles>({
     flex: 1,
     textAlign: isRTL() ? 'right' : 'left',
     paddingVertical: 12,
+    fontSize: 16,
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   registerContainer: {

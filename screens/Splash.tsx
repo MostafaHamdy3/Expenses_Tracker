@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Image, ViewStyle, ImageStyle, TextStyle } from "react-native";
+import { StyleSheet, Text, View, Image, ViewStyle, ImageStyle, TextStyle, StatusBar } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -27,6 +27,7 @@ export const Splash = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <Image
         source={require("../assets/icons/logo.png")}
         style={styles.logoImg}

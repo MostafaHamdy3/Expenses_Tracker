@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { useExpenseStore } from "../store/expense_store";
@@ -7,6 +7,7 @@ import { Indicator } from "../components/UI/Indicator";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
 import i18n from "../assets/translation/config";
+import { NavigationHeader } from "../components/UI/NavigationHeader";
 
 export const AllExpenses = () => {
   const { expenses, fetchExpenses } = useExpenseStore();
@@ -22,12 +23,16 @@ export const AllExpenses = () => {
     fetchData();
   }, []);
 
-  const expensesSum = expenses?.reduce((sum, expense) => {
-    return sum + Number(expense.amount);
-  }, 0);
+  const expensesSum = useMemo(() => (
+    expenses?.reduce((sum, expense) => sum + Number(expense.amount), 0)
+  ), [expenses]);
 
   return (
     <View style={styles.container}>
+      <NavigationHeader
+        title={i18n.t("allExpenses")}
+        showAction={true}
+      />
       <ExpenseCount
         expensesName={i18n.t("total")}
         expensesSum={expensesSum}
