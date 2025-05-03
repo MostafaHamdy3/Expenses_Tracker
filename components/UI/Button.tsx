@@ -45,7 +45,7 @@ interface Styles {
 const styles = StyleSheet.create<Styles>({
   button: {
     width: '45%',
-    height: 40,
+    height: 46,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 12,

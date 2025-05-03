@@ -94,7 +94,7 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
 
     const isValidTitle = expenseData.title.trim().length > 0;
     const isValidAmount = !isNaN(expenseData.amount) && expenseData.amount > 0;
-    const isValidDate = expenseData.date.toString() !== "Invalid Date";
+    const isValidDate = expenseData.date.seconds.toString() !== 'NaN';
     setTitleIsValid(isValidTitle);
     setAmountIsValid(isValidAmount);
     setDateIsValid(isValidDate);

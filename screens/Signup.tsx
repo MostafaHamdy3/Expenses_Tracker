@@ -214,7 +214,7 @@ const styles = StyleSheet.create<Styles>({
     marginBottom: 24,
   },
   inputWrapper: {
-    flexDirection: "row",
+    flexDirection: isRTL() ? 'row-reverse' : "row",
     alignItems: "center",
     gap: 10,
     backgroundColor: Colors.bgContainer,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create<Styles>({
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   loginContainer: {
-    flexDirection: 'row',
+    flexDirection: isRTL() ? 'row-reverse' : 'row',
     gap: 6,
     marginBottom: 12,
   },
