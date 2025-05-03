@@ -30,6 +30,7 @@
     "react-native": "0.73.6",
     "react-native-modal": "^14.0.0-rc.1",
     "react-native-modal-datetime-picker": "^18.0.0",
+    "react-native-reanimated": "^3.6.2",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
     "typescript": "^5.3.0",
