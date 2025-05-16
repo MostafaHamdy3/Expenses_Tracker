@@ -12,7 +12,7 @@ A modern expense tracking application built with React Native and Firebase to he
 
 ## Video Tutorial 
 
-[![Expenses_Tracking Project Review](assets/screenshots/Expenses_Review.mp4)](assets/screenshots/Expenses_Review.mp4)
+[![Expenses_Tracking Project Review](assets/screenshots/Screenshot_1747433164.png)](assets/screenshots/Expenses_Review.mp4)
 
 ## Features ✨
 

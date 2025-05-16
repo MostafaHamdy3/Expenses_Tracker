@@ -74,7 +74,7 @@ const Budget = () => {
           <CircularProgress
             size={160}
             width={15}
-            fill={Math.max(remainder, 0)}
+            fill={Math.max(+remainder, 0)}
             tintColor={Colors.primaryColor}
             backgroundColor={Colors.borderColor}
           >
