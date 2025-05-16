@@ -26,8 +26,16 @@
   "date": "Date",
   "cancel": "Cancel",
   "confirm": "Confirm",
+  "save": "Save",
   "update": "Update",
   "add": "Add",
   "allExpenses": "All Expenses",
-  "recentExpenses": "Recent Expenses"
+  "recentExpenses": "Recent Expenses",
+  "addExpenses": "Add Expenses",
+  "budget": "Budget",
+  "uExpenses": "Your expenses",
+  "expensesDetails": "Expenses Details",
+  "remainder": "Remainder",
+  "specifyYourBudget": "Specify your budget",
+  "specifyDescription": "Please specify your monthly income"
 }

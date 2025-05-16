@@ -1,3 +1,5 @@
+import { ExpenseItemWithId } from "../store/expense_store";
+
 export const nFormatter = (num: number) => {
   const lookup = [
     { value: 1, symbol: "" },
@@ -8,7 +10,6 @@ export const nFormatter = (num: number) => {
     { value: 1e15, symbol: "P" },
     { value: 1e18, symbol: "E" }
   ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var item = lookup.slice().reverse().find(function(item) {
     return num >= item.value;
   });
@@ -24,3 +25,23 @@ export const getFormattedDate = (date: number) => {
 
   return `${year}-${month}-${day}`;
 }
+
+export const ThisMonthExpenses = (expenses: ExpenseItemWithId[]) => {
+  if (!expenses) return [];
+
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  const firstDayInSeconds = Math.floor(firstDayOfMonth.getTime() / 1000);
+  const lastDayInSeconds = Math.floor(lastDayOfMonth.getTime() / 1000);
+
+  return expenses.filter((expense) => {
+    const expenseDate = expense.date.seconds;
+    return expenseDate >= firstDayInSeconds && expenseDate <= lastDayInSeconds;
+  });
+};
+
+export const expensesSum = (recentExpenses: ExpenseItemWithId[]) => (
+  recentExpenses?.reduce((sum, expense) => sum + Number(expense.amount), 0)
+);

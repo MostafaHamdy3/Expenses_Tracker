@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { useExpenseStore } from "../store/expense_store";
 import { Colors } from "../constants/Styles";
 import { Indicator } from "../components/UI/Indicator";
-import { ExpenseItemProps } from "../components/ExpenseItem";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
 import i18n from "../assets/translation/config"
 import { NavigationHeader } from "../components/UI/NavigationHeader";
+import { expensesSum, ThisMonthExpenses } from "../utility/utility";
 
 export const RecentExpenses = () => {
   const { expenses, fetchExpenses } = useExpenseStore();
@@ -24,35 +24,18 @@ export const RecentExpenses = () => {
     fetchData();
   }, []);
 
-  const recentExpenses = useMemo(() => {
-    if (!expenses) return [];
-
-    const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    const firstDayInSeconds = Math.floor(firstDayOfMonth.getTime() / 1000);
-    const lastDayInSeconds = Math.floor(lastDayOfMonth.getTime() / 1000);
-
-    return expenses.filter((expense) => {
-      const expenseDate = expense.date.seconds;
-      return expenseDate >= firstDayInSeconds && expenseDate <= lastDayInSeconds;
-    });
-  }, [expenses, new Date().getMonth()]);
-
-  const expensesSum = useMemo(() => (
-    recentExpenses?.reduce((sum, expense) => sum + Number(expense.amount), 0)
-  ), [recentExpenses]);
+  const recentExpenses = ThisMonthExpenses(expenses);
+  const expensesPrice = expensesSum(recentExpenses);
 
   return (
     <View style={styles.container}>
       <NavigationHeader
         title={i18n.t("recentExpenses")}
-        showAction={true}
+        showLogoutIcon={true}
       />
       <ExpenseCount
         expensesName={i18n.t("thisMonth")}
-        expensesSum={expensesSum}
+        expensesSum={expensesPrice}
       />
       {isLoading ? (
         <Indicator indicatorStyle={styles.indicator} />

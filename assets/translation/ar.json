@@ -26,8 +26,16 @@
   "date": "التاريخ",
   "cancel": "إلغاء",
   "confirm": "تأكيد",
+  "save": "حفظ",
   "update": "تعديل",
   "add": "إضافة",
   "allExpenses": "كل النفقات",
-  "recentExpenses": "نفقات الشهر"
+  "recentExpenses": "نفقات الشهر",
+  "addExpenses": "إضافة نفقة",
+  "budget": "الميزانية",
+  "uExpenses": "نفقاتك",
+  "expensesDetails": "تفاصيل النفقات",
+  "remainder": "متبقي",
+  "specifyYourBudget": "حدد ميزانيتك",
+  "specifyDescription": "يرجى إدخال صافي دخلك الشهري"
 }

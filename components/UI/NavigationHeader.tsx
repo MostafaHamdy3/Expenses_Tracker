@@ -12,19 +12,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface NavigationHeaderProps {
   title: string;
-  showAction?: boolean;
   showArrow?: boolean;
+  showLogoutIcon?: boolean;
 }
 
-export const NavigationHeader = ({ title, showAction, showArrow }: NavigationHeaderProps) => {
+export const NavigationHeader = ({ title, showArrow, showLogoutIcon }: NavigationHeaderProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const goBackHandler = () => {
     navigation.goBack();
-  };
-
-  const addExpenseHandler = () => {
-    navigation.navigate("ManageExpense");
   };
 
   const logoutHandler = async () => {
@@ -50,22 +46,14 @@ export const NavigationHeader = ({ title, showAction, showArrow }: NavigationHea
           />
         )}
       </View>
-      {showAction && (
-        <View style={styles.actionContent}>
-          <IconButton
-            icon="add"
-            size={24} 
-            color={Colors.white} 
-            onPress={addExpenseHandler}
-          />
-          <IconButton
-            icon="log-out-outline"
-            size={24}
-            color={Colors.white}
-            onPress={logoutHandler}
-            style={{ marginRight: 8 }}
-          />
-        </View>
+      {showLogoutIcon && (
+        <IconButton
+          icon="log-out-outline"
+          size={24}
+          color={Colors.white}
+          onPress={logoutHandler}
+          style={{ marginRight: 8 }}
+        />
       )}
     </View>
   )
@@ -75,7 +63,6 @@ interface Styles {
   container: ViewStyle,
   navTitle: TextStyle,
   mainContent: ViewStyle,
-  actionContent: ViewStyle,
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -100,7 +87,4 @@ const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     gap: 4,
   },
-  actionContent: {
-    flexDirection: isRTL() ? 'row-reverse' : "row",
-  }
 });

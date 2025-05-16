@@ -103,9 +103,12 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
       data
         ? await updateExpense(data.id, expenseData)
         : await addExpense(expenseData);
-      navigation.goBack();
+      navigation.navigate('ExpensesOverview', { screen: 'RecentExpenses' });
     }
     setIsLoading(false);
+    setExpenseTitle("");
+    setExpenseAmount(0);
+    setExpenseDate("");
   };
 
   const startTimeConfirm = (date: Date) => {
@@ -127,7 +130,7 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
     <>
       <NavigationHeader
         title={data ? i18n.t("editExpense") : i18n.t("addExpense")}
-        showArrow={true}
+        showArrow={!!data}
       />
       <ConfirmModal
         showModal={showDeleteConf}

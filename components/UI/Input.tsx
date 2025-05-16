@@ -7,16 +7,17 @@ import { fontsAR, fontsEN } from "../../constants/config";
 interface InputProps {
   label?: string;
   textInputConfig: TextInputProps;
+  customStyle?: TextInputProps['style'];
   isInvalid: boolean;
 }
 
-export const Input = ({ label, textInputConfig, isInvalid }: InputProps) => {
+export const Input = ({ label, textInputConfig, isInvalid, customStyle }: InputProps) => {
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{label}</Text>
       <TextInput 
         {...textInputConfig}
-        style={[styles.input, isInvalid && styles.invalidInput]} 
+        style={[styles.input, isInvalid && styles.invalidInput, customStyle]} 
       />
     </View>
   )

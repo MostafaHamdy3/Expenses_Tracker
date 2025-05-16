@@ -12,6 +12,7 @@ interface ButtonProps {
   disabled?: boolean;
   btnStyle?: ViewStyle;
   textStyle?: TextStyle;
+  loadingColor?: string;
 }
 
 export const Button = ({
@@ -21,6 +22,7 @@ export const Button = ({
   disabled,
   btnStyle,
   textStyle,
+  loadingColor,
 }: ButtonProps) => {
   return (
     <TouchableOpacity
@@ -30,7 +32,7 @@ export const Button = ({
       activeOpacity={0.7}
     >
       {isLoading
-        ? <Indicator size="small" color={btnStyle ? Colors.darkBg : Colors.white} /> 
+        ? <Indicator size="small" color={loadingColor || Colors.white} /> 
         : <Text style={[styles.buttonText, textStyle]}>{btnText}</Text>
       }
     </TouchableOpacity>

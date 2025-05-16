@@ -61,6 +61,7 @@ export const ConfirmModal = ({
                 textStyle={styles.cancelTextStyle}
                 onPress={confirm}
                 isLoading={isLoading}
+                loadingColor={Colors.darkBg}
               />
             </View>
           </View>
