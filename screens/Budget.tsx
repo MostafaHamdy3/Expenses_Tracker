@@ -48,7 +48,7 @@ const Budget = () => {
     budgetModalRef.current?.present();
   }, []);
 
-  const remainder = (userBudget - expensesPrice) / userBudget * 100;
+  const remainder = ((userBudget - expensesPrice) / userBudget * 100).toFixed(2);
 
   return (
     <View style={styles.container}>

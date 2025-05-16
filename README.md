@@ -13,14 +13,18 @@ A modern expense tracking application built with React Native and Firebase to he
 ## Video Tutorial  
 - Pressing on the image will direct you to view the video.  
 
-[![Watch the video](https://drive.google.com/uc?export=view&id=1KfJOfvJlsT4hlNrSjf7Q4pzuKZRZ1jIG)](https://drive.google.com/file/d/15SQvvz4kO-GzhIFItHrXjXwar2LPEWFH/view?usp=sharing)
+[![Expenses_Tracking Project Review](assets/screenshots/Expenses_Review/video_preview.png)](assets/screenshots/Expenses_Review/Expenses_Review.mp4)
 
 ## Features ✨
 
-- 🔐 **Secure Authentication** - Firebase-powered login/registration
-- 💸 **Expense Management** - Add, edit, and delete expenses
-- 📅 **Smart Filtering** - View expenses by time period (7 days, all)
-- 📊 **Expense Analytics** - Automatic total calculation and spending overview
+- **User Authentication:** Secure login and sign up using Firebase Authentication.
+- **Expense Management:** Add, edit, and delete expenses with details like title, amount, and date.
+- **Budget Tracking:** Set and update your monthly budget, and monitor your spending against it.
+- **Expense Overview:** View recent expenses, all expenses.
+- **Statistics & Visualization:** Visualize your spending with charts and progress indicators.
+- **Multi-language Support:** Easily switch between languages (Arabic and English supported depend on your device language).
+- **Modern UI:** Smooth navigation, bottom sheet modals, and custom components for a polished user experience.
+- **Persistent Storage:** Uses Firebase Firestore for cloud data and AsyncStorage for local state.
 
 ## Installation ⚙️
 
