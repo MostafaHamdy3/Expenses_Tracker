@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import ar from "./ar.json"
 import en from "./en.json"
 
-const deviceLanguage = Localization.locale.split('-')[0] as keyof typeof resources;
+const deviceLanguage = Localization.getLocales()[0]?.languageCode.split('-')[0] as keyof typeof resources;
 const defaultLanguage: keyof typeof resources = ['ar', 'en'].includes(deviceLanguage) 
   ? deviceLanguage 
   : 'en';

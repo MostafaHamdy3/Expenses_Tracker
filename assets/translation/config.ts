@@ -9,7 +9,7 @@ export const defaultNS = 'common'
 i18n.use(initReactI18next).init({
   resources,
   // lng: 'en',
-  lng: Localization.locale.split('-')[0] === 'ar' ? 'ar' : 'en',
+  lng: Localization.getLocales()[0]?.languageCode === 'ar' ? 'ar' : 'en',
   fallbackLng: 'en',
   compatibilityJSON: 'v4',
   fallbackNS: 'default',
