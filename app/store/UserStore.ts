@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 interface userStore {
   userBudget: number;

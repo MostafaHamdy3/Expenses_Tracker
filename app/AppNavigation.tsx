@@ -4,18 +4,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 
-import { ExpenseItemProps } from "../components/ExpenseItem";
-import { Colors } from "../constants/Styles";
-import { isRTL } from "../assets/translation/resources";
-import { fontsAR, fontsEN } from "../constants/config";
-import { RecentExpenses } from "../screens/RecentExpenses";
-import i18n from "../assets/translation/config";
-import { ManageExpense } from "../screens/ManageExpense";
-import Budget from "../screens/Budget";
-import { AllExpenses } from "../screens/AllExpenses";
-import { Splash } from "../screens/Splash";
-import { Login } from "../screens/Login";
-import { Signup } from "../screens/Signup";
+import { ExpenseItemProps } from "./components/ExpenseItem";
+import { Colors } from "./constants/Styles";
+import { isRTL } from "./assets/translation/resources";
+import { fontsAR, fontsEN } from "./constants/config";
+import { RecentExpenses } from "./screens/RecentExpenses";
+import i18n from "./assets/translation/config";
+import { ManageExpense } from "./screens/ManageExpense";
+import Budget from "./screens/Budget";
+import { AllExpenses } from "./screens/AllExpenses";
+import { Splash } from "./screens/Splash";
+import { Login } from "./screens/Login";
+import { Signup } from "./screens/Signup";
 
 export type RootStackParamList = {
   Splash: undefined;

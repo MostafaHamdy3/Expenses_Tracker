@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { getDocs, query, collection, addDoc, doc, updateDoc, where, deleteDoc } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ExpenseItemProps } from "../components/ExpenseItem";
+import { db } from "../../FirebaseConfig";
 
 const expensesCollection = collection(db, "expenses");
 

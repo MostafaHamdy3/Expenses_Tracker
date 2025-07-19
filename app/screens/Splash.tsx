@@ -5,8 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Colors } from "../constants/Styles";
-import { Indicator } from "../components/UI/Indicator";
-import { RootStackParamList } from "../App";
+import { RootStackParamList } from "../AppNavigation";
+import { Indicator } from "../components/common/Indicator";
 
 export const Splash = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

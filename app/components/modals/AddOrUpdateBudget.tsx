@@ -1,15 +1,15 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { Image, StyleSheet, Text, TextInput } from 'react-native'
+import { Image, StyleSheet, Text } from 'react-native'
 
-import { Button } from '../UI/Button';
-import { useUserStore } from '../../store/user_store';
 import i18n from '../../assets/translation/config';
 import { Colors } from '../../constants/Styles';
 
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { fontsAR, fontsEN } from '../../constants/config';
 import { isRTL } from '../../assets/translation/resources';
-import { Input } from '../UI/Input';
+import { useUserStore } from '../../store/UserStore';
+import { Input } from '../common/Input';
+import { Button } from '../common/Button';
 
 interface AddOrUpdateBudgetProps {
   userBudget: number;

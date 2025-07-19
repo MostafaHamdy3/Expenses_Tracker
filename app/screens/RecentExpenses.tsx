@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { useExpenseStore } from "../store/expense_store";
 import { Colors } from "../constants/Styles";
-import { Indicator } from "../components/UI/Indicator";
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import { ExpenseCount } from "../components/ExpenseCount";
 import i18n from "../assets/translation/config"
-import { NavigationHeader } from "../components/UI/NavigationHeader";
+import { useExpenseStore } from "../store/ExpenseStore";
+import { NavigationHeader } from "../components/common/NavigationHeader";
+import { Indicator } from "../components/common/Indicator";
 import { expensesSum, ThisMonthExpenses } from "../utility/utility";
 
 export const RecentExpenses = () => {

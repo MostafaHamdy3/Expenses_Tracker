@@ -12,18 +12,18 @@ import {
   StatusBar,
 } from "react-native";
 
-import { auth } from "../FirebaseConfig";
 import { Colors } from "../constants/Styles";
-import { RootStackParamList } from "../App";
+import i18n from "../assets/translation/config";
+import { isRTL } from "../assets/translation/resources";
+import { fontsAR, fontsEN } from "../constants/config";
+import { RootStackParamList } from "../AppNavigation";
+import { auth } from "../../FirebaseConfig";
+import { Indicator } from "../components/common/Indicator";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Indicator } from "../components/UI/Indicator";
-import i18n from "../assets/translation/config";
-import { isRTL } from "../assets/translation/resources";
-import { fontsAR, fontsEN } from "../constants/config";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 

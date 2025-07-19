@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, Image, ViewStyle, ImageStyle, TextStyle } from 
 import Modal from 'react-native-modal';
 
 import { Colors } from "../../constants/Styles";
-import { Button } from "../UI/Button";
 import i18n from "../../assets/translation/config";
 import { isRTL } from "../../assets/translation/resources";
 import { fontsAR, fontsEN } from "../../constants/config";
+import { Button } from "../common/Button";
 
 interface ConfirmModalProps {
   showModal: boolean;
