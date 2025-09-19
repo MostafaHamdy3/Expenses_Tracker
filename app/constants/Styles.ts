@@ -10,4 +10,5 @@ export const Colors: Record<string, string> = {
   shadowColor: '#39324a',
   error500: '#d40e0e',
   secondaryColor: '#048ABF',
+  placeholderColor: '#999',
 };

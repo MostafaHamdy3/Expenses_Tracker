@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ExpenseTracker",
-    "slug": "ExpenseTracker",
+    "slug": "expense-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icons/logo.png",
@@ -23,16 +23,17 @@
       "package": "com.mostafa7amdy.ExpenseTracker"
     },
     "web": {
-      "favicon": "./app/assets/favicon.png"
+      "favicon": "./app/assets/icons/logo.png"
     },
     "extra": {
       "eas": {
-        "projectId": "1a965236-0ba4-4156-bfdc-1572f6a6eada"
+        "projectId": "6e86c4a9-89f6-4782-baf0-1d22ccb3c21a"
       }
     },
     "plugins": [
       "expo-font",
       "expo-localization"
-    ]
+    ],
+    "owner": "mostafa7amdy"
   }
 }

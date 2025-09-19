@@ -88,6 +88,7 @@ export const Login = ({ navigation }: LoginProps) => {
           />
           <TextInput
             placeholder={i18n.t("email")}
+            placeholderTextColor={Colors.placeholderColor}
             value={email}
             onChangeText={setEmail}
             style={styles.textInput}
@@ -103,6 +104,7 @@ export const Login = ({ navigation }: LoginProps) => {
           />
           <TextInput
             placeholder={i18n.t("password")}
+            placeholderTextColor={Colors.placeholderColor}
             value={password}
             onChangeText={setPassword}
             onSubmitEditing={handleLogin}
