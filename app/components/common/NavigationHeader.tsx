@@ -5,10 +5,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { IconButton } from './IconButton';
 import { Colors } from '../../constants/Styles';
-import { RootStackParamList } from '../../app/AppNavigation';
 import { isRTL } from '../../assets/translation/resources';
 import { fontsAR, fontsEN } from '../../constants/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RootStackParamList } from '../../AppNavigation';
 
 interface NavigationHeaderProps {
   title: string;
@@ -67,7 +67,7 @@ interface Styles {
 
 const styles = StyleSheet.create<Styles>({
   container: {
-    height: 60,
+    height: 100,
     flexDirection: isRTL() ? 'row-reverse' : 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -75,6 +75,7 @@ const styles = StyleSheet.create<Styles>({
     paddingHorizontal: 8,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
+    paddingTop: 42,
   },
   navTitle: {
     color: Colors.white,

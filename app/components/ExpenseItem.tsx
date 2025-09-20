@@ -3,11 +3,11 @@ import { StyleSheet, Text, View , TouchableOpacity, ViewStyle, TextStyle} from '
 import { useNavigation } from '@react-navigation/native'
 
 import { Colors } from '../constants/Styles'
-import { RootStackParamList } from '../App'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { isRTL } from '../assets/translation/resources'
 import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
 import { getFormattedDate, nFormatter } from '../utility/utility'
+import { RootStackParamList } from '../AppNavigation'
 
 export interface ExpenseItemProps {
   id?: string;
