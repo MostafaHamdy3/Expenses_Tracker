@@ -1,20 +1,42 @@
+# dependencies
 node_modules/
 package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Expo
 .expo/
 dist/
-npm-debug.*
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-*.orig.*
-web-build/
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
 
 # macOS
 .DS_Store
+*.pem
 
-# Temporary files created by Metro to check the health of the file watcher
-.metro-health-check*
+# local env files
+.env*.local
 
-.vscode
+# typescript
+*.tsbuildinfo
+
+# generated native folders
+/ios
+/android
