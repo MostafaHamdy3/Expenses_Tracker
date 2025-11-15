@@ -26,6 +26,7 @@ import { ConfirmModal } from "../components/modals/ConfirmModal";
 import { Input } from "../components/common/Input";
 import { Button } from "../components/common/Button";
 import { IconButton } from "../components/common/IconButton";
+import Trash from '../assets/svgs/trash-2.svg';
 
 interface ManageExpenseProps {
   route: { params: { data: ExpenseItemWithId } };
@@ -207,14 +208,9 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
             />
           </View>
           {data && (
-            <View style={styles.deleteContainer}>
-              <IconButton
-                icon="trash"
-                size={32}
-                color={Colors.secondaryColor}
-                onPress={onShowConfirmDelete}
-              />
-            </View>
+            <TouchableOpacity style={styles.deleteContainer} onPress={onShowConfirmDelete}>
+              <Trash width={32} height={32} color={Colors.secondaryColor} />
+            </TouchableOpacity>
           )}
         </View>
       </View>

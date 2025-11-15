@@ -4,12 +4,11 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/vector-icons": "^15.0.2",
     "@gorhom/bottom-sheet": "^5.1.4",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-community/datetimepicker": "8.4.1",
@@ -21,7 +20,7 @@
     "@types/react": "~19.0.10",
     "axios": "^1.4.0",
     "expo": "^53.0.20",
-    "expo-asset": "^12.0.9",
+    "expo-asset": "~11.1.7",
     "expo-font": "~13.3.2",
     "expo-localization": "~16.1.6",
     "expo-status-bar": "~2.2.3",
@@ -30,7 +29,7 @@
     "immer": "^10.1.1",
     "react": "19.0.0",
     "react-i18next": "^15.5.1",
-    "react-native": "0.79.5",
+    "react-native": "0.79.6",
     "react-native-circular-progress": "^1.4.1",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-modal": "^14.0.0-rc.1",
@@ -38,12 +37,14 @@
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
-    "react-native-svg": "^15.13.0",
-    "typescript": "^5.3.0",
+    "react-native-svg": "15.11.2",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@react-native/metro-babel-transformer": "^0.82.1",
+    "react-native-svg-transformer": "^1.5.1",
+    "typescript": "~5.8.3"
   },
   "private": true
 }

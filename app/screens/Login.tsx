@@ -19,9 +19,12 @@ import { fontsAR, fontsEN } from "../constants/config";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
+import Email from '../assets/svgs/mail.svg';
+import Lock from '../assets/svgs/lock-keyhole.svg';
+import Visible from '../assets/svgs/eye.svg';
+import Invisible from '../assets/svgs/eye-off.svg';
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -81,11 +84,7 @@ export const Login = ({ navigation }: LoginProps) => {
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
-          <MaterialIcons
-            name="mail"
-            size={20}
-            color={Colors.primaryColor}
-          />
+          <Email width={20} height={20} color={Colors.primaryColor} />
           <TextInput
             placeholder={i18n.t("email")}
             placeholderTextColor={Colors.placeholderColor}
@@ -97,11 +96,7 @@ export const Login = ({ navigation }: LoginProps) => {
           />
         </View>
         <View style={styles.inputWrapper}>
-          <MaterialIcons
-            name="lock"
-            size={20}
-            color={Colors.primaryColor}
-          />
+          <Lock width={20} height={20} color={Colors.primaryColor} />
           <TextInput
             placeholder={i18n.t("password")}
             placeholderTextColor={Colors.placeholderColor}
@@ -113,11 +108,11 @@ export const Login = ({ navigation }: LoginProps) => {
             autoCapitalize="none"
           />
           <TouchableOpacity onPress={togglePasswordVisibility}>
-            <MaterialIcons
-              name={isPasswordVisible ? "visibility" : "visibility-off"}
-              size={20}
-              color={Colors.primaryColor}
-            />
+            {isPasswordVisible ? (
+              <Visible width={20} height={20} color={Colors.primaryColor} />
+            ) : (
+              <Invisible width={20} height={20} color={Colors.primaryColor} />
+            )}
           </TouchableOpacity>
         </View>
         <View style={styles.registerContainer}>

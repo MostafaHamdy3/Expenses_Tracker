@@ -4,7 +4,7 @@
     "slug": "ExpenseTracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icons/logo.png",
+    "icon": "./app/assets/icons/Expenses_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "resizeMode": "contain",
@@ -23,12 +23,13 @@
       "package": "com.mostafa7amdy.ExpenseTracker"
     },
     "web": {
-      "favicon": "./app/assets/icons/logo.png"
+      "favicon": "./app/assets/icons/Expenses_logo.png"
     },
     "extra": {},
     "plugins": [
       "expo-font",
-      "expo-localization"
+      "expo-localization",
+      "expo-asset"
     ]
   }
 }

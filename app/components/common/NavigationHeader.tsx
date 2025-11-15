@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -9,6 +9,8 @@ import { isRTL } from '../../assets/translation/resources';
 import { fontsAR, fontsEN } from '../../constants/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../AppNavigation';
+import ArrowBack from '../../assets/svgs/move-left.svg';
+import Logout from '../../assets/svgs/log-out.svg';
 
 interface NavigationHeaderProps {
   title: string;
@@ -38,22 +40,13 @@ export const NavigationHeader = ({ title, showArrow, showLogoutIcon }: Navigatio
       <View style={styles.mainContent}>
         <Text style={[styles.navTitle, {marginHorizontal: showArrow ? 0 : 8}]}>{title}</Text>
         {showArrow && (
-          <IconButton
-            icon="arrow-back"
-            size={22} 
-            color={Colors.white}
-            onPress={goBackHandler}
-          />
+          <ArrowBack width={22} height={22} />
         )}
       </View>
       {showLogoutIcon && (
-        <IconButton
-          icon="log-out-outline"
-          size={24}
-          color={Colors.white}
-          onPress={logoutHandler}
-          style={{ marginRight: 8 }}
-        />
+        <TouchableOpacity onPress={logoutHandler}>
+          <Logout width={24} height={24} color={Colors.white} />
+        </TouchableOpacity>
       )}
     </View>
   )

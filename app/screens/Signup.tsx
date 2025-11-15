@@ -16,7 +16,6 @@ import {
 import { Colors } from "../constants/Styles";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import i18n from "../assets/translation/config";
 import { isRTL } from "../assets/translation/resources";
@@ -24,6 +23,11 @@ import { fontsAR, fontsEN } from "../constants/config";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
+import Person from '../assets/svgs/circle-user-round.svg';
+import Mail from '../assets/svgs/mail.svg';
+import Lock from '../assets/svgs/lock-keyhole.svg';
+import Visible from '../assets/svgs/eye.svg';
+import Invisible from '../assets/svgs/eye-off.svg';
 
 type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
@@ -51,7 +55,7 @@ export const Signup = ({ navigation }: SignupProps) => {
       if (user) {
         navigation.replace("Login");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.code);
       if (error.code === "auth/email-already-in-use")
         setIsSignupMessage(i18n.t("emailAlreadyExist"));
@@ -84,11 +88,7 @@ export const Signup = ({ navigation }: SignupProps) => {
         </View>
         <View style={styles.inputContainer}>
           <View style={styles.inputWrapper}>
-            <MaterialIcons
-              name="person"
-              size={20}
-              color={Colors.primaryColor}
-            />
+            <Person width={20} height={20} color={Colors.primaryColor} />
             <TextInput
               placeholder={i18n.t("fullName")}
               value={name}
@@ -97,11 +97,7 @@ export const Signup = ({ navigation }: SignupProps) => {
             />
           </View>
           <View style={styles.inputWrapper}>
-            <MaterialIcons
-              name="mail"
-              size={20}
-              color={Colors.primaryColor}
-            />
+            <Mail width={20} height={20} color={Colors.primaryColor} />
             <TextInput
               placeholder={i18n.t("email")}
               value={email}
@@ -112,11 +108,7 @@ export const Signup = ({ navigation }: SignupProps) => {
             />
           </View>
           <View style={styles.inputWrapper}>
-            <MaterialIcons
-              name="lock"
-              size={20}
-              color={Colors.primaryColor}
-            />
+            <Lock width={20} height={20} color={Colors.primaryColor} />
             <TextInput
               placeholder={i18n.t("password")}
               value={password}
@@ -125,11 +117,11 @@ export const Signup = ({ navigation }: SignupProps) => {
               style={styles.textInput}
             />
             <TouchableOpacity onPress={togglePasswordVisibility}>
-              <MaterialIcons
-                name={isPasswordVisible ? "visibility" : "visibility-off"}
-                size={20}
-                color={Colors.primaryColor}
-              />
+              {isPasswordVisible ? (
+                <Visible width={20} height={20} color={Colors.primaryColor} />
+              ) : (
+                <Invisible width={20} height={20} color={Colors.primaryColor} />
+              )}
             </TouchableOpacity>
           </View>
           <View style={styles.loginContainer}>

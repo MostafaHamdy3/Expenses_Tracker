@@ -10,13 +10,13 @@ import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
 import { isRTL } from '../assets/translation/resources'
 
 import { CircularProgress } from 'react-native-circular-progress';
-import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../AppNavigation'
 import { useExpenseStore } from '../store/ExpenseStore'
 import { useUserStore } from '../store/UserStore'
 import AddOrUpdateBudget, { AddOrUpdateBudgetHandle } from '../components/modals/AddOrUpdateBudget'
 import { NavigationHeader } from '../components/common/NavigationHeader'
 import { Button } from '../components/common/Button'
+import Edit from '../assets/svgs/square-pen.svg';
 
 const Budget = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -66,7 +66,7 @@ const Budget = () => {
           <Text style={styles.sectionTitle}>{i18n.t("budget")}</Text>
           <Text style={styles.budgetAmount}>${userBudget}</Text>
           <TouchableOpacity onPress={budgetHandler}>
-            <Ionicons name='pencil' color={Colors.mainColor} size={18} />
+            <Edit width={20} height={20} color={Colors.mainColor} />
           </TouchableOpacity>
         </View>
 

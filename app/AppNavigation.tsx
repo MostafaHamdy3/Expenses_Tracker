@@ -1,8 +1,8 @@
 import React from "react";
+import { StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from '@expo/vector-icons';
 
 import { ExpenseItemProps } from "./components/ExpenseItem";
 import { Colors } from "./constants/Styles";
@@ -16,6 +16,10 @@ import { AllExpenses } from "./screens/AllExpenses";
 import { Splash } from "./screens/Splash";
 import { Login } from "./screens/Login";
 import { Signup } from "./screens/Signup";
+import BadgePlus from "./assets/svgs/badge-plus.svg";
+import Banknote from "./assets/svgs/banknote-arrow-down.svg";
+import Coins from "./assets/svgs/hand-coins.svg";
+import Trending from "./assets/svgs/trending-up.svg";
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -35,68 +39,61 @@ export type ExpensesOverviewParamList = {
 const stack = createNativeStackNavigator<RootStackParamList>();
 const bottomTab = createBottomTabNavigator<ExpensesOverviewParamList>();
 
-function ExpensesOverview() {
+function BottomTabsExpenses() {
+  const rtl = isRTL();
+  const renderActiveBottomTab = (
+    SvgIcon: React.FC<{ color: string; width?: number; height?: number }>,
+    focused: boolean
+  ) => (
+    <SvgIcon
+      width={24}
+      height={24}
+      color={focused ? Colors.primaryColor : Colors.mainColor}
+    />
+  );
+
+  const getBottomTabIcon = (routeName: string, focused: boolean) => {
+    switch (routeName) {
+      case "RecentExpenses":
+        return renderActiveBottomTab(Trending, focused);
+      case "AddExpenses":
+        return renderActiveBottomTab(BadgePlus, focused);
+      case "Budget":
+        return renderActiveBottomTab(Banknote, focused);
+      case "AllExpenses":
+        return renderActiveBottomTab(Coins, focused);
+      default:
+        return null;
+    }
+  };
+
   return (
     <bottomTab.Navigator
       id={undefined}
-      screenOptions={{
-        headerShown: false,
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: Colors.primaryColor,
+        tabBarInactiveTintColor: Colors.mainColor,
+        tabBarIcon: ({ focused }) => getBottomTabIcon(route.name, focused),
+        tabBarLabel: ({ children, color }) => (
+          <Text style={[styles.labelText, {
+            fontFamily: rtl ? fontsAR.medium : fontsEN.medium,
+            color,
+          }]}>
+            {i18n.t(`${children}`)}
+          </Text>
+        ),
         tabBarStyle: {
           height: 60,
           backgroundColor: Colors.bgScreen,
-          paddingBottom: 5,
-          paddingTop: 5,
+          paddingTop: 2,
         },
-        tabBarActiveTintColor: Colors.primaryColor,
-        tabBarInactiveTintColor: Colors.mainColor,
-        tabBarLabelStyle: {
-          fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-          fontSize: 11,
-          marginBottom: 2,
-        },
-        tabBarShowLabel: true,
-      }}
+        headerShown: false,
+      })}
     >
-      <bottomTab.Screen
-        name="RecentExpenses"
-        component={RecentExpenses}
-        options={{
-          title: i18n.t("recentExpenses"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="trending-up-outline" color={color} size={size} />
-          ),
-        }}
-      />
-      <bottomTab.Screen
-        name="AddExpenses"
-        component={ManageExpense}
-        options={{
-          title: i18n.t("addExpenses"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add" color={color} size={size} />
-          ),
-        }}
-      />
-      <bottomTab.Screen
-        name="Budget"
-        component={Budget}
-        options={{
-          title: i18n.t("budget"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cash-outline" color={color} size={size} />
-          ),
-        }}
-      />
-      <bottomTab.Screen
-        name="AllExpenses"
-        component={AllExpenses}
-        options={{
-          title: i18n.t("allExpenses"),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="layers-outline" color={color} size={size} />
-          ),
-        }}
-      />
+      <bottomTab.Screen name="RecentExpenses" component={RecentExpenses} />
+      <bottomTab.Screen name="AddExpenses" component={ManageExpense} />
+      <bottomTab.Screen name="Budget" component={Budget} />
+      <bottomTab.Screen name="AllExpenses" component={AllExpenses} />
     </bottomTab.Navigator>
   );
 }
@@ -106,6 +103,7 @@ const AppNavigation = () => {
     <NavigationContainer>
       <stack.Navigator
         id={undefined}
+        initialRouteName="Splash"
         screenOptions={{
           headerStyle: { backgroundColor: Colors.primaryColor },
           headerTintColor: Colors.white,
@@ -115,11 +113,18 @@ const AppNavigation = () => {
         <stack.Screen name="Splash" component={Splash} />
         <stack.Screen name="Login" component={Login} />
         <stack.Screen name="Signup" component={Signup} />
-        <stack.Screen name="ExpensesOverview" component={ExpensesOverview} />
+        <stack.Screen name="ExpensesOverview" component={BottomTabsExpenses} />
         <stack.Screen name="ManageExpense" component={ManageExpense} />
       </stack.Navigator>
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  labelText: {
+    fontSize: 12,
+    marginBottom: 2,
+  },
+});
 
 export default AppNavigation;
