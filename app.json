@@ -4,7 +4,7 @@
     "slug": "ExpenseTracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icons/Expenses_logo.png",
+    "icon": "./app/assets/icons/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "resizeMode": "contain",
@@ -23,10 +23,20 @@
       "package": "com.mostafa7amdy.ExpenseTracker"
     },
     "web": {
-      "favicon": "./app/assets/icons/Expenses_logo.png"
+      "favicon": "./app/assets/icons/logo.png"
     },
     "extra": {},
     "plugins": [
+      [
+        "react-native-bootsplash",
+        {
+          "assetsDir": "./app/assets/bootsplash",
+          "android": {
+            "parentTheme": "TransparentStatus",
+            "darkContentBarsStyle": true
+          }
+        }
+      ],
       "expo-font",
       "expo-localization",
       "expo-asset"

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import BootSplash from 'react-native-bootsplash';
 
 import { ExpenseItemProps } from "./components/ExpenseItem";
 import { Colors } from "./constants/Styles";
@@ -13,16 +14,15 @@ import i18n from "./assets/translation/config";
 import { ManageExpense } from "./screens/ManageExpense";
 import Budget from "./screens/Budget";
 import { AllExpenses } from "./screens/AllExpenses";
-import { Splash } from "./screens/Splash";
 import { Login } from "./screens/Login";
 import { Signup } from "./screens/Signup";
 import BadgePlus from "./assets/svgs/badge-plus.svg";
 import Banknote from "./assets/svgs/banknote-arrow-down.svg";
 import Coins from "./assets/svgs/hand-coins.svg";
 import Trending from "./assets/svgs/trending-up.svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type RootStackParamList = {
-  Splash: undefined;
   Login: undefined;
   Signup: undefined;
   ExpensesOverview: { screen: keyof ExpensesOverviewParamList, data?: ExpenseItemProps } | undefined;
@@ -36,7 +36,7 @@ export type ExpensesOverviewParamList = {
   AllExpenses: undefined;
 };
 
-const stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const bottomTab = createBottomTabNavigator<ExpensesOverviewParamList>();
 
 function BottomTabsExpenses() {
@@ -99,23 +99,34 @@ function BottomTabsExpenses() {
 }
 
 const AppNavigation = () => {
+  const [initialRoute, setInitialRoute] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem("authToken");
+      token ? setInitialRoute("ExpensesOverview") : setInitialRoute("Login");
+      await BootSplash.hide({ fade: true });
+    };
+
+    checkLoginStatus();
+  }, []);
+
   return (
     <NavigationContainer>
-      <stack.Navigator
+      <Stack.Navigator
         id={undefined}
-        initialRouteName="Splash"
+        initialRouteName={initialRoute as keyof RootStackParamList}
         screenOptions={{
           headerStyle: { backgroundColor: Colors.primaryColor },
           headerTintColor: Colors.white,
           headerShown: false,
         }}
       >
-        <stack.Screen name="Splash" component={Splash} />
-        <stack.Screen name="Login" component={Login} />
-        <stack.Screen name="Signup" component={Signup} />
-        <stack.Screen name="ExpensesOverview" component={BottomTabsExpenses} />
-        <stack.Screen name="ManageExpense" component={ManageExpense} />
-      </stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="ExpensesOverview" component={BottomTabsExpenses} />
+        <Stack.Screen name="ManageExpense" component={ManageExpense} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

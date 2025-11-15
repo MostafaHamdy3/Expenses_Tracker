@@ -6,9 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ViewStyle,
-  ImageStyle,
-  TextStyle,
   StatusBar,
 } from "react-native";
 
@@ -141,25 +138,7 @@ export const Login = ({ navigation }: LoginProps) => {
   );
 };
 
-interface Styles {
-  container: ViewStyle;
-  subContent: ViewStyle;
-  logo: ImageStyle;
-  title: TextStyle;
-  titleLogin: TextStyle;
-  inputContainer: ViewStyle;
-  inputWrapper: ViewStyle;
-  textInput: TextStyle;
-  registerContainer: ViewStyle;
-  registerText: TextStyle;
-  registerLink: TextStyle;
-  loginButton: ViewStyle;
-  loginButtonText: TextStyle;
-  errorMessageContainer: ViewStyle;
-  errorMessage: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
@@ -169,8 +148,8 @@ const styles = StyleSheet.create<Styles>({
     alignItems: "center",
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 140,
+    height: 140,
     resizeMode: "contain",
     marginTop: "30%",
     marginBottom: 24,
@@ -224,6 +203,7 @@ const styles = StyleSheet.create<Styles>({
     backgroundColor: Colors.primaryColor,
     paddingVertical: 14,
     borderRadius: 12,
+    marginTop: 32,
   },
   loginButtonText: {
     color: Colors.white,

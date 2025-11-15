@@ -150,26 +150,7 @@ export const Signup = ({ navigation }: SignupProps) => {
   );
 };
 
-interface Styles {
-  scrollContainer: ViewStyle;
-  container: ViewStyle;
-  subContent: ViewStyle;
-  logo: ImageStyle;
-  title: TextStyle;
-  titleSignup: TextStyle;
-  inputContainer: ViewStyle;
-  inputWrapper: ViewStyle;
-  textInput: TextStyle;
-  loginContainer: ViewStyle;
-  loginText: TextStyle;
-  loginLink: TextStyle;
-  signupButton: ViewStyle;
-  signupButtonText: TextStyle;
-  errorMessageContainer: ViewStyle;
-  errorMessage: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
   },
@@ -182,8 +163,8 @@ const styles = StyleSheet.create<Styles>({
     alignItems: "center",
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 140,
+    height: 140,
     resizeMode: "contain",
     marginTop: "30%",
     marginBottom: 24,
@@ -237,6 +218,7 @@ const styles = StyleSheet.create<Styles>({
     backgroundColor: Colors.primaryColor,
     paddingVertical: 14,
     borderRadius: 12,
+    marginTop: 32,
   },
   signupButtonText: {
     color: Colors.white,
