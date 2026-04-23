@@ -3,7 +3,7 @@ import { StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import BootSplash from 'react-native-bootsplash';
+import * as SplashScreen from "expo-splash-screen";
 
 import { ExpenseItemProps } from "./components/ExpenseItem";
 import { Colors } from "./constants/Styles";
@@ -38,6 +38,8 @@ export type ExpensesOverviewParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const bottomTab = createBottomTabNavigator<ExpensesOverviewParamList>();
+
+void SplashScreen.preventAutoHideAsync();
 
 function BottomTabsExpenses() {
   const rtl = isRTL();
@@ -105,11 +107,24 @@ const AppNavigation = () => {
     const checkLoginStatus = async () => {
       const token = await AsyncStorage.getItem("authToken");
       token ? setInitialRoute("ExpensesOverview") : setInitialRoute("Login");
-      await BootSplash.hide({ fade: true });
     };
 
     checkLoginStatus();
   }, []);
+
+  useEffect(() => {
+    const hideSplash = async () => {
+      if (initialRoute) {
+        await SplashScreen.hideAsync();
+      }
+    };
+
+    hideSplash();
+  }, [initialRoute]);
+
+  if (!initialRoute) {
+    return null;
+  }
 
   return (
     <NavigationContainer>

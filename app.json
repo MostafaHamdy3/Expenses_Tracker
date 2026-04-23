@@ -4,11 +4,12 @@
     "slug": "ExpenseTracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icons/logo.png",
+    "icon": "./app/assets/icons/Expenses_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
+      "image": "./app/assets/icons/Expenses_logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -17,6 +18,7 @@
       "supportsTablet": true
     },
     "android": {
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
@@ -27,16 +29,7 @@
     },
     "extra": {},
     "plugins": [
-      [
-        "react-native-bootsplash",
-        {
-          "assetsDir": "./app/assets/bootsplash",
-          "android": {
-            "parentTheme": "TransparentStatus",
-            "darkContentBarsStyle": true
-          }
-        }
-      ],
+      "expo-splash-screen",
       "expo-font",
       "expo-localization",
       "expo-asset"

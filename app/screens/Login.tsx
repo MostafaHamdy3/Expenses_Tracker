@@ -108,7 +108,7 @@ export const Login = ({ navigation }: LoginProps) => {
             {isPasswordVisible ? (
               <Visible width={20} height={20} color={Colors.primaryColor} />
             ) : (
-              <Invisible width={20} height={20} color={Colors.primaryColor} />
+              <Invisible width={20} height={20} color={Colors.placeholderColor} />
             )}
           </TouchableOpacity>
         </View>
