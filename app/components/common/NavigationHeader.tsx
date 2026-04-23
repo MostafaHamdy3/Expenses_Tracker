@@ -1,15 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { Pressable, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { IconButton } from './IconButton';
 import { Colors } from '../../constants/Styles';
 import { isRTL } from '../../assets/translation/resources';
 import { fontsAR, fontsEN } from '../../constants/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../AppNavigation';
-import ArrowBack from '../../assets/svgs/move-left.svg';
+import ArrowBack from '../../assets/svgs/arrow-right.svg';
 import Logout from '../../assets/svgs/log-out.svg';
 
 interface NavigationHeaderProps {
@@ -38,9 +37,11 @@ export const NavigationHeader = ({ title, showArrow, showLogoutIcon }: Navigatio
   return (
     <View style={styles.container}>
       <View style={styles.mainContent}>
-        <Text style={[styles.navTitle, {marginHorizontal: showArrow ? 0 : 8}]}>{title}</Text>
+        <Text style={[styles.navTitle, {marginHorizontal: showArrow ? 2 : 8}]}>{title}</Text>
         {showArrow && (
-          <ArrowBack width={22} height={22} />
+          <Pressable onPress={goBackHandler}>
+            <ArrowBack color={Colors.white} style={{transform: [{rotate: isRTL() ? '0deg' : '180deg'}]}} />
+          </Pressable>
         )}
       </View>
       {showLogoutIcon && (

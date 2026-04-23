@@ -9,6 +9,7 @@ import {
   TextStyle,
   ImageStyle,
 } from "react-native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { Colors } from "../constants/Styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -20,21 +21,22 @@ import { fontsAR, fontsEN } from "../constants/config";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getFormattedDate } from "../utility/utility";
 import { ExpenseItemWithId, useExpenseStore } from "../store/ExpenseStore";
-import { RootStackParamList } from "../AppNavigation";
+import { ExpensesOverviewParamList, RootStackParamList } from "../AppNavigation";
 import { NavigationHeader } from "../components/common/NavigationHeader";
 import { ConfirmModal } from "../components/modals/ConfirmModal";
 import { Input } from "../components/common/Input";
 import { Button } from "../components/common/Button";
-import { IconButton } from "../components/common/IconButton";
 import Trash from '../assets/svgs/trash-2.svg';
 
-interface ManageExpenseProps {
-  route: { params: { data: ExpenseItemWithId } };
-  navigation: NativeStackNavigationProp<RootStackParamList>;
-}
+type ManageExpenseRouteProp =
+  | RouteProp<RootStackParamList, "ManageExpense">
+  | RouteProp<ExpensesOverviewParamList, "AddExpenses">;
 
-export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
-  const data = route.params?.data;
+export const ManageExpense = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute<ManageExpenseRouteProp>();
+  const params = route.params as { data?: ExpenseItemWithId } | undefined;
+  const data = params?.data;
 
   const { addExpense, updateExpense, deleteExpense } = useExpenseStore();
 
@@ -64,6 +66,9 @@ export const ManageExpense = ({ route, navigation }: ManageExpenseProps) => {
   };
 
   const deleteExpenseHandler = async () => {
+    if (!data) {
+      return;
+    }
     setDeleteLoading(true);
     await deleteExpense(data.id);
     closeConfirmDelete();
