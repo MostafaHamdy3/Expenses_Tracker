@@ -30,7 +30,7 @@ export const AllExpenses = () => {
   return (
     <View style={styles.container}>
       <NavigationHeader
-        title={i18n.t("allExpenses")}
+        title={i18n.t("AllExpenses")}
         showLogoutIcon={true}
       />
       <ExpenseCount
