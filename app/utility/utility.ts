@@ -1,4 +1,4 @@
-import { ExpenseItemWithId } from "../store/expense_store";
+import { ExpenseItemWithId } from "../store/ExpenseStore";
 
 export const nFormatter = (num: number) => {
   const lookup = [

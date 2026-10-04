@@ -1,5 +1,6 @@
 import Animated, {
   interpolate,
+  type SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
 
@@ -8,7 +9,7 @@ import { ExpenseItem, ExpenseItemProps } from "./ExpenseItem";
 interface AnimatedExpenseItemProps {
   item: ExpenseItemProps;
   itemPosition: number;
-  scrollY: Animated.SharedValue<number>;
+  scrollY: SharedValue<number>;
 }
 
 const ANIMATION_THRESHOLD = 60;
