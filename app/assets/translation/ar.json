@@ -29,13 +29,15 @@
   "save": "حفظ",
   "update": "تعديل",
   "add": "إضافة",
-  "AllExpenses": "كل النفقات",
-  "RecentExpenses": "نفقات الشهر",
   "AddExpenses": "إضافة نفقة",
   "Budget": "الميزانية",
   "uExpenses": "نفقاتك",
   "expensesDetails": "تفاصيل النفقات",
   "remainder": "متبقي",
   "specifyYourBudget": "حدد ميزانيتك",
-  "specifyDescription": "يرجى إدخال صافي دخلك الشهري"
+  "specifyDescription": "يرجى إدخال صافي دخلك الشهري",
+  "Expenses": "النفقات",
+  "all": "الكل",
+  "thisYear": "هذا العام",
+  "noExpensesThisYear": "لم يتم تسجيل أي نفقات هذا العام!"
 }

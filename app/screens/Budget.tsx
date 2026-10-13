@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 
 import i18n from '../assets/translation/config'
 import { Colors } from '../constants/Styles'
-import { expensesSum, nFormatter, ThisMonthExpenses } from '../utility/utility'
-import { useNavigation } from '@react-navigation/native'
+import { nFormatter } from '../utility/utility'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
 import { isRTL } from '../assets/translation/resources'
@@ -20,11 +20,10 @@ import Edit from '../assets/svgs/square-pen.svg';
 
 const Budget = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { expenses } = useExpenseStore();
+  const { getExpensesTotal } = useExpenseStore();
   const { userBudget, getUserBudget } = useUserStore();
 
-  const recentExpenses = ThisMonthExpenses(expenses);
-  const expensesPrice = expensesSum(recentExpenses);
+  const [expensesPrice, setExpensesPrice] = useState<number>(0);
 
   const budgetModalRef = useRef<AddOrUpdateBudgetHandle>(null);
 
@@ -40,8 +39,12 @@ const Budget = () => {
     fetchData();
   }, []);
 
+  useFocusEffect(useCallback(() => {
+    getExpensesTotal("month").then(setExpensesPrice);
+  }, []));
+
   const expensesDetails = () => {
-    navigation.navigate('ExpensesOverview', { screen: 'RecentExpenses' });
+    navigation.navigate('ExpensesOverview', { screen: 'Expenses' });
   };
 
   const budgetHandler = useCallback(() => {

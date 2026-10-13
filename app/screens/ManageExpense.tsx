@@ -49,11 +49,11 @@ export const ManageExpense = () => {
   const [showDeleteConf, setShowDeleteConf] = useState<boolean>(false);
   const [expenseTitle, setExpenseTitle] = useState<string>(data?.title || "");
   const [expenseDate, setExpenseDate] = useState<string>(data?.date ? getFormattedDate(data.date.seconds) : "");
-  const [expenseAmount, setExpenseAmount] = useState<number>(data?.amount || 0);
+  const [expenseAmount, setExpenseAmount] = useState<string>(data?.amount ? String(data.amount) : "");
 
   const isChanged = data
     ? expenseTitle !== data.title ||
-      expenseAmount !== data.amount ||
+      Number(expenseAmount) !== data.amount ||
       expenseDate !== getFormattedDate(data.date.seconds)
     : !data;
 
@@ -86,7 +86,10 @@ export const ManageExpense = () => {
   };
 
   const onChangeAmount = (value: string) => {
-    setExpenseAmount(Number(value));
+    // Accept "," or "٫" as decimal separator, keep a single dot and up to 2 decimals
+    const normalized = value.replace(/[,٫]/g, ".").replace(/[^0-9.]/g, "");
+    if (!/^\d*\.?\d{0,2}$/.test(normalized)) return;
+    setExpenseAmount(normalized);
     !amountIsValid && setAmountIsValid(true);
   };
 
@@ -94,7 +97,7 @@ export const ManageExpense = () => {
     setIsLoading(true);
     const expenseData: ExpenseItemProps = {
       title: expenseTitle,
-      amount: expenseAmount,
+      amount: parseFloat(expenseAmount),
       date: { seconds: new Date(expenseDate).getTime() / 1000 },
     };
 
@@ -109,11 +112,11 @@ export const ManageExpense = () => {
       data
         ? await updateExpense(data.id, expenseData)
         : await addExpense(expenseData);
-      navigation.navigate('ExpensesOverview', { screen: 'RecentExpenses' });
+      navigation.navigate('ExpensesOverview', { screen: 'Expenses' });
     }
     setIsLoading(false);
     setExpenseTitle("");
-    setExpenseAmount(0);
+    setExpenseAmount("");
     setExpenseDate("");
   };
 
@@ -161,7 +164,7 @@ export const ManageExpense = () => {
           textInputConfig={{
             keyboardType: "decimal-pad",
             onChangeText: onChangeAmount,
-            value: expenseAmount.toString(),
+            value: expenseAmount,
             maxLength: 9,
           }}
         />

@@ -9,17 +9,15 @@ import { ExpenseItemProps } from "./components/ExpenseItem";
 import { Colors } from "./constants/Styles";
 import { isRTL } from "./assets/translation/resources";
 import { fontsAR, fontsEN } from "./constants/config";
-import { RecentExpenses } from "./screens/RecentExpenses";
+import { Expenses } from "./screens/Expenses";
 import i18n from "./assets/translation/config";
 import { ManageExpense } from "./screens/ManageExpense";
 import Budget from "./screens/Budget";
-import { AllExpenses } from "./screens/AllExpenses";
 import { Login } from "./screens/Login";
 import { Signup } from "./screens/Signup";
 import BadgePlus from "./assets/svgs/badge-plus.svg";
 import Banknote from "./assets/svgs/banknote-arrow-down.svg";
 import Coins from "./assets/svgs/hand-coins.svg";
-import Trending from "./assets/svgs/trending-up.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type RootStackParamList = {
@@ -30,10 +28,9 @@ export type RootStackParamList = {
 };
 
 export type ExpensesOverviewParamList = {
-  RecentExpenses: undefined;
+  Expenses: undefined;
   AddExpenses: undefined;
   Budget: undefined;
-  AllExpenses: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -56,14 +53,12 @@ function BottomTabsExpenses() {
 
   const getBottomTabIcon = (routeName: string, focused: boolean) => {
     switch (routeName) {
-      case "RecentExpenses":
-        return renderActiveBottomTab(Trending, focused);
+      case "Expenses":
+        return renderActiveBottomTab(Coins, focused);
       case "AddExpenses":
         return renderActiveBottomTab(BadgePlus, focused);
       case "Budget":
         return renderActiveBottomTab(Banknote, focused);
-      case "AllExpenses":
-        return renderActiveBottomTab(Coins, focused);
       default:
         return null;
     }
@@ -92,10 +87,9 @@ function BottomTabsExpenses() {
         headerShown: false,
       })}
     >
-      <bottomTab.Screen name="RecentExpenses" component={RecentExpenses} />
+      <bottomTab.Screen name="Expenses" component={Expenses} />
       <bottomTab.Screen name="AddExpenses" component={ManageExpense} />
       <bottomTab.Screen name="Budget" component={Budget} />
-      <bottomTab.Screen name="AllExpenses" component={AllExpenses} />
     </bottomTab.Navigator>
   );
 }

@@ -29,13 +29,15 @@
   "save": "Save",
   "update": "Update",
   "add": "Add",
-  "AllExpenses": "All Exp",
-  "RecentExpenses": "Recent Exp",
   "AddExpenses": "Add Exp",
   "Budget": "Budget",
   "uExpenses": "Your expenses",
   "expensesDetails": "Expenses Details",
   "remainder": "Remainder",
   "specifyYourBudget": "Specify your budget",
-  "specifyDescription": "Please specify your monthly income"
+  "specifyDescription": "Please specify your monthly income",
+  "Expenses": "Expenses",
+  "all": "All",
+  "thisYear": "This Year",
+  "noExpensesThisYear": "No expenses registered for this year!"
 }
