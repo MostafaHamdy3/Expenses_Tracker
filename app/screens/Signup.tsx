@@ -3,31 +3,28 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
-  ViewStyle,
-  ImageStyle,
-  TextStyle,
   StatusBar,
 } from "react-native";
-
-import { Colors } from "../constants/Styles";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import i18n from "../assets/translation/config";
-import { isRTL } from "../assets/translation/resources";
-import { fontsAR, fontsEN } from "../constants/config";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
+import { fonts } from "../../src/theme/fonts";
+import { useTheme } from "../../src/theme/useTheme";
 import Person from '../assets/svgs/circle-user-round.svg';
 import Mail from '../assets/svgs/mail.svg';
 import Lock from '../assets/svgs/lock-keyhole.svg';
 import Visible from '../assets/svgs/eye.svg';
 import Invisible from '../assets/svgs/eye-off.svg';
+
+const inputWrapper = "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
+const textInput = `flex-1 text-left py-3 ${fonts.medium}`;
 
 type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
@@ -42,6 +39,7 @@ export const Signup = ({ navigation }: SignupProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSignupMessage, setIsSignupMessage] = useState<string | null>(null);
+  const { getThemeColor } = useTheme();
 
   const handleSignup = async (): Promise<void> => {
     try {
@@ -73,75 +71,76 @@ export const Signup = ({ navigation }: SignupProps) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <ScrollView contentContainerClassName="grow">
       <StatusBar barStyle="dark-content" />
-      <View style={styles.container}>
-        <View style={styles.subContent}>
+      <View className="flex-1 items-center bg-bgScreen">
+        <View className="items-center">
           <Image
             source={require("../assets/icons/logo.png")}
-            style={styles.logo}
+            resizeMode="contain"
+            className="w-35 h-35 mt-[30%] mb-6"
           />
         </View>
-        <View style={styles.subContent}>
-          <Text style={styles.title}>{i18n.t("createAccount")}</Text>
-          <Text style={styles.titleSignup}>{i18n.t("fillDetails")}</Text>
+        <View className="items-center">
+          <Text className={`text-mainColor text-[26px] ${fonts.bold}`}>{i18n.t("createAccount")}</Text>
+          <Text className={`text-mainColor text-[12px] ${fonts.medium} mt-1.5`}>{i18n.t("fillDetails")}</Text>
         </View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputWrapper}>
-            <Person width={20} height={20} color={Colors.primaryColor} />
+        <View className="w-[86%] mt-6 gap-3 mb-6">
+          <View className={inputWrapper}>
+            <Person width={20} height={20} color={getThemeColor("primaryColor")} />
             <TextInput
               placeholder={i18n.t("fullName")}
               value={name}
               onChangeText={setName}
-              style={styles.textInput}
+              className={textInput}
             />
           </View>
-          <View style={styles.inputWrapper}>
-            <Mail width={20} height={20} color={Colors.primaryColor} />
+          <View className={inputWrapper}>
+            <Mail width={20} height={20} color={getThemeColor("primaryColor")} />
             <TextInput
               placeholder={i18n.t("email")}
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
-              style={styles.textInput}
+              className={textInput}
             />
           </View>
-          <View style={styles.inputWrapper}>
-            <Lock width={20} height={20} color={Colors.primaryColor} />
+          <View className={inputWrapper}>
+            <Lock width={20} height={20} color={getThemeColor("primaryColor")} />
             <TextInput
               placeholder={i18n.t("password")}
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!isPasswordVisible}
-              style={styles.textInput}
+              className={textInput}
             />
             <TouchableOpacity onPress={togglePasswordVisibility}>
               {isPasswordVisible ? (
-                <Visible width={20} height={20} color={Colors.primaryColor} />
+                <Visible width={20} height={20} color={getThemeColor("primaryColor")} />
               ) : (
-                <Invisible width={20} height={20} color={Colors.placeholderColor} />
+                <Invisible width={20} height={20} color={getThemeColor("placeholderColor")} />
               )}
             </TouchableOpacity>
           </View>
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>{i18n.t("haveAccount")}</Text>
+          <View className="flex-row gap-1.5 mb-3">
+            <Text className={`text-mainColor ${fonts.medium}`}>{i18n.t("haveAccount")}</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.loginLink}>{i18n.t("login")}</Text>
+              <Text className={`text-primaryColor ${fonts.medium}`}>{i18n.t("login")}</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={handleSignup}>
             {isLoading ? (
               <Indicator />
             ) : (
-              <View style={styles.signupButton}>
-                <Text style={styles.signupButtonText}>{i18n.t("signUp")}</Text>
+              <View className="items-center bg-primaryColor py-3.5 rounded-xl mt-8">
+                <Text className={`text-white text-[15px] ${fonts.medium}`}>{i18n.t("signUp")}</Text>
               </View>
             )}
           </TouchableOpacity>
           {isSignupMessage && (
-            <View style={styles.errorMessageContainer}>
-              <Text style={styles.errorMessage}>{isSignupMessage}</Text>
+            <View className="justify-center items-start mt-2">
+              <Text className={`text-error500 ${fonts.regular}`}>{isSignupMessage}</Text>
             </View>
           )}
         </View>
@@ -149,89 +148,3 @@ export const Signup = ({ navigation }: SignupProps) => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: Colors.bgScreen,
-  },
-  subContent: {
-    alignItems: "center",
-  },
-  logo: {
-    width: 140,
-    height: 140,
-    resizeMode: "contain",
-    marginTop: "30%",
-    marginBottom: 24,
-  },
-  title: {
-    color: Colors.mainColor,
-    fontSize: 26,
-    fontFamily: isRTL() ? fontsAR.bold : fontsEN.bold,
-  },
-  titleSignup: {
-    color: Colors.mainColor,
-    fontSize: 12,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    marginTop: 6,
-  },
-  inputContainer: {
-    width: "86%",
-    marginTop: 24,
-    gap: 12,
-    marginBottom: 24,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: "center",
-    gap: 10,
-    backgroundColor: Colors.bgContainer,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-  },
-  textInput: {
-    flex: 1,
-    textAlign: 'left',
-    paddingVertical: 12,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  loginContainer: {
-    flexDirection: 'row',
-    gap: 6,
-    marginBottom: 12,
-  },
-  loginText: {
-    color: Colors.mainColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  loginLink: {
-    color: Colors.primaryColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  signupButton: {
-    alignItems: "center",
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 32,
-  },
-  signupButtonText: {
-    color: Colors.white,
-    fontSize: 15,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  errorMessageContainer: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    marginTop: 8,
-  },
-  errorMessage: {
-    color: Colors.error500,
-    fontFamily: isRTL() ? fontsAR.regular : fontsEN.regular,
-  },
-});

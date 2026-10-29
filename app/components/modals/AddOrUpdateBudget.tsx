@@ -1,19 +1,20 @@
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { Image, StyleSheet, Text } from 'react-native'
+import { Image, Text } from 'react-native'
+import { withUniwind } from 'uniwind';
 
 import i18n from '../../assets/translation/config';
-import { Colors } from '../../constants/Styles';
 
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
-import { fontsAR, fontsEN } from '../../constants/config';
-import { isRTL } from '../../assets/translation/resources';
+import { fonts } from '../../../src/theme/fonts';
 import { useUserStore } from '../../store/UserStore';
 import { Input } from '../common/Input';
 import { Button } from '../common/Button';
 
-interface AddOrUpdateBudgetProps {
+type AddOrUpdateBudgetProps = {
   userBudget: number;
-}
+};
+
+const StyledBottomSheetView = withUniwind(BottomSheetView);
 
 export type AddOrUpdateBudgetHandle = {
   present: () => void;
@@ -70,13 +71,13 @@ const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetP
       backdropComponent={renderBackdrop}
       enablePanDownToClose={true}
     >
-      <BottomSheetView style={styles.container}>
-        <Text style={styles.title}>{i18n.t("specifyYourBudget")}</Text>
+      <StyledBottomSheetView className="p-5 flex-1">
+        <Text className={`text-center text-[20px] ${fonts.medium} mb-4`}>{i18n.t("specifyYourBudget")}</Text>
         <Image
           source={require('../../assets/icons/specify_budget.jpg')}
-          style={styles.specifyBudgetImage}
+          className="w-38.5 h-38.5 self-center rounded-3xl"
         />
-        <Text style={styles.desc}>{i18n.t("specifyDescription")}</Text>
+        <Text className={`text-center text-[16px] ${fonts.regular} text-mainColor mt-6`}>{i18n.t("specifyDescription")}</Text>
         <Input
           textInputConfig={{
             placeholder: i18n.t("enterBudgetAmount"),
@@ -85,57 +86,19 @@ const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetP
             onChangeText: (text) => setBudget(Number(text) || 0)
           }}
           isInvalid={false}
-          customStyle={styles.input}
+          customStyle="text-center text-[20px]"
         />
         <Button
           btnText={i18n.t("save")}
           onPress={updateUserBudget}
-          textStyle={styles.saveBtnText}
-          btnStyle={styles.saveBtnStyle}
+          textStyle="text-[18px]"
+          customStyle="w-full h-13.5 self-center"
           isLoading={loading}
           disabled={loading}
         />
-      </BottomSheetView>
+      </StyledBottomSheetView>
     </BottomSheetModal>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    flex: 1,
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    marginBottom: 16,
-  },
-  specifyBudgetImage: {
-    width: 154,
-    height: 154,
-    alignSelf: 'center',
-    borderRadius: 24,
-  },
-  desc: {
-    textAlign: 'center',
-    fontSize: 16,
-    fontFamily: isRTL() ? fontsAR.regular : fontsEN.regular,
-    color: Colors.mainColor,
-    marginTop: 24,
-  },
-  input: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-  saveBtnText: {
-    fontSize: 18,
-  },
-  saveBtnStyle: {
-    width: '100%',
-    height: 54,
-    alignSelf: 'center',
-  },
 });
 
 export default AddOrUpdateBudget;
