@@ -1,0 +1,32 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:1:1-11:12
+INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:1:1-11:12
+	package
+		INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:1:11-69
+application
+ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:2:3-10:17
+service#androidx.appcompat.app.AppLocalesMetadataHolderService
+ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:4:5-9:15
+	android:enabled
+		ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:6:7-30
+	android:exported
+		ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:7:7-31
+	android:name
+		ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:5:7-76
+meta-data#autoStoreLocales
+ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:8:7-73
+	android:value
+		ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:8:50-70
+	android:name
+		ADDED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:8:18-49
+uses-sdk
+INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml
+INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml

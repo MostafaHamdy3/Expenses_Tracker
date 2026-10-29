@@ -1,0 +1,28 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="expo.modules.applanguage" >
+4
+5    <uses-sdk android:minSdkVersion="24" />
+6
+7    <application>
+7-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:2:3-10:17
+8
+9        <!-- Lets AppCompat persist the per-app language on Android 12 and lower. -->
+10        <service
+10-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:4:5-9:15
+11            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+11-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:5:7-76
+12            android:enabled="false"
+12-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:6:7-30
+13            android:exported="false" >
+13-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:7:7-31
+14            <meta-data
+14-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:8:7-73
+15                android:name="autoStoreLocales"
+15-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:8:18-49
+16                android:value="true" />
+16-->D:\Projects\Apps\ExpenseTracker\modules\app-language\android\src\main\AndroidManifest.xml:8:50-70
+17        </service>
+18    </application>
+19
+20</manifest>

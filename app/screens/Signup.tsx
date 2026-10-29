@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   inputWrapper: {
-    flexDirection: isRTL() ? 'row-reverse' : "row",
+    flexDirection: 'row',
     alignItems: "center",
     gap: 10,
     backgroundColor: Colors.bgContainer,
@@ -196,12 +196,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    textAlign: isRTL() ? 'right' : 'left',
+    textAlign: 'left',
     paddingVertical: 12,
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   loginContainer: {
-    flexDirection: isRTL() ? 'row-reverse' : 'row',
+    flexDirection: 'row',
     gap: 6,
     marginBottom: 12,
   },

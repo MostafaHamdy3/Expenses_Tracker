@@ -62,7 +62,7 @@ interface Styles {
 const styles = StyleSheet.create<Styles>({
   container: {
     height: 100,
-    flexDirection: isRTL() ? 'row-reverse' : 'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.primaryColor,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create<Styles>({
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   mainContent: {
-    flexDirection: isRTL() ? 'row' : 'row-reverse',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
     gap: 4,
   },

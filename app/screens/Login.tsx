@@ -16,16 +16,24 @@ import { fontsAR, fontsEN } from "../constants/config";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
-import Email from '../assets/svgs/mail.svg';
-import Lock from '../assets/svgs/lock-keyhole.svg';
-import Visible from '../assets/svgs/eye.svg';
-import Invisible from '../assets/svgs/eye-off.svg';
+import { useUserStore } from "../store/UserStore";
+import {
+  applyLanguagePreference,
+  getLanguagePreference,
+} from "../utility/language";
+import Email from "../assets/svgs/mail.svg";
+import Lock from "../assets/svgs/lock-keyhole.svg";
+import Visible from "../assets/svgs/eye.svg";
+import Invisible from "../assets/svgs/eye-off.svg";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
+type LoginScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Login"
+>;
 
 interface LoginProps {
   navigation: LoginScreenNavigationProp;
@@ -37,6 +45,16 @@ export const Login = ({ navigation }: LoginProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoginFailed, setIsLoginFailed] = useState<boolean>(false);
+  const { getUserLanguage, saveUserLanguage } = useUserStore();
+
+  const syncAccountLanguage = async () => {
+    const accountLanguage = await getUserLanguage();
+    if (accountLanguage) {
+      await applyLanguagePreference(accountLanguage);
+    } else {
+      await saveUserLanguage(getLanguagePreference());
+    }
+  };
 
   const handleLogin = async (): Promise<void> => {
     try {
@@ -44,12 +62,13 @@ export const Login = ({ navigation }: LoginProps) => {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const user = userCredential.user;
       const token = await user.getIdToken();
-      AsyncStorage.setItem("authToken", token);
-      AsyncStorage.setItem("userId", user.uid);
+      await AsyncStorage.setItem("authToken", token);
+      await AsyncStorage.setItem("userId", user.uid);
+      await syncAccountLanguage();
       navigation.replace("ExpensesOverview");
     } catch (error) {
       setIsLoginFailed(true);
@@ -108,7 +127,11 @@ export const Login = ({ navigation }: LoginProps) => {
             {isPasswordVisible ? (
               <Visible width={20} height={20} color={Colors.primaryColor} />
             ) : (
-              <Invisible width={20} height={20} color={Colors.placeholderColor} />
+              <Invisible
+                width={20}
+                height={20}
+                color={Colors.placeholderColor}
+              />
             )}
           </TouchableOpacity>
         </View>
@@ -171,7 +194,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   inputWrapper: {
-    flexDirection: isRTL() ? 'row-reverse' : "row",
+    flexDirection: "row",
     alignItems: "center",
     gap: 10,
     backgroundColor: Colors.bgContainer,
@@ -180,13 +203,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    textAlign: isRTL() ? 'right' : 'left',
+    textAlign: "left",
     paddingVertical: 12,
     fontSize: 16,
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },
   registerContainer: {
-    flexDirection: isRTL() ? 'row-reverse' : "row",
+    flexDirection: "row",
     gap: 6,
     marginBottom: 12,
   },

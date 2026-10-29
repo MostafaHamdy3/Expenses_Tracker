@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   input: {
-    textAlign: isRTL() ? 'right' : 'left',
+    textAlign: 'left',
     fontSize: 17,
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
     color: Colors.mainColor,

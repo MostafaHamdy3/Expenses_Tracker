@@ -6,9 +6,16 @@
     "orientation": "portrait",
     "icon": "./app/assets/icons/logo.png",
     "userInterfaceStyle": "light",
+    "locales": {
+      "en": "./app/assets/translation/native/en.json",
+      "ar": "./app/assets/translation/native/ar.json"
+    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "en"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -31,7 +38,15 @@
         }
       ],
       "expo-font",
-      "expo-localization",
+      [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": ["en", "ar"],
+            "android": ["en", "ar"]
+          }
+        }
+      ],
       "expo-asset",
       "@react-native-community/datetimepicker",
       "expo-status-bar"

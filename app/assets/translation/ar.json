@@ -39,5 +39,18 @@
   "Expenses": "النفقات",
   "all": "الكل",
   "thisYear": "هذا العام",
-  "noExpensesThisYear": "لم يتم تسجيل أي نفقات هذا العام!"
+  "noExpensesThisYear": "لم يتم تسجيل أي نفقات هذا العام!",
+  "Settings": "الإعدادات",
+  "account": "الحساب",
+  "preferences": "التفضيلات",
+  "about": "عن التطبيق",
+  "monthlyBudget": "الميزانية الشهرية",
+  "notSet": "غير محددة",
+  "language": "اللغة",
+  "appVersion": "إصدار التطبيق",
+  "logout": "تسجيل الخروج",
+  "confirmLogout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "deviceLanguage": "لغة الجهاز",
+  "chooseLanguage": "اختر اللغة",
+  "restartToApply": "أغلق التطبيق وافتحه مرة أخرى لتطبيق اللغة الجديدة."
 }

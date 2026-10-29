@@ -1,0 +1,10 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["AppLanguageModule"],
+    "appDelegateSubscribers": ["AppLanguageAppDelegateSubscriber"]
+  },
+  "android": {
+    "modules": ["expo.modules.applanguage.AppLanguageModule"]
+  }
+}

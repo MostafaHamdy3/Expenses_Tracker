@@ -7,7 +7,7 @@ import { nFormatter } from '../utility/utility'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
-import { isRTL } from '../assets/translation/resources'
+import { appLanguage, isRTL } from '../assets/translation/resources'
 
 import { CircularProgress } from 'react-native-circular-progress';
 import { RootStackParamList } from '../AppNavigation'
@@ -28,7 +28,7 @@ const Budget = () => {
   const budgetModalRef = useRef<AddOrUpdateBudgetHandle>(null);
 
   const currentDate = new Date();
-  const locale = isRTL() ? 'ar' : 'en';
+  const locale = appLanguage;
   const currentMonth = currentDate.toLocaleString(locale, { month: 'long' });
   const currentYear = currentDate.getFullYear();
 
@@ -144,7 +144,7 @@ const styles = StyleSheet.create<Styles>({
   budgetContainer: {
     width: '100%',
     alignSelf: 'center',
-    flexDirection: isRTL() ? 'row-reverse' : 'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 8,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create<Styles>({
     fontFamily: fontsNUM.bold,
   },
   uExpensesContent: {
-    flexDirection: isRTL() ? 'row-reverse' : 'row',
+    flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     marginTop: 24,

@@ -115,7 +115,7 @@ const styles = StyleSheet.create<Styles>({
     marginBottom: "20%",
   },
   filterRow: {
-    flexDirection: isRTL() ? "row-reverse" : "row",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginHorizontal: 16,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create<Styles>({
     gap: 8,
   },
   filters: {
-    flexDirection: isRTL() ? "row-reverse" : "row",
+    flexDirection: "row",
     gap: 6,
   },
   filterChip: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create<Styles>({
     color: Colors.white,
   },
   totalContent: {
-    flexDirection: isRTL() ? "row" : "row-reverse",
+    flexDirection: "row-reverse",
     gap: 4,
   },
   totalText: {

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { AppState, Platform, StyleSheet, Text } from "react-native";
+import { reloadAppAsync } from "expo";
+import { getLocales } from "expo-localization";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -13,17 +15,23 @@ import { Expenses } from "./screens/Expenses";
 import i18n from "./assets/translation/config";
 import { ManageExpense } from "./screens/ManageExpense";
 import Budget from "./screens/Budget";
+import Settings from "./screens/Settings";
 import { Login } from "./screens/Login";
 import { Signup } from "./screens/Signup";
 import BadgePlus from "./assets/svgs/badge-plus.svg";
 import Banknote from "./assets/svgs/banknote-arrow-down.svg";
 import Coins from "./assets/svgs/hand-coins.svg";
+import SettingsIcon from "./assets/svgs/settings.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserStore } from "./store/UserStore";
+import { getLanguagePreference } from "./utility/language";
 
 export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
-  ExpensesOverview: { screen: keyof ExpensesOverviewParamList, data?: ExpenseItemProps } | undefined;
+  ExpensesOverview:
+    | { screen: keyof ExpensesOverviewParamList; data?: ExpenseItemProps }
+    | undefined;
   ManageExpense: { data: ExpenseItemProps };
 };
 
@@ -31,6 +39,7 @@ export type ExpensesOverviewParamList = {
   Expenses: undefined;
   AddExpenses: undefined;
   Budget: undefined;
+  Settings: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -42,7 +51,7 @@ function BottomTabsExpenses() {
   const rtl = isRTL();
   const renderActiveBottomTab = (
     SvgIcon: React.FC<{ color: string; width?: number; height?: number }>,
-    focused: boolean
+    focused: boolean,
   ) => (
     <SvgIcon
       width={24}
@@ -59,6 +68,8 @@ function BottomTabsExpenses() {
         return renderActiveBottomTab(BadgePlus, focused);
       case "Budget":
         return renderActiveBottomTab(Banknote, focused);
+      case "Settings":
+        return renderActiveBottomTab(SettingsIcon, focused);
       default:
         return null;
     }
@@ -72,10 +83,15 @@ function BottomTabsExpenses() {
         tabBarInactiveTintColor: Colors.mainColor,
         tabBarIcon: ({ focused }) => getBottomTabIcon(route.name, focused),
         tabBarLabel: ({ children, color }) => (
-          <Text style={[styles.labelText, {
-            fontFamily: rtl ? fontsAR.medium : fontsEN.medium,
-            color,
-          }]}>
+          <Text
+            style={[
+              styles.labelText,
+              {
+                fontFamily: rtl ? fontsAR.medium : fontsEN.medium,
+                color,
+              },
+            ]}
+          >
             {i18n.t(`${children}`)}
           </Text>
         ),
@@ -90,17 +106,30 @@ function BottomTabsExpenses() {
       <bottomTab.Screen name="Expenses" component={Expenses} />
       <bottomTab.Screen name="AddExpenses" component={ManageExpense} />
       <bottomTab.Screen name="Budget" component={Budget} />
+      <bottomTab.Screen name="Settings" component={Settings} />
     </bottomTab.Navigator>
   );
 }
 
 const AppNavigation = () => {
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
+  const { getUserLanguage, saveUserLanguage } = useUserStore();
+
+  // The language may have been changed from system settings, so keep the account in sync.
+  const syncAccountLanguage = async () => {
+    const language = getLanguagePreference();
+    if (language !== (await getUserLanguage())) {
+      await saveUserLanguage(language);
+    }
+  };
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       const token = await AsyncStorage.getItem("authToken");
       token ? setInitialRoute("ExpensesOverview") : setInitialRoute("Login");
+      if (token) {
+        syncAccountLanguage();
+      }
     };
 
     checkLoginStatus();
@@ -115,6 +144,19 @@ const AppNavigation = () => {
 
     hideSplash();
   }, [initialRoute]);
+
+  useEffect(() => {
+    if (Platform.OS !== "android") return;
+    const nativeLanguage = () =>
+      `${getLanguagePreference()}-${getLocales()[0]?.languageCode}`;
+    const startupLanguage = nativeLanguage();
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active" && nativeLanguage() !== startupLanguage) {
+        reloadAppAsync();
+      }
+    });
+    return () => subscription.remove();
+  }, []);
 
   if (!initialRoute) {
     return null;

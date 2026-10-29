@@ -4,11 +4,14 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 import { db } from "../../FirebaseConfig";
+import { LanguagePreference, isLanguagePreference } from "../utility/language";
 
 interface userStore {
   userBudget: number;
   getUserBudget: () => Promise<void>;
   addOrUpdateUserBudget: (budget: number) => Promise<void>;
+  getUserLanguage: () => Promise<LanguagePreference | null>;
+  saveUserLanguage: (language: LanguagePreference) => Promise<void>;
 };
 
 export const useUserStore = create<userStore>()(
@@ -46,6 +49,29 @@ export const useUserStore = create<userStore>()(
         }
       } catch (err) {
         console.log("addUserBudget ERROR ==>", err);
+      }
+    },
+    getUserLanguage: async () => {
+      try {
+        const id = await AsyncStorage.getItem("userId");
+        if (id) {
+          const userDoc = await getDoc(doc(db, "user", id));
+          const language = userDoc.data()?.language;
+          return isLanguagePreference(language) ? language : null;
+        }
+      } catch (err) {
+        console.log("getUserLanguage ERROR ==>", err);
+      }
+      return null;
+    },
+    saveUserLanguage: async (language: LanguagePreference) => {
+      try {
+        const id = await AsyncStorage.getItem("userId");
+        if (id) {
+          await setDoc(doc(db, "user", id), { language }, { merge: true });
+        }
+      } catch (err) {
+        console.log("saveUserLanguage ERROR ==>", err);
       }
     },
   }))

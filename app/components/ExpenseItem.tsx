@@ -56,7 +56,7 @@ const styles = StyleSheet.create<Styles>({
     marginHorizontal: 16,
     backgroundColor: Colors.bgContainer,
     borderRadius: 6,
-    flexDirection: isRTL() ? 'row-reverse' : "row",
+    flexDirection: 'row',
     justifyContent: "space-between",
     alignItems: 'center',
     elevation: 1,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create<Styles>({
     shadowOpacity: 0.2
   },
   textBase: {
-    alignSelf: isRTL() ? 'flex-end' : 'flex-start',
+    alignSelf: 'flex-start',
     color: Colors.mainColor,
     fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
   },

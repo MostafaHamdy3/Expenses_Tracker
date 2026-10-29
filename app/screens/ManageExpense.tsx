@@ -262,7 +262,7 @@ const styles = StyleSheet.create<Styles>({
     color: Colors.error500,
   },
   datePicker: {
-    flexDirection: isRTL() ? "row-reverse" : "row",
+    flexDirection: 'row',
     paddingVertical: 12,
     paddingHorizontal: 12,
     borderRadius: 6,
@@ -271,7 +271,7 @@ const styles = StyleSheet.create<Styles>({
   },
   iconContainer: {
     position: "absolute",
-    right: 12,
+    end: 12,
     top: 10,
   },
   icon: {
