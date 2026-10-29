@@ -1,13 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View , TouchableOpacity, ViewStyle, TextStyle} from 'react-native'
+import { Text, View , TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
-import { Colors } from '../constants/Styles'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { isRTL } from '../assets/translation/resources'
-import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
 import { getFormattedDate, nFormatter } from '../utility/utility'
 import { RootStackParamList } from '../AppNavigation'
+import { fonts } from '../../src/theme/fonts'
 
 export interface ExpenseItemProps {
   id?: string;
@@ -15,6 +13,8 @@ export interface ExpenseItemProps {
   amount: number;
   date: { seconds: number };
 }
+
+const textBase = `self-start text-mainColor ${fonts.medium}`;
 
 export const ExpenseItem = ({id, title, amount, date}: ExpenseItemProps) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -27,66 +27,15 @@ export const ExpenseItem = ({id, title, amount, date}: ExpenseItemProps) => {
     <TouchableOpacity
       onPress={() => expensePressHandler({ id, title, amount, date })}
       activeOpacity={0.9}
-      style={styles.expense}
+      className="px-4 py-3 my-1 mx-4 bg-bgContainer rounded-md flex-row justify-between items-center shadow-card"
     >
       <View>
-        <Text style={[styles.textBase, styles.title]}>{title}</Text>
-        <Text style={styles.textBase}>{getFormattedDate(date.seconds)}</Text>
+        <Text className={`${textBase} text-[16px] ${fonts.bold} mb-1`}>{title}</Text>
+        <Text className={textBase}>{getFormattedDate(date.seconds)}</Text>
       </View>
-      <View style={styles.amountContainer}>
-        <Text style={styles.amount}>{nFormatter(+amount)}</Text>
+      <View className="px-3 py-2 bg-bgContainer justify-center items-center border border-borderColor rounded-xl">
+        <Text className="text-primaryColor font-num-bold">{nFormatter(+amount)}</Text>
       </View>
     </TouchableOpacity>
   )
 }
-
-interface Styles {
-  expense: ViewStyle;
-  textBase: TextStyle;
-  title: TextStyle;
-  amountContainer: ViewStyle;
-  amount: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  expense: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginVertical: 4,
-    marginHorizontal: 16,
-    backgroundColor: Colors.bgContainer,
-    borderRadius: 6,
-    flexDirection: 'row',
-    justifyContent: "space-between",
-    alignItems: 'center',
-    elevation: 1,
-    shadowColor: Colors.shadowColor,
-    shadowOffset: { width: 1, height: 1 },
-    shadowRadius: 6,
-    shadowOpacity: 0.2
-  },
-  textBase: {
-    alignSelf: 'flex-start',
-    color: Colors.mainColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  title: {
-    fontSize: 16,
-    fontFamily: isRTL() ? fontsAR.bold : fontsEN.bold,
-    marginBottom: 4,
-  },
-  amountContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: Colors.bgContainer,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: Colors.borderColor,
-    borderRadius: 12,
-  },
-  amount: {
-    color: Colors.primaryColor,
-    fontFamily: fontsNUM.bold,
-  },
-});

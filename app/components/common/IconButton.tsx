@@ -1,28 +1,17 @@
 import { JSX } from "react";
-import { TouchableOpacity, View, StyleSheet, ViewStyle } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
-interface IconButtonProps {
+type IconButtonProps = {
   onPress: () => void;
   svgIcon?: JSX.Element;
-}
+};
 
 export const IconButton = ({ svgIcon, onPress}: IconButtonProps) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={styles.buttonContainer}>
+      <View className="mx-1.5 rounded-3xl">
         {svgIcon}
       </View>
     </TouchableOpacity>
   )
 }
-
-interface Styles {
-  buttonContainer: ViewStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  buttonContainer: {
-    marginHorizontal: 6,
-    borderRadius: 24,
-  }
-})

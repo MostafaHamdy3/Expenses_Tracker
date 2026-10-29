@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import {
   View,
-  StyleSheet,
   TouchableOpacity,
   Image,
   Text,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
-import { Colors } from "../constants/Styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ExpenseItemProps } from "../components/ExpenseItem";
 import i18n from "../assets/translation/config";
-import { isRTL } from "../assets/translation/resources";
-import { fontsAR, fontsEN } from "../constants/config";
+import { cn } from "../../src/utils/cn";
+import { fonts } from "../../src/theme/fonts";
+import { useTheme } from "../../src/theme/useTheme";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { getFormattedDate } from "../utility/utility";
@@ -39,6 +35,7 @@ export const ManageExpense = () => {
   const data = params?.data;
 
   const { addExpense, updateExpense, deleteExpense } = useExpenseStore();
+  const { getThemeColor } = useTheme();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
@@ -148,7 +145,7 @@ export const ManageExpense = () => {
         isLoading={deleteLoading}
         confirm={deleteExpenseHandler}
       />
-      <View style={styles.container}>
+      <View className="flex-1 bg-bgScreen px-4 pt-6">
         <Input
           label={i18n.t("title")}
           isInvalid={!titleIsValid}
@@ -168,27 +165,25 @@ export const ManageExpense = () => {
             maxLength: 9,
           }}
         />
-        <View style={styles.dateContent}>
-          <Text style={[styles.label, !dateIsValid && styles.invalidLabel]}>
+        <View className="my-2">
+          <Text className={cn(`text-[12px] ${fonts.medium} text-mainColor mb-1 mx-1`, !dateIsValid && "text-error500")}>
             {i18n.t("date")}
           </Text>
           <View
-            style={[
-              styles.datePicker,
-              {
-                borderColor: dateIsValid ? Colors.borderColor : Colors.error500,
-              },
-            ]}
+            className={cn(
+              "flex-row p-3 rounded-md bg-bgContainer border",
+              dateIsValid ? "border-borderColor" : "border-error500",
+            )}
           >
             <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
             <TouchableOpacity
-              style={styles.iconContainer}
+              className="absolute end-3 top-2.5"
               activeOpacity={0.7}
               onPress={showDatePicker}
             >
               <Image
                 source={require("../assets/icons/calendar.png")}
-                style={styles.icon}
+                className="w-6 h-6"
               />
             </TouchableOpacity>
           </View>
@@ -200,12 +195,12 @@ export const ManageExpense = () => {
           onCancel={hideDatePicker}
           maximumDate={new Date()}
         />
-        <View style={styles.footer}>
-          <View style={styles.buttons}>
+        <View className="self-center absolute bottom-10.5">
+          <View className="flex-row justify-center items-center">
             <Button
               btnText={i18n.t("cancel")}
-              btnStyle={styles.cancelBtnStyle}
-              textStyle={styles.cancelTextStyle}
+              customStyle="bg-bgContainer"
+              textStyle="text-mainColor"
               onPress={cancelHandler}
             />
             <Button
@@ -216,8 +211,11 @@ export const ManageExpense = () => {
             />
           </View>
           {data && (
-            <TouchableOpacity style={styles.deleteContainer} onPress={onShowConfirmDelete}>
-              <Trash width={32} height={32} color={Colors.secondaryColor} />
+            <TouchableOpacity
+              className="mt-4 pt-4 border-t border-t-borderColor items-center"
+              onPress={onShowConfirmDelete}
+            >
+              <Trash width={32} height={32} color={getThemeColor("secondaryColor")} />
             </TouchableOpacity>
           )}
         </View>
@@ -225,80 +223,3 @@ export const ManageExpense = () => {
     </>
   );
 };
-
-interface Styles {
-  container: ViewStyle;
-  dateContent: ViewStyle;
-  label: TextStyle;
-  invalidLabel: TextStyle;
-  datePicker: ViewStyle;
-  iconContainer: ViewStyle;
-  icon: ImageStyle;
-  footer: ViewStyle;
-  buttons: ViewStyle;
-  cancelBtnStyle: ViewStyle;
-  cancelTextStyle: TextStyle;
-  deleteContainer: ViewStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bgScreen,
-    paddingHorizontal: 16,
-    paddingTop: 24,
-  },
-  dateContent: {
-    marginVertical: 8,
-  },
-  label: {
-    fontSize: 12,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    color: Colors.mainColor,
-    marginBottom: 4,
-    marginHorizontal: 4,
-  },
-  invalidLabel: {
-    color: Colors.error500,
-  },
-  datePicker: {
-    flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    backgroundColor: Colors.bgContainer,
-    borderWidth: 1,
-  },
-  iconContainer: {
-    position: "absolute",
-    end: 12,
-    top: 10,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  footer: {
-    alignSelf: 'center',
-    position: 'absolute',
-    bottom: 42,
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cancelBtnStyle: {
-    backgroundColor: Colors.bgContainer,
-  },
-  cancelTextStyle: {
-    color: Colors.mainColor,
-  },
-  deleteContainer: {
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
-    borderTopColor: Colors.borderColor,
-    alignItems: "center",
-  },
-});

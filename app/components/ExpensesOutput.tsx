@@ -1,20 +1,15 @@
 import React, { useCallback } from "react";
 import {
   Text,
-  StyleSheet,
   FlatList,
-  TextStyle,
   View,
   ListRenderItem,
   RefreshControl,
   ActivityIndicator,
-  ViewStyle,
 } from "react-native";
 
-import { Colors } from "../constants/Styles";
 import { ExpenseItemProps } from "./ExpenseItem";
-import { isRTL } from "../assets/translation/resources";
-import { fontsAR, fontsEN } from "../constants/config";
+import { fonts } from "../../src/theme/fonts";
 import { AnimatedExpenseItem } from "./AnimatedExpenseItem";
 
 import Animated, {
@@ -73,36 +68,20 @@ export const ExpensesOutput = ({
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          colors={[Colors.primaryColor]}
-          tintColor={Colors.primaryColor}
+          colorsClassName="accent-primaryColor"
+          tintColorClassName="accent-primaryColor"
         />
       }
-      ListEmptyComponent={<Text style={styles.infoText}>{fallBackText}</Text>}
+      ListEmptyComponent={
+        <Text className={`text-mainColor text-[20px] ${fonts.medium} mx-10.5 text-center mt-[50%] leading-7.5`}>
+          {fallBackText}
+        </Text>
+      }
       ListFooterComponent={
         isLoadingMore
-          ? <ActivityIndicator style={styles.footerIndicator} color={Colors.primaryColor} />
-          : <View style={{ height: 12 }} />
+          ? <ActivityIndicator className="my-4" colorClassName="accent-primaryColor" />
+          : <View className="h-3" />
       }
     />
   );
 };
-
-interface Styles {
-  infoText: TextStyle;
-  footerIndicator: ViewStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  infoText: {
-    color: Colors.mainColor,
-    fontSize: 20,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    marginHorizontal: 42,
-    textAlign: "center",
-    marginTop: "50%",
-    lineHeight: 30,
-  },
-  footerIndicator: {
-    marginVertical: 16,
-  },
-});

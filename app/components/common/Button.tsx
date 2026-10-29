@@ -1,63 +1,39 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from "react-native"
-import { Colors } from "../../constants/Styles"
+import { TouchableOpacity, Text } from "react-native"
 import { Indicator } from "./Indicator";
-import { isRTL } from "../../assets/translation/resources";
-import { fontsAR, fontsEN } from "../../constants/config";
+import { cn } from "../../../src/utils/cn";
+import { fonts } from "../../../src/theme/fonts";
 
-interface ButtonProps {
+type ButtonProps = {
   btnText: string;
   onPress: () => void;
   isLoading?: boolean;
   disabled?: boolean;
-  btnStyle?: ViewStyle;
-  textStyle?: TextStyle;
-  loadingColor?: string;
-}
+  customStyle?: string;
+  textStyle?: string;
+  loadingColorClassName?: string;
+};
 
 export const Button = ({
   btnText,
   onPress,
   isLoading,
   disabled,
-  btnStyle,
+  customStyle,
   textStyle,
-  loadingColor,
+  loadingColorClassName = "accent-white",
 }: ButtonProps) => {
   return (
     <TouchableOpacity
-      style={[styles.button, btnStyle]}
+      className={cn("w-[45%] h-11.5 justify-center items-center rounded-xl m-2.5 bg-primaryColor", customStyle)}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
     >
       {isLoading
-        ? <Indicator size="small" color={loadingColor || Colors.white} /> 
-        : <Text style={[styles.buttonText, textStyle]}>{btnText}</Text>
+        ? <Indicator size="small" colorClassName={loadingColorClassName} />
+        : <Text className={cn(`text-white text-center text-[15px] ${fonts.medium}`, textStyle)}>{btnText}</Text>
       }
     </TouchableOpacity>
   );
 };
-
-interface Styles {
-  button: ViewStyle;
-  buttonText: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  button: {
-    width: '45%',
-    height: 46,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 12,
-    margin: 10,
-    backgroundColor: Colors.primaryColor,
-  },
-  buttonText: {
-    color: Colors.white,
-    textAlign: "center",
-    fontSize: 15,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-});

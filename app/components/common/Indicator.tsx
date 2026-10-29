@@ -1,30 +1,17 @@
 import React from "react";
-import { ActivityIndicator, View, StyleSheet, ViewStyle } from "react-native";
-import { Colors } from "../../constants/Styles";
+import { ActivityIndicator, View } from "react-native";
+import { cn } from "../../../src/utils/cn";
 
-interface IndicatorProps {
+type IndicatorProps = {
   size?: "small" | "large";
-  color?: string;
-  indicatorStyle?: ViewStyle;
-}
+  colorClassName?: string;
+  customStyle?: string;
+};
 
-export const Indicator = ({ size = "large", color = Colors.primaryColor, indicatorStyle }: IndicatorProps) => {
+export const Indicator = ({ size = "large", colorClassName = "accent-primaryColor", customStyle }: IndicatorProps) => {
   return (
-    <View style={[styles.container, indicatorStyle]}>
-      <ActivityIndicator size={size} color={color} />
+    <View className={cn("flex-1 justify-center items-center p-6", customStyle)}>
+      <ActivityIndicator size={size} colorClassName={colorClassName} />
     </View>
   );
 };
-
-interface Styles {
-  container: ViewStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  }
-})

@@ -1,18 +1,21 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
-import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { withUniwind } from 'uniwind';
 
 import i18n from '../../assets/translation/config';
-import { isRTL } from '../../assets/translation/resources';
-import { Colors } from '../../constants/Styles';
-import { fontsAR, fontsEN } from '../../constants/config';
 import { LanguagePreference, languageNames } from '../../utility/language';
+import { cn } from '../../../src/utils/cn';
+import { fonts } from '../../../src/theme/fonts';
+import { useTheme } from '../../../src/theme/useTheme';
 import Check from '../../assets/svgs/check.svg';
 
-interface LanguagePickerProps {
+type LanguagePickerProps = {
   selected: LanguagePreference;
   onSelect: (language: LanguagePreference) => void;
-}
+};
+
+const StyledBottomSheetView = withUniwind(BottomSheetView);
 
 export type LanguagePickerHandle = {
   present: () => void;
@@ -27,6 +30,7 @@ const options: { value: LanguagePreference, label: () => string }[] = [
 
 const LanguagePicker = forwardRef<LanguagePickerHandle, LanguagePickerProps>(({ selected, onSelect }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const { getThemeColor } = useTheme();
 
   useImperativeHandle(ref, () => ({
     present: () => bottomSheetRef.current?.present(),
@@ -55,62 +59,25 @@ const LanguagePicker = forwardRef<LanguagePickerHandle, LanguagePickerProps>(({ 
       backdropComponent={renderBackdrop}
       enablePanDownToClose={true}
     >
-      <BottomSheetView style={styles.container}>
-        <Text style={styles.title}>{i18n.t("chooseLanguage")}</Text>
+      <StyledBottomSheetView className="px-5 pb-8 gap-2">
+        <Text className={`text-center text-[20px] ${fonts.medium} mb-2`}>{i18n.t("chooseLanguage")}</Text>
         {options.map(({ value, label }) => (
           <TouchableOpacity
             key={value}
-            style={[styles.option, value === selected && styles.selectedOption]}
+            className={cn(
+              "flex-row justify-between items-center py-3.5 px-4 border border-borderColor rounded-xl",
+              value === selected && "border-primaryColor",
+            )}
             onPress={() => selectHandler(value)}
             activeOpacity={0.7}
           >
-            <Text style={styles.optionText}>{label()}</Text>
-            {value === selected && <Check width={20} height={20} color={Colors.primaryColor} />}
+            <Text className={`text-[16px] text-mainColor ${fonts.medium}`}>{label()}</Text>
+            {value === selected && <Check width={20} height={20} color={getThemeColor("primaryColor")} />}
           </TouchableOpacity>
         ))}
-      </BottomSheetView>
+      </StyledBottomSheetView>
     </BottomSheetModal>
   );
-});
-
-interface Styles {
-  container: ViewStyle;
-  title: TextStyle;
-  option: ViewStyle;
-  selectedOption: ViewStyle;
-  optionText: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  container: {
-    paddingHorizontal: 20,
-    paddingBottom: 32,
-    gap: 8,
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    marginBottom: 8,
-  },
-  option: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: Colors.borderColor,
-    borderRadius: 12,
-  },
-  selectedOption: {
-    borderColor: Colors.primaryColor,
-  },
-  optionText: {
-    fontSize: 16,
-    color: Colors.mainColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
 });
 
 export default LanguagePicker;

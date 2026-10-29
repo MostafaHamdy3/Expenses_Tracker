@@ -1,4 +1,5 @@
 const { getDefaultConfig } = require("expo/metro-config");
+const { withUniwindConfig } = require("uniwind/metro");
 
 const config = getDefaultConfig(__dirname);
 
@@ -15,4 +16,8 @@ config.resolver = {
   sourceExts: [...resolver.sourceExts, "svg"],
 };
 
-module.exports = config;
+// Must stay the outermost wrapper.
+module.exports = withUniwindConfig(config, {
+  cssEntryFile: "./global.css",
+  dtsFile: "./uniwind-types.d.ts",
+});

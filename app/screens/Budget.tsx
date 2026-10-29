@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import i18n from '../assets/translation/config'
-import { Colors } from '../constants/Styles'
 import { nFormatter } from '../utility/utility'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { fontsAR, fontsEN, fontsNUM } from '../constants/config'
-import { appLanguage, isRTL } from '../assets/translation/resources'
+import { appLanguage } from '../assets/translation/resources'
+import { fonts } from '../../src/theme/fonts'
+import { useTheme } from '../../src/theme/useTheme'
 
 import { CircularProgress } from 'react-native-circular-progress';
 import { RootStackParamList } from '../AppNavigation'
@@ -18,10 +18,13 @@ import { NavigationHeader } from '../components/common/NavigationHeader'
 import { Button } from '../components/common/Button'
 import Edit from '../assets/svgs/square-pen.svg';
 
+const sectionTitle = `text-[18px] text-mainColor ${fonts.medium}`;
+
 const Budget = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { getExpensesTotal } = useExpenseStore();
   const { userBudget, getUserBudget } = useUserStore();
+  const { getThemeColor } = useTheme();
 
   const [expensesPrice, setExpensesPrice] = useState<number>(0);
 
@@ -54,7 +57,7 @@ const Budget = () => {
   const remainder = ((userBudget - expensesPrice) / userBudget * 100).toFixed(2);
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-bgScreen">
       <NavigationHeader
         title={i18n.t("budget")}
         showLogoutIcon={true}
@@ -63,146 +66,49 @@ const Budget = () => {
         ref={budgetModalRef}
         userBudget={userBudget}
       />
-      <View style={styles.content}>
-        <Text style={styles.monthTitle}>{currentMonth} {currentYear}</Text>
-        <View style={styles.budgetContainer}>
-          <Text style={styles.sectionTitle}>{i18n.t("budget")}</Text>
-          <Text style={styles.budgetAmount}>${userBudget}</Text>
+      <View className="w-[92%] self-center items-center pt-6">
+        <Text className={`text-[20px] ${fonts.medium} mb-3`}>{currentMonth} {currentYear}</Text>
+        <View className="w-full self-center flex-row justify-between items-center gap-2 bg-bgContainer border border-borderColor rounded-xl py-2.5 px-4">
+          <Text className={sectionTitle}>{i18n.t("budget")}</Text>
+          <Text className="text-[24px] font-num-bold">${userBudget}</Text>
           <TouchableOpacity onPress={budgetHandler}>
-            <Edit width={20} height={20} color={Colors.mainColor} />
+            <Edit width={20} height={20} color={getThemeColor("mainColor")} />
           </TouchableOpacity>
         </View>
 
-        <View style={styles.progressContainer}>
+        <View className="mt-[20%]">
           <CircularProgress
             size={160}
             width={15}
             fill={Math.max(+remainder, 0)}
-            tintColor={Colors.primaryColor}
-            backgroundColor={Colors.borderColor}
+            tintColor={getThemeColor("primaryColor")}
+            backgroundColor={getThemeColor("borderColor")}
           >
             {fill => 
               <>
-                <Text style={styles.progressText}>{i18n.t("remainder")}</Text>
-                <Text style={styles.progressPercentage}>{fill}%</Text>
+                <Text className={`text-[16px] text-mainColor ${fonts.medium}`}>{i18n.t("remainder")}</Text>
+                <Text className="text-center text-[20px] text-mainColor font-num-bold">{fill}%</Text>
               </>
             }
           </CircularProgress>
         </View>
 
-        <View style={styles.uExpensesContent}>
-          <Text style={styles.sectionTitle}>{i18n.t("uExpenses")}:</Text>
-          <Text style={styles.budgetPrice}>{nFormatter(+expensesPrice)}$</Text>
+        <View className="flex-row items-center gap-2 mt-6">
+          <Text className={sectionTitle}>{i18n.t("uExpenses")}:</Text>
+          <Text className="text-[18px] font-num-bold mb-px">{nFormatter(+expensesPrice)}$</Text>
         </View>
 
       </View>
-      <View style={styles.btnContainer}>
+      <View className="w-full absolute bottom-10.5">
         <Button
           btnText={i18n.t("expensesDetails")}
-          btnStyle={styles.detailsBtn}
-          textStyle={styles.detailsBtnText}
+          customStyle="w-[92%] self-center mt-5"
+          textStyle="text-[16px]"
           onPress={expensesDetails}
         />
       </View>
     </View>
   )
 }
-
-interface Styles {
-  container: ViewStyle;
-  content: ViewStyle;
-  budgetContainer: ViewStyle;
-  sectionTitle: TextStyle;
-  budgetAmount: TextStyle;
-  monthTitle: TextStyle;
-  progressContainer: ViewStyle;
-  progressText: TextStyle;
-  progressPercentage: TextStyle;
-  uExpensesContent: ViewStyle;
-  budgetPrice: TextStyle;
-  btnContainer: ViewStyle;
-  detailsBtn: ViewStyle;
-  detailsBtnText: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bgScreen,
-  },
-  content: {
-    width: '92%',
-    alignSelf: 'center',
-    alignItems: 'center',
-    paddingTop: 24,
-  },
-  monthTitle: {
-    fontSize: 20,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    marginBottom: 12,
-  },
-  budgetContainer: {
-    width: '100%',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: Colors.bgContainer,
-    borderWidth: 1,
-    borderColor: Colors.borderColor,
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    color: Colors.mainColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  budgetAmount: {
-    fontSize: 24,
-    fontFamily: fontsNUM.bold,
-  },
-  progressContainer: {
-    marginTop: "20%",
-  },
-  progressText: {
-    fontSize: 16,
-    color: Colors.mainColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  progressPercentage: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: Colors.mainColor,
-    fontFamily: fontsNUM.bold,
-  },
-  uExpensesContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginTop: 24,
-  },
-  budgetPrice: {
-    fontSize: 18,
-    fontFamily: fontsNUM.bold,
-    marginBottom: 1,
-  },
-  btnContainer: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 42,
-  },
-  detailsBtn: {
-    width: '92%',
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-  detailsBtnText: {
-    fontSize: 16,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  }
-})
 
 export default Budget

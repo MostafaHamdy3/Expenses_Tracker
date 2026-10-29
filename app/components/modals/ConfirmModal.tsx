@@ -1,20 +1,19 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, ViewStyle, ImageStyle, TextStyle } from "react-native";
+import { View, Text, Image } from "react-native";
 import Modal from 'react-native-modal';
+import { useResolveClassNames } from "uniwind";
 
-import { Colors } from "../../constants/Styles";
 import i18n from "../../assets/translation/config";
-import { isRTL } from "../../assets/translation/resources";
-import { fontsAR, fontsEN } from "../../constants/config";
+import { fonts } from "../../../src/theme/fonts";
 import { Button } from "../common/Button";
 
-interface ConfirmModalProps {
+type ConfirmModalProps = {
   showModal: boolean;
   closeModal: () => void;
   confirm: () => void;
   isLoading: boolean;
   title: string;
-}
+};
 
 export const ConfirmModal = ({
   showModal,
@@ -23,6 +22,9 @@ export const ConfirmModal = ({
   isLoading,
   title,
 }: ConfirmModalProps) => {
+  // react-native-modal only takes `style`, so resolve the classes into a style object.
+  const modalStyle = useResolveClassNames("bg-overlay m-0 items-center justify-center");
+
   return (
     <Modal
       isVisible={showModal}
@@ -33,35 +35,38 @@ export const ConfirmModal = ({
       animationOut="slideOutDown"
       animationInTiming={400}
       animationOutTiming={350}
-      style={styles.modal}
+      style={modalStyle}
       onBackButtonPress={closeModal}
       onBackdropPress={closeModal}
     >
-      <View style={styles.modalView}>
-        <View style={styles.modalContent}>
-          <View style={styles.centeredContent}>
+      <View className="w-[92%] justify-center items-center">
+        <View className="w-full justify-center items-center rounded-[20px] bg-bgContainer overflow-hidden">
+          <View className="flex-col justify-center items-center p-5">
             <Image
               source={require("../../assets/icons/exclamation.png")}
-              style={styles.exclamationIcon}
+              resizeMode="contain"
+              className="w-16 h-16 my-4"
             />
             {title && (
-              <View style={styles.content}>
-                <Text style={styles.textTitleStyle}>{title}</Text>
+              <View className="items-center justify-center w-full">
+                <Text className={`text-center text-[18px] ${fonts.medium} text-mainColor mx-6 leading-6.5`}>
+                  {title}
+                </Text>
               </View>
             )}
-            <View style={styles.buttons}>
+            <View className="w-full flex-col justify-center items-center mt-3.75">
               <Button
                 btnText={i18n.t("cancel")}
-                btnStyle={styles.cancelBtnStyle}
+                customStyle="w-75 bg-lightBg mb-0"
                 onPress={closeModal}
               />
               <Button
                 btnText={i18n.t("confirm")}
-                btnStyle={styles.confirmBtnStyle}
-                textStyle={styles.cancelTextStyle}
+                customStyle="w-75 bg-bgContainer"
+                textStyle="text-mainColor"
                 onPress={confirm}
                 isLoading={isLoading}
-                loadingColor={Colors.darkBg}
+                loadingColorClassName="accent-darkBg"
               />
             </View>
           </View>
@@ -70,83 +75,3 @@ export const ConfirmModal = ({
     </Modal>
   );
 };
-
-interface Styles {
-  modal: ViewStyle;
-  modalView: ViewStyle;
-  modalContent: ViewStyle;
-  centeredContent: ViewStyle;
-  exclamationIcon: ImageStyle;
-  content: ViewStyle;
-  textTitleStyle: TextStyle;
-  buttons: ViewStyle;
-  cancelBtnStyle: ViewStyle;
-  cancelTextStyle: TextStyle;
-  confirmBtnStyle: ViewStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
-  modal: {
-    backgroundColor: "rgba(0,0,0,0.5)",
-    margin: 0,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalView: {
-    width: "92%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    backgroundColor: Colors.bgContainer,
-    overflow: "hidden",
-  },
-  centeredContent: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  exclamationIcon: {
-    width: 64,
-    height: 64,
-    resizeMode: "contain",
-    marginVertical: 16,
-  },
-  content: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  textTitleStyle: {
-    textAlign: "center",
-    fontSize: 18,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    color: Colors.mainColor,
-    marginHorizontal: 24,
-    lineHeight: 26,
-  },
-  buttons: {
-    width: "100%",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 15,
-  },
-  confirmBtnStyle: {
-    width: 300,
-    backgroundColor: Colors.bgContainer,
-  },
-  cancelTextStyle: {
-    color: Colors.mainColor,
-  },
-  cancelBtnStyle: {
-    width: 300,
-    backgroundColor: Colors.lightBg,
-    marginBottom: 0,
-  },
-});

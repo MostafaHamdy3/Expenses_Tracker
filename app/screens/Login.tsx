@@ -3,16 +3,12 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
   Image,
   StatusBar,
 } from "react-native";
 
-import { Colors } from "../constants/Styles";
 import i18n from "../assets/translation/config";
-import { isRTL } from "../assets/translation/resources";
-import { fontsAR, fontsEN } from "../constants/config";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
@@ -21,6 +17,8 @@ import {
   applyLanguagePreference,
   getLanguagePreference,
 } from "../utility/language";
+import { fonts } from "../../src/theme/fonts";
+import { useTheme } from "../../src/theme/useTheme";
 import Email from "../assets/svgs/mail.svg";
 import Lock from "../assets/svgs/lock-keyhole.svg";
 import Visible from "../assets/svgs/eye.svg";
@@ -29,6 +27,9 @@ import Invisible from "../assets/svgs/eye-off.svg";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+const inputWrapper = "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
+const textInput = `flex-1 text-left py-3 text-[16px] ${fonts.medium}`;
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -46,6 +47,7 @@ export const Login = ({ navigation }: LoginProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoginFailed, setIsLoginFailed] = useState<boolean>(false);
   const { getUserLanguage, saveUserLanguage } = useUserStore();
+  const { getThemeColor } = useTheme();
 
   const syncAccountLanguage = async () => {
     const accountLanguage = await getUserLanguage();
@@ -86,159 +88,78 @@ export const Login = ({ navigation }: LoginProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 items-center bg-bgScreen">
       <StatusBar barStyle="dark-content" />
-      <View style={styles.subContent}>
+      <View className="items-center">
         <Image
           source={require("../assets/icons/logo.png")}
-          style={styles.logo}
+          resizeMode="contain"
+          className="w-35 h-35 mt-[30%] mb-6"
         />
       </View>
-      <View style={styles.subContent}>
-        <Text style={styles.title}>{i18n.t("welcomeBack")}</Text>
-        <Text style={styles.titleLogin}>{i18n.t("loginToContinue")}</Text>
+      <View className="items-center">
+        <Text className={`text-mainColor text-[26px] ${fonts.bold}`}>{i18n.t("welcomeBack")}</Text>
+        <Text className={`text-mainColor text-[12px] ${fonts.medium} mt-1.5`}>{i18n.t("loginToContinue")}</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputWrapper}>
-          <Email width={20} height={20} color={Colors.primaryColor} />
+      <View className="w-[86%] mt-6 gap-3">
+        <View className={inputWrapper}>
+          <Email width={20} height={20} color={getThemeColor("primaryColor")} />
           <TextInput
             placeholder={i18n.t("email")}
-            placeholderTextColor={Colors.placeholderColor}
+            placeholderTextColorClassName="accent-placeholderColor"
             value={email}
             onChangeText={setEmail}
-            style={styles.textInput}
+            className={textInput}
             keyboardType="email-address"
             autoCapitalize="none"
           />
         </View>
-        <View style={styles.inputWrapper}>
-          <Lock width={20} height={20} color={Colors.primaryColor} />
+        <View className={inputWrapper}>
+          <Lock width={20} height={20} color={getThemeColor("primaryColor")} />
           <TextInput
             placeholder={i18n.t("password")}
-            placeholderTextColor={Colors.placeholderColor}
+            placeholderTextColorClassName="accent-placeholderColor"
             value={password}
             onChangeText={setPassword}
             onSubmitEditing={handleLogin}
             secureTextEntry={!isPasswordVisible}
-            style={styles.textInput}
+            className={textInput}
             autoCapitalize="none"
           />
           <TouchableOpacity onPress={togglePasswordVisibility}>
             {isPasswordVisible ? (
-              <Visible width={20} height={20} color={Colors.primaryColor} />
+              <Visible width={20} height={20} color={getThemeColor("primaryColor")} />
             ) : (
               <Invisible
                 width={20}
                 height={20}
-                color={Colors.placeholderColor}
+                color={getThemeColor("placeholderColor")}
               />
             )}
           </TouchableOpacity>
         </View>
-        <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>{i18n.t("noAccount")}</Text>
+        <View className="flex-row gap-1.5 mb-3">
+          <Text className={`text-mainColor ${fonts.medium}`}>{i18n.t("noAccount")}</Text>
           <TouchableOpacity onPress={goToSignup}>
-            <Text style={styles.registerLink}>{i18n.t("signUp")}</Text>
+            <Text className={`text-primaryColor ${fonts.medium}`}>{i18n.t("signUp")}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin} activeOpacity={0.9}>
           {isLoading ? (
             <Indicator />
           ) : (
-            <View style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>{i18n.t("login")}</Text>
+            <View className="items-center bg-primaryColor py-3.5 rounded-xl mt-8">
+              <Text className={`text-white text-[15px] ${fonts.medium}`}>{i18n.t("login")}</Text>
             </View>
           )}
         </TouchableOpacity>
 
         {isLoginFailed && (
-          <View style={styles.errorMessageContainer}>
-            <Text style={styles.errorMessage}>{i18n.t("invalidLogin")}</Text>
+          <View className="justify-center items-start">
+            <Text className={`text-error500 ${fonts.regular}`}>{i18n.t("invalidLogin")}</Text>
           </View>
         )}
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: Colors.bgScreen,
-  },
-  subContent: {
-    alignItems: "center",
-  },
-  logo: {
-    width: 140,
-    height: 140,
-    resizeMode: "contain",
-    marginTop: "30%",
-    marginBottom: 24,
-  },
-  title: {
-    color: Colors.mainColor,
-    fontSize: 26,
-    fontFamily: isRTL() ? fontsAR.bold : fontsEN.bold,
-  },
-  titleLogin: {
-    color: Colors.mainColor,
-    fontSize: 12,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    marginTop: 6,
-  },
-  inputContainer: {
-    width: "86%",
-    marginTop: 24,
-    gap: 12,
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    backgroundColor: Colors.bgContainer,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-  },
-  textInput: {
-    flex: 1,
-    textAlign: "left",
-    paddingVertical: 12,
-    fontSize: 16,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  registerContainer: {
-    flexDirection: "row",
-    gap: 6,
-    marginBottom: 12,
-  },
-  registerText: {
-    color: Colors.mainColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  registerLink: {
-    color: Colors.primaryColor,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  loginButton: {
-    alignItems: "center",
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 32,
-  },
-  loginButtonText: {
-    color: Colors.white,
-    fontSize: 15,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-  },
-  errorMessageContainer: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-  errorMessage: {
-    color: Colors.error500,
-    fontFamily: isRTL() ? fontsAR.regular : fontsEN.regular,
-  },
-});

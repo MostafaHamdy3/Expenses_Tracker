@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AppState, Platform, StyleSheet, Text } from "react-native";
+import { AppState, Platform, Text } from "react-native";
 import { reloadAppAsync } from "expo";
 import { getLocales } from "expo-localization";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,9 +8,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as SplashScreen from "expo-splash-screen";
 
 import { ExpenseItemProps } from "./components/ExpenseItem";
-import { Colors } from "./constants/Styles";
-import { isRTL } from "./assets/translation/resources";
-import { fontsAR, fontsEN } from "./constants/config";
 import { Expenses } from "./screens/Expenses";
 import i18n from "./assets/translation/config";
 import { ManageExpense } from "./screens/ManageExpense";
@@ -25,6 +22,8 @@ import SettingsIcon from "./assets/svgs/settings.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUserStore } from "./store/UserStore";
 import { getLanguagePreference } from "./utility/language";
+import { fonts } from "../src/theme/fonts";
+import { useTheme } from "../src/theme/useTheme";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -48,7 +47,10 @@ const bottomTab = createBottomTabNavigator<ExpensesOverviewParamList>();
 void SplashScreen.preventAutoHideAsync();
 
 function BottomTabsExpenses() {
-  const rtl = isRTL();
+  const { getThemeColor } = useTheme();
+  const activeColor = getThemeColor("primaryColor");
+  const inactiveColor = getThemeColor("mainColor");
+
   const renderActiveBottomTab = (
     SvgIcon: React.FC<{ color: string; width?: number; height?: number }>,
     focused: boolean,
@@ -56,7 +58,7 @@ function BottomTabsExpenses() {
     <SvgIcon
       width={24}
       height={24}
-      color={focused ? Colors.primaryColor : Colors.mainColor}
+      color={focused ? activeColor : inactiveColor}
     />
   );
 
@@ -79,25 +81,17 @@ function BottomTabsExpenses() {
     <bottomTab.Navigator
       id={undefined}
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: Colors.primaryColor,
-        tabBarInactiveTintColor: Colors.mainColor,
+        tabBarActiveTintColor: activeColor,
+        tabBarInactiveTintColor: inactiveColor,
         tabBarIcon: ({ focused }) => getBottomTabIcon(route.name, focused),
         tabBarLabel: ({ children, color }) => (
-          <Text
-            style={[
-              styles.labelText,
-              {
-                fontFamily: rtl ? fontsAR.medium : fontsEN.medium,
-                color,
-              },
-            ]}
-          >
+          <Text className={`text-[12px] mb-0.5 ${fonts.medium}`} style={{ color }}>
             {i18n.t(`${children}`)}
           </Text>
         ),
         tabBarStyle: {
           height: 60,
-          backgroundColor: Colors.bgScreen,
+          backgroundColor: getThemeColor("bgScreen"),
           paddingTop: 2,
         },
         headerShown: false,
@@ -114,6 +108,7 @@ function BottomTabsExpenses() {
 const AppNavigation = () => {
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
   const { getUserLanguage, saveUserLanguage } = useUserStore();
+  const { getThemeColor } = useTheme();
 
   // The language may have been changed from system settings, so keep the account in sync.
   const syncAccountLanguage = async () => {
@@ -168,8 +163,8 @@ const AppNavigation = () => {
         id={undefined}
         initialRouteName={initialRoute as keyof RootStackParamList}
         screenOptions={{
-          headerStyle: { backgroundColor: Colors.primaryColor },
-          headerTintColor: Colors.white,
+          headerStyle: { backgroundColor: getThemeColor("primaryColor") },
+          headerTintColor: getThemeColor("white"),
           headerShown: false,
         }}
       >
@@ -181,12 +176,5 @@ const AppNavigation = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  labelText: {
-    fontSize: 12,
-    marginBottom: 2,
-  },
-});
 
 export default AppNavigation;

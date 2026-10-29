@@ -1,53 +1,27 @@
 import React from "react";
-import { TextInput, View, Text, StyleSheet, TextInputProps } from "react-native";
-import { Colors } from "../../constants/Styles";
-import { isRTL } from "../../assets/translation/resources";
-import { fontsAR, fontsEN } from "../../constants/config";
+import { TextInput, View, Text, TextInputProps } from "react-native";
+import { cn } from "../../../src/utils/cn";
+import { fonts } from "../../../src/theme/fonts";
 
-interface InputProps {
+type InputProps = {
   label?: string;
   textInputConfig: TextInputProps;
-  customStyle?: TextInputProps['style'];
+  customStyle?: string;
   isInvalid: boolean;
-}
+};
 
 export const Input = ({ label, textInputConfig, isInvalid, customStyle }: InputProps) => {
   return (
-    <View style={styles.inputContainer}>
-      <Text style={styles.label}>{label}</Text>
+    <View className="my-2">
+      <Text className={`text-[12px] ${fonts.medium} text-mainColor mb-1 mx-1`}>{label}</Text>
       <TextInput 
         {...textInputConfig}
-        style={[styles.input, isInvalid && styles.invalidInput, customStyle]} 
+        className={cn(
+          `text-left text-[17px] ${fonts.medium} text-mainColor bg-bgContainer py-2 px-3 rounded-lg border border-borderColor`,
+          isInvalid && "border-error500",
+          customStyle,
+        )} 
       />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginVertical: 8,
-  },
-  label: {
-    fontSize: 12,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    color: Colors.mainColor,
-    marginBottom: 4,
-    marginHorizontal: 4,
-  },
-  input: {
-    textAlign: 'left',
-    fontSize: 17,
-    fontFamily: isRTL() ? fontsAR.medium : fontsEN.medium,
-    color: Colors.mainColor,
-    backgroundColor: Colors.bgContainer,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Colors.borderColor,
-  },
-  invalidInput: {
-    borderColor: Colors.error500,
-    borderWidth: 1,
-  },
-});
