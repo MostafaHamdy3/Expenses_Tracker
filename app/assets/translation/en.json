@@ -51,6 +51,5 @@
   "logout": "Log out",
   "confirmLogout": "Are you sure you want to log out?",
   "deviceLanguage": "Device language",
-  "chooseLanguage": "Choose language",
-  "restartToApply": "Close and reopen the app to apply the new language."
+  "chooseLanguage": "Choose language"
 }

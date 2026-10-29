@@ -51,6 +51,5 @@
   "logout": "تسجيل الخروج",
   "confirmLogout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "deviceLanguage": "لغة الجهاز",
-  "chooseLanguage": "اختر اللغة",
-  "restartToApply": "أغلق التطبيق وافتحه مرة أخرى لتطبيق اللغة الجديدة."
+  "chooseLanguage": "اختر اللغة"
 }

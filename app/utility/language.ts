@@ -1,8 +1,6 @@
-import { Alert, Platform } from "react-native";
 import { reloadAppAsync } from "expo";
 
 import AppLanguage from "../../modules/app-language";
-import i18n from "../assets/translation/config";
 import { Language } from "../assets/translation/resources";
 
 export type LanguagePreference = Language | "system";
@@ -22,16 +20,11 @@ export const getLanguagePreference = (): LanguagePreference => {
   return isLanguagePreference(language) ? language : "system";
 };
 
-// Sets the per-app language natively so text and direction always come from native.
-// Android applies it on reload; iOS applies it on the next launch.
+// Sets the per-app language natively so text and direction always come from native,
+// then reloads so React starts again with the new direction.
 export const applyLanguagePreference = async (preference: LanguagePreference) => {
   if (preference === getLanguagePreference()) return;
 
   await AppLanguage.setLanguage(preference === "system" ? null : preference);
-
-  if (Platform.OS === "android") {
-    await reloadAppAsync();
-  } else {
-    Alert.alert(i18n.t("language"), i18n.t("restartToApply"));
-  }
+  await reloadAppAsync();
 };
