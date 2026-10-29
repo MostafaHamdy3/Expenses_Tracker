@@ -5,7 +5,7 @@ import { SvgProps } from 'react-native-svg'
 import { Colors } from '../constants/Styles'
 import { isRTL } from '../assets/translation/resources'
 import { fontsAR, fontsEN } from '../constants/config'
-import ArrowRight from '../assets/svgs/arrow-right.svg'
+import ChevronRight from '../assets/svgs/chevron-right.svg'
 
 interface SettingsRowProps {
   Icon: React.FC<SvgProps>;
@@ -28,7 +28,7 @@ export const SettingsRow = ({ Icon, label, value, valueStyle, color = Colors.mai
       <Text style={[styles.label, { color }]}>{label}</Text>
       {!!value && <Text style={[styles.value, valueStyle]} numberOfLines={1}>{value}</Text>}
       {onPress && (
-        <ArrowRight
+        <ChevronRight
           width={18}
           height={18}
           color={Colors.placeholderColor}
