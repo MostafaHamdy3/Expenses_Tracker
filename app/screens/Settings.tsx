@@ -30,7 +30,8 @@ import Info from "../assets/svgs/info.svg";
 import Logout from "../assets/svgs/log-out.svg";
 
 const sectionTitle = `text-[14px] text-placeholderColor ${fonts.medium} mt-3 mb-1.5 mx-1`;
-const section = "bg-bgContainer border border-borderColor rounded-xl overflow-hidden";
+const section =
+  "bg-bgContainer border border-borderColor rounded-xl overflow-hidden";
 
 const Settings = () => {
   const navigation =
@@ -93,7 +94,7 @@ const Settings = () => {
         selected={language}
         onSelect={changeLanguageHandler}
       />
-      <ScrollView contentContainerClassName="w-[92%] self-center py-4">
+      <ScrollView contentContainerClassName="px-[4%] py-4">
         <Text className={sectionTitle}>{i18n.t("account")}</Text>
         <View className={section}>
           {!!email && (

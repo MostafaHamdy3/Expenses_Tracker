@@ -10,12 +10,19 @@
       "en": "./app/assets/translation/native/en.json",
       "ar": "./app/assets/translation/native/ar.json"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "CFBundleDevelopmentRegion": "en"
-      }
+        "CFBundleDevelopmentRegion": "en",
+        "CFBundleLocalizations": [
+          "en",
+          "ar"
+        ]
+      },
+      "bundleIdentifier": "com.mostafa7amdy.ExpenseTracker"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,8 +49,14 @@
         "expo-localization",
         {
           "supportedLocales": {
-            "ios": ["en", "ar"],
-            "android": ["en", "ar"]
+            "ios": [
+              "en",
+              "ar"
+            ],
+            "android": [
+              "en",
+              "ar"
+            ]
           }
         }
       ],

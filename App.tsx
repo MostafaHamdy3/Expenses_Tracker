@@ -16,7 +16,7 @@ export default function App() {
   return (
     <StyledGestureHandlerRootView className="flex-1">
       <StatusBar style="auto" />
-      <StyledSafeAreaView edges={["bottom"]} className="flex-1">
+      <StyledSafeAreaView edges={["bottom"]} className="flex-1 bg-bgScreen">
         <BottomSheetModalProvider>
           <AppNavigation />
         </BottomSheetModalProvider>
