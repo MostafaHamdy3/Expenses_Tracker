@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icons/logo.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "locales": {
       "en": "./app/assets/translation/native/en.json",
       "ar": "./app/assets/translation/native/ar.json"

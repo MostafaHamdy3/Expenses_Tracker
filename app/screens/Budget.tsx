@@ -67,10 +67,10 @@ const Budget = () => {
         userBudget={userBudget}
       />
       <View className="w-[92%] self-center items-center pt-6">
-        <Text className={`text-[20px] ${fonts.medium} mb-3`}>{currentMonth} {currentYear}</Text>
+        <Text className={`text-[20px] text-mainColor ${fonts.medium} mb-3`}>{currentMonth} {currentYear}</Text>
         <View className="w-full self-center flex-row justify-between items-center gap-2 bg-bgContainer border border-borderColor rounded-xl py-2.5 px-4">
           <Text className={sectionTitle}>{i18n.t("budget")}</Text>
-          <Text className="text-[24px] font-num-bold">${userBudget}</Text>
+          <Text className="text-[24px] text-mainColor font-num-bold">${userBudget}</Text>
           <TouchableOpacity onPress={budgetHandler}>
             <Edit width={20} height={20} color={getThemeColor("mainColor")} />
           </TouchableOpacity>
@@ -95,7 +95,7 @@ const Budget = () => {
 
         <View className="flex-row items-center gap-2 mt-6">
           <Text className={sectionTitle}>{i18n.t("uExpenses")}:</Text>
-          <Text className="text-[18px] font-num-bold mb-px">{nFormatter(+expensesPrice)}$</Text>
+          <Text className="text-[18px] text-mainColor font-num-bold mb-px">{nFormatter(+expensesPrice)}$</Text>
         </View>
 
       </View>

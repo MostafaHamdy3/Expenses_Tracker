@@ -3,32 +3,31 @@ import { Text, TouchableOpacity } from 'react-native'
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { withUniwind } from 'uniwind';
 
-import i18n from '../../assets/translation/config';
-import { LanguagePreference, languageNames } from '../../utility/language';
 import { cn } from '../../../src/utils/cn';
 import { fonts } from '../../../src/theme/fonts';
 import { useTheme } from '../../../src/theme/useTheme';
 import Check from '../../assets/svgs/check.svg';
 
-type LanguagePickerProps = {
-  selected: LanguagePreference;
-  onSelect: (language: LanguagePreference) => void;
+export type PickerOption<T extends string> = { value: T, label: () => string };
+
+type OptionPickerProps<T extends string> = {
+  title: string;
+  options: PickerOption<T>[];
+  selected: T;
+  onSelect: (value: T) => void;
 };
 
 const StyledBottomSheetView = withUniwind(BottomSheetView);
 
-export type LanguagePickerHandle = {
+export type OptionPickerHandle = {
   present: () => void;
   dismiss: () => void;
 };
 
-const options: { value: LanguagePreference, label: () => string }[] = [
-  { value: "system", label: () => i18n.t("deviceLanguage") },
-  { value: "ar", label: () => languageNames.ar },
-  { value: "en", label: () => languageNames.en },
-];
-
-const LanguagePicker = forwardRef<LanguagePickerHandle, LanguagePickerProps>(({ selected, onSelect }, ref) => {
+const OptionPicker = forwardRef(<T extends string>(
+  { title, options, selected, onSelect }: OptionPickerProps<T>,
+  ref: React.ForwardedRef<OptionPickerHandle>,
+) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { getThemeColor } = useTheme();
 
@@ -37,9 +36,9 @@ const LanguagePicker = forwardRef<LanguagePickerHandle, LanguagePickerProps>(({ 
     dismiss: () => bottomSheetRef.current?.dismiss(),
   }));
 
-  const selectHandler = (language: LanguagePreference) => {
+  const selectHandler = (value: T) => {
     bottomSheetRef.current?.dismiss();
-    onSelect(language);
+    onSelect(value);
   };
 
   const renderBackdrop = useCallback(
@@ -58,9 +57,11 @@ const LanguagePicker = forwardRef<LanguagePickerHandle, LanguagePickerProps>(({ 
       ref={bottomSheetRef}
       backdropComponent={renderBackdrop}
       enablePanDownToClose={true}
+      backgroundStyle={{ backgroundColor: getThemeColor("bgContainer") }}
+      handleIndicatorStyle={{ backgroundColor: getThemeColor("placeholderColor") }}
     >
       <StyledBottomSheetView className="px-5 pb-8 gap-2">
-        <Text className={`text-center text-[20px] ${fonts.medium} mb-2`}>{i18n.t("chooseLanguage")}</Text>
+        <Text className={`text-center text-[20px] text-mainColor ${fonts.medium} mb-2`}>{title}</Text>
         {options.map(({ value, label }) => (
           <TouchableOpacity
             key={value}
@@ -78,6 +79,8 @@ const LanguagePicker = forwardRef<LanguagePickerHandle, LanguagePickerProps>(({ 
       </StyledBottomSheetView>
     </BottomSheetModal>
   );
-});
+}) as <T extends string>(
+  props: OptionPickerProps<T> & { ref?: React.Ref<OptionPickerHandle> },
+) => React.ReactElement;
 
-export default LanguagePicker;
+export default OptionPicker;

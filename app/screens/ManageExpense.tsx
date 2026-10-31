@@ -175,7 +175,7 @@ export const ManageExpense = () => {
               dateIsValid ? "border-borderColor" : "border-error500",
             )}
           >
-            <Text>{expenseDate || "YYYY-MMM-DD"}</Text>
+            <Text className={expenseDate ? "text-mainColor" : "text-placeholderColor"}>{expenseDate || "YYYY-MMM-DD"}</Text>
             <TouchableOpacity
               className="absolute end-3 top-2.5"
               activeOpacity={0.7}

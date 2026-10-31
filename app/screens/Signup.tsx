@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  StatusBar,
 } from "react-native";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -24,7 +23,7 @@ import Visible from '../assets/svgs/eye.svg';
 import Invisible from '../assets/svgs/eye-off.svg';
 
 const inputWrapper = "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
-const textInput = `flex-1 text-left py-3 ${fonts.medium}`;
+const textInput = `flex-1 text-left py-3 text-mainColor ${fonts.medium}`;
 
 type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
@@ -72,7 +71,6 @@ export const Signup = ({ navigation }: SignupProps) => {
 
   return (
     <ScrollView contentContainerClassName="grow">
-      <StatusBar barStyle="dark-content" />
       <View className="flex-1 items-center bg-bgScreen">
         <View className="items-center">
           <Image
@@ -92,6 +90,7 @@ export const Signup = ({ navigation }: SignupProps) => {
               placeholder={i18n.t("fullName")}
               value={name}
               onChangeText={setName}
+              placeholderTextColorClassName="accent-placeholderColor"
               className={textInput}
             />
           </View>
@@ -103,6 +102,7 @@ export const Signup = ({ navigation }: SignupProps) => {
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
+              placeholderTextColorClassName="accent-placeholderColor"
               className={textInput}
             />
           </View>
@@ -113,6 +113,7 @@ export const Signup = ({ navigation }: SignupProps) => {
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!isPasswordVisible}
+              placeholderTextColorClassName="accent-placeholderColor"
               className={textInput}
             />
             <TouchableOpacity onPress={togglePasswordVisibility}>

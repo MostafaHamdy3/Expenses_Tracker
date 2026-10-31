@@ -6,6 +6,7 @@ import i18n from '../../assets/translation/config';
 
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { fonts } from '../../../src/theme/fonts';
+import { useTheme } from '../../../src/theme/useTheme';
 import { useUserStore } from '../../store/UserStore';
 import { Input } from '../common/Input';
 import { Button } from '../common/Button';
@@ -24,6 +25,7 @@ export type AddOrUpdateBudgetHandle = {
 const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetProps>(({ userBudget }, ref) => {
   const { addOrUpdateUserBudget } = useUserStore();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const { getThemeColor } = useTheme();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [budget, setBudget] = useState<number>(0);
@@ -70,9 +72,11 @@ const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetP
       snapPoints={['60%']}
       backdropComponent={renderBackdrop}
       enablePanDownToClose={true}
+      backgroundStyle={{ backgroundColor: getThemeColor("bgContainer") }}
+      handleIndicatorStyle={{ backgroundColor: getThemeColor("placeholderColor") }}
     >
       <StyledBottomSheetView className="p-5 flex-1">
-        <Text className={`text-center text-[20px] ${fonts.medium} mb-4`}>{i18n.t("specifyYourBudget")}</Text>
+        <Text className={`text-center text-[20px] text-mainColor ${fonts.medium} mb-4`}>{i18n.t("specifyYourBudget")}</Text>
         <Image
           source={require('../../assets/icons/specify_budget.jpg')}
           className="w-38.5 h-38.5 self-center rounded-3xl"

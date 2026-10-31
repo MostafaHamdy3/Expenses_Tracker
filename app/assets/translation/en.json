@@ -51,5 +51,10 @@
   "logout": "Log out",
   "confirmLogout": "Are you sure you want to log out?",
   "deviceLanguage": "Device language",
-  "chooseLanguage": "Choose language"
+  "chooseLanguage": "Choose language",
+  "theme": "Theme",
+  "chooseTheme": "Choose theme",
+  "systemTheme": "System",
+  "lightTheme": "Light",
+  "darkTheme": "Dark"
 }

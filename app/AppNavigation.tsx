@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { AppState, Platform, Text } from "react-native";
 import { reloadAppAsync } from "expo";
 import { getLocales } from "expo-localization";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as SplashScreen from "expo-splash-screen";
+import { useUniwind } from "uniwind";
 
 import { ExpenseItemProps } from "./components/ExpenseItem";
 import { Expenses } from "./screens/Expenses";
@@ -22,6 +27,7 @@ import SettingsIcon from "./assets/svgs/settings.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUserStore } from "./store/UserStore";
 import { getLanguagePreference } from "./utility/language";
+import { loadThemePreference } from "./utility/theme";
 import { fonts } from "../src/theme/fonts";
 import { useTheme } from "../src/theme/useTheme";
 
@@ -109,6 +115,20 @@ const AppNavigation = () => {
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
   const { getUserLanguage, saveUserLanguage } = useUserStore();
   const { getThemeColor } = useTheme();
+  const { theme } = useUniwind();
+
+  const baseNavigationTheme = theme === "dark" ? DarkTheme : DefaultTheme;
+  const navigationTheme = {
+    ...baseNavigationTheme,
+    colors: {
+      ...baseNavigationTheme.colors,
+      primary: getThemeColor("primaryColor"),
+      background: getThemeColor("bgScreen"),
+      card: getThemeColor("bgScreen"),
+      text: getThemeColor("mainColor"),
+      border: getThemeColor("borderColor"),
+    },
+  };
 
   // The language may have been changed from system settings, so keep the account in sync.
   const syncAccountLanguage = async () => {
@@ -120,6 +140,7 @@ const AppNavigation = () => {
 
   useEffect(() => {
     const checkLoginStatus = async () => {
+      await loadThemePreference();
       const token = await AsyncStorage.getItem("authToken");
       token ? setInitialRoute("ExpensesOverview") : setInitialRoute("Login");
       if (token) {
@@ -158,7 +179,7 @@ const AppNavigation = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navigationTheme}>
       <Stack.Navigator
         id={undefined}
         initialRouteName={initialRoute as keyof RootStackParamList}

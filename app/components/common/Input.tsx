@@ -16,6 +16,7 @@ export const Input = ({ label, textInputConfig, isInvalid, customStyle }: InputP
       <Text className={`text-[12px] ${fonts.medium} text-mainColor mb-1 mx-1`}>{label}</Text>
       <TextInput 
         {...textInputConfig}
+        placeholderTextColorClassName="accent-placeholderColor"
         className={cn(
           `text-left text-[17px] ${fonts.medium} text-mainColor bg-bgContainer py-2 px-3 rounded-lg border border-borderColor`,
           isInvalid && "border-error500",

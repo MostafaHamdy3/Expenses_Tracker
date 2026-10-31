@@ -13,25 +13,44 @@ import { useUserStore } from "../store/UserStore";
 import { NavigationHeader } from "../components/common/NavigationHeader";
 import { SettingsRow } from "../components/SettingsRow";
 import { ConfirmModal } from "../components/modals/ConfirmModal";
-import LanguagePicker, {
-  LanguagePickerHandle,
-} from "../components/modals/LanguagePicker";
+import OptionPicker, {
+  OptionPickerHandle,
+  PickerOption,
+} from "../components/modals/OptionPicker";
 import {
   LanguagePreference,
   applyLanguagePreference,
   getLanguagePreference,
   languageNames,
 } from "../utility/language";
+import {
+  ThemePreference,
+  applyThemePreference,
+  getThemePreference,
+} from "../utility/theme";
 import appConfig from "../../app.json";
 import Mail from "../assets/svgs/mail.svg";
 import Banknote from "../assets/svgs/banknote-arrow-down.svg";
 import Languages from "../assets/svgs/languages.svg";
+import SunMoon from "../assets/svgs/sun-moon.svg";
 import Info from "../assets/svgs/info.svg";
 import Logout from "../assets/svgs/log-out.svg";
 
 const sectionTitle = `text-[14px] text-placeholderColor ${fonts.medium} mt-3 mb-1.5 mx-1`;
 const section =
   "bg-bgContainer border border-borderColor rounded-xl overflow-hidden";
+
+const languageOptions: PickerOption<LanguagePreference>[] = [
+  { value: "system", label: () => i18n.t("deviceLanguage") },
+  { value: "ar", label: () => languageNames.ar },
+  { value: "en", label: () => languageNames.en },
+];
+
+const themeOptions: PickerOption<ThemePreference>[] = [
+  { value: "system", label: () => i18n.t("systemTheme") },
+  { value: "light", label: () => i18n.t("lightTheme") },
+  { value: "dark", label: () => i18n.t("darkTheme") },
+];
 
 const Settings = () => {
   const navigation =
@@ -44,7 +63,10 @@ const Settings = () => {
     getLanguagePreference,
   );
 
-  const languagePickerRef = useRef<LanguagePickerHandle>(null);
+  const [theme, setTheme] = useState<ThemePreference>(getThemePreference);
+
+  const languagePickerRef = useRef<OptionPickerHandle>(null);
+  const themePickerRef = useRef<OptionPickerHandle>(null);
 
   useEffect(
     () => onAuthStateChanged(auth, (user) => setEmail(user?.email ?? "")),
@@ -62,6 +84,12 @@ const Settings = () => {
     setLanguage(selected);
     await saveUserLanguage(selected);
     await applyLanguagePreference(selected);
+  };
+
+  const changeThemeHandler = async (selected: ThemePreference) => {
+    if (selected === theme) return;
+    setTheme(selected);
+    await applyThemePreference(selected);
   };
 
   const budgetHandler = () => {
@@ -89,10 +117,19 @@ const Settings = () => {
         isLoading={false}
         title={i18n.t("confirmLogout")}
       />
-      <LanguagePicker
+      <OptionPicker
         ref={languagePickerRef}
+        title={i18n.t("chooseLanguage")}
+        options={languageOptions}
         selected={language}
         onSelect={changeLanguageHandler}
+      />
+      <OptionPicker
+        ref={themePickerRef}
+        title={i18n.t("chooseTheme")}
+        options={themeOptions}
+        selected={theme}
+        onSelect={changeThemeHandler}
       />
       <ScrollView contentContainerClassName="px-[4%] py-4">
         <Text className={sectionTitle}>{i18n.t("account")}</Text>
@@ -123,6 +160,13 @@ const Settings = () => {
                 : languageNames[language]
             }
             onPress={() => languagePickerRef.current?.present()}
+          />
+          <View className="h-px bg-borderColor mx-4" />
+          <SettingsRow
+            Icon={SunMoon}
+            label={i18n.t("theme")}
+            value={themeOptions.find(({ value }) => value === theme)?.label()}
+            onPress={() => themePickerRef.current?.present()}
           />
         </View>
 

@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  StatusBar,
 } from "react-native";
 
 import i18n from "../assets/translation/config";
@@ -29,7 +28,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const inputWrapper = "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
-const textInput = `flex-1 text-left py-3 text-[16px] ${fonts.medium}`;
+const textInput = `flex-1 text-left py-3 text-[16px] text-mainColor ${fonts.medium}`;
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -89,7 +88,6 @@ export const Login = ({ navigation }: LoginProps) => {
 
   return (
     <View className="flex-1 items-center bg-bgScreen">
-      <StatusBar barStyle="dark-content" />
       <View className="items-center">
         <Image
           source={require("../assets/icons/logo.png")}

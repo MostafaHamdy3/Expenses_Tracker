@@ -4,24 +4,43 @@
 /*
  * Design tokens. Each --color-* / --font-* / --shadow-* variable becomes a utility
  * (bg-primaryColor, font-ar-medium, shadow-card, ...).
- * The app is light-only, so colors are declared once here. When dark mode is added,
- * move them into `@layer theme { :root { @variant light {...} @variant dark {...} } }`.
+ * Colors are declared per theme; both themes must define the same variables.
  * Keep src/theme/colors.ts in sync with the color list.
  */
-@theme static {
-  --color-bgScreen: #f5f5f5;
-  --color-bgContainer: #fff;
-  --color-borderColor: #dbdbdb;
-  --color-mainColor: #333;
-  --color-white: #eee;
-  --color-primaryColor: #2f9e44;
-  --color-lightBg: #34c04b;
-  --color-darkBg: #087f5b;
-  --color-shadowColor: #39324a;
-  --color-error500: #d40e0e;
-  --color-secondaryColor: #048abf;
-  --color-placeholderColor: #999;
-  --color-overlay: rgb(0 0 0 / 0.5);
+@layer theme {
+  :root {
+    @variant light {
+      --color-bgScreen: #f5f5f5;
+      --color-bgContainer: #fff;
+      --color-borderColor: #dbdbdb;
+      --color-mainColor: #333;
+      --color-white: #eee;
+      --color-primaryColor: #2f9e44;
+      --color-lightBg: #34c04b;
+      --color-darkBg: #087f5b;
+      --color-shadowColor: #39324a;
+      --color-error500: #d40e0e;
+      --color-secondaryColor: #048abf;
+      --color-placeholderColor: #999;
+      --color-overlay: rgb(0 0 0 / 0.5);
+    }
+
+    @variant dark {
+      --color-bgScreen: #121212;
+      --color-bgContainer: #1e1e1e;
+      --color-borderColor: #333;
+      --color-mainColor: #e6e6e6;
+      --color-white: #eee;
+      --color-primaryColor: #2f9e44;
+      --color-lightBg: #34c04b;
+      --color-darkBg: #087f5b;
+      --color-shadowColor: #000;
+      --color-error500: #ff5c5c;
+      --color-secondaryColor: #3bb0e0;
+      --color-placeholderColor: #888;
+      --color-overlay: rgb(0 0 0 / 0.6);
+    }
+  }
 }
 
 @theme {

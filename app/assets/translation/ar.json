@@ -51,5 +51,10 @@
   "logout": "تسجيل الخروج",
   "confirmLogout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "deviceLanguage": "لغة الجهاز",
-  "chooseLanguage": "اختر اللغة"
+  "chooseLanguage": "اختر اللغة",
+  "theme": "المظهر",
+  "chooseTheme": "اختر المظهر",
+  "systemTheme": "حسب الجهاز",
+  "lightTheme": "فاتح",
+  "darkTheme": "داكن"
 }
