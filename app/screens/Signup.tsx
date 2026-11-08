@@ -16,16 +16,20 @@ import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
 import { fonts } from "../../src/theme/fonts";
 import { useTheme } from "../../src/theme/useTheme";
-import Person from '../assets/svgs/circle-user-round.svg';
-import Mail from '../assets/svgs/mail.svg';
-import Lock from '../assets/svgs/lock-keyhole.svg';
-import Visible from '../assets/svgs/eye.svg';
-import Invisible from '../assets/svgs/eye-off.svg';
+import Person from "../assets/svgs/circle-user-round.svg";
+import Mail from "../assets/svgs/mail.svg";
+import Lock from "../assets/svgs/lock-keyhole.svg";
+import Visible from "../assets/svgs/eye.svg";
+import Invisible from "../assets/svgs/eye-off.svg";
 
-const inputWrapper = "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
-const textInput = `flex-1 text-left py-3 text-mainColor ${fonts.medium}`;
+const inputWrapper =
+  "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
+const textInput = `flex-1 py-3 text-mainColor ${fonts.medium}`;
 
-type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
+type SignupScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Signup"
+>;
 
 interface SignupProps {
   navigation: SignupScreenNavigationProp;
@@ -46,7 +50,7 @@ export const Signup = ({ navigation }: SignupProps) => {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const user = userCredential.user;
       if (user) {
@@ -80,12 +84,20 @@ export const Signup = ({ navigation }: SignupProps) => {
           />
         </View>
         <View className="items-center">
-          <Text className={`text-mainColor text-[26px] ${fonts.bold}`}>{i18n.t("createAccount")}</Text>
-          <Text className={`text-mainColor text-[12px] ${fonts.medium} mt-1.5`}>{i18n.t("fillDetails")}</Text>
+          <Text className={`text-mainColor text-[26px] ${fonts.bold}`}>
+            {i18n.t("createAccount")}
+          </Text>
+          <Text className={`text-mainColor text-[12px] ${fonts.medium} mt-1.5`}>
+            {i18n.t("fillDetails")}
+          </Text>
         </View>
         <View className="w-[86%] mt-6 gap-3 mb-6">
           <View className={inputWrapper}>
-            <Person width={20} height={20} color={getThemeColor("primaryColor")} />
+            <Person
+              width={20}
+              height={20}
+              color={getThemeColor("primaryColor")}
+            />
             <TextInput
               placeholder={i18n.t("fullName")}
               value={name}
@@ -95,7 +107,11 @@ export const Signup = ({ navigation }: SignupProps) => {
             />
           </View>
           <View className={inputWrapper}>
-            <Mail width={20} height={20} color={getThemeColor("primaryColor")} />
+            <Mail
+              width={20}
+              height={20}
+              color={getThemeColor("primaryColor")}
+            />
             <TextInput
               placeholder={i18n.t("email")}
               value={email}
@@ -107,7 +123,11 @@ export const Signup = ({ navigation }: SignupProps) => {
             />
           </View>
           <View className={inputWrapper}>
-            <Lock width={20} height={20} color={getThemeColor("primaryColor")} />
+            <Lock
+              width={20}
+              height={20}
+              color={getThemeColor("primaryColor")}
+            />
             <TextInput
               placeholder={i18n.t("password")}
               value={password}
@@ -118,16 +138,28 @@ export const Signup = ({ navigation }: SignupProps) => {
             />
             <TouchableOpacity onPress={togglePasswordVisibility}>
               {isPasswordVisible ? (
-                <Visible width={20} height={20} color={getThemeColor("primaryColor")} />
+                <Visible
+                  width={20}
+                  height={20}
+                  color={getThemeColor("primaryColor")}
+                />
               ) : (
-                <Invisible width={20} height={20} color={getThemeColor("placeholderColor")} />
+                <Invisible
+                  width={20}
+                  height={20}
+                  color={getThemeColor("placeholderColor")}
+                />
               )}
             </TouchableOpacity>
           </View>
           <View className="flex-row gap-1.5 mb-3">
-            <Text className={`text-mainColor ${fonts.medium}`}>{i18n.t("haveAccount")}</Text>
+            <Text className={`text-mainColor ${fonts.medium}`}>
+              {i18n.t("haveAccount")}
+            </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text className={`text-primaryColor ${fonts.medium}`}>{i18n.t("login")}</Text>
+              <Text className={`text-primaryColor ${fonts.medium}`}>
+                {i18n.t("login")}
+              </Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={handleSignup}>
@@ -135,13 +167,17 @@ export const Signup = ({ navigation }: SignupProps) => {
               <Indicator />
             ) : (
               <View className="items-center bg-primaryColor py-3.5 rounded-xl mt-8">
-                <Text className={`text-white text-[15px] ${fonts.medium}`}>{i18n.t("signUp")}</Text>
+                <Text className={`text-white text-[15px] ${fonts.medium}`}>
+                  {i18n.t("signUp")}
+                </Text>
               </View>
             )}
           </TouchableOpacity>
           {isSignupMessage && (
             <View className="justify-center items-start mt-2">
-              <Text className={`text-error500 ${fonts.regular}`}>{isSignupMessage}</Text>
+              <Text className={`text-error500 ${fonts.regular}`}>
+                {isSignupMessage}
+              </Text>
             </View>
           )}
         </View>

@@ -28,7 +28,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const inputWrapper = "flex-row items-center gap-2.5 bg-bgContainer px-4 rounded-xl";
-const textInput = `flex-1 text-left py-3 text-[16px] text-mainColor ${fonts.medium}`;
+const textInput = `flex-1 py-3 text-[16px] text-mainColor ${fonts.medium}`;
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
