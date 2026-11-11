@@ -11,7 +11,7 @@ import i18n from "../assets/translation/config";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
 import { Indicator } from "../components/common/Indicator";
-import { useUserStore } from "../store/UserStore";
+import { getUserLanguage, saveUserLanguage } from "../api/user";
 import {
   applyLanguagePreference,
   getLanguagePreference,
@@ -45,7 +45,6 @@ export const Login = ({ navigation }: LoginProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoginFailed, setIsLoginFailed] = useState<boolean>(false);
-  const { getUserLanguage, saveUserLanguage } = useUserStore();
   const { getThemeColor } = useTheme();
 
   const syncAccountLanguage = async () => {

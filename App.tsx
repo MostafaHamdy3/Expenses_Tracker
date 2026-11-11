@@ -8,19 +8,23 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AppNavigation from "./app/AppNavigation";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./app/api/queryClient";
 
 const StyledGestureHandlerRootView = withUniwind(GestureHandlerRootView);
 const StyledSafeAreaView = withUniwind(SafeAreaView);
 
 export default function App() {
   return (
-    <StyledGestureHandlerRootView className="flex-1">
-      <StatusBar style="auto" />
-      <StyledSafeAreaView edges={["bottom"]} className="flex-1 bg-bgScreen">
-        <BottomSheetModalProvider>
-          <AppNavigation />
-        </BottomSheetModalProvider>
-      </StyledSafeAreaView>
-    </StyledGestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <StyledGestureHandlerRootView className="flex-1">
+        <StatusBar style="auto" />
+        <StyledSafeAreaView edges={["bottom"]} className="flex-1 bg-bgScreen">
+          <BottomSheetModalProvider>
+            <AppNavigation />
+          </BottomSheetModalProvider>
+        </StyledSafeAreaView>
+      </StyledGestureHandlerRootView>
+    </QueryClientProvider>
   );
 }

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import i18n from "../assets/translation/config";
-import { useExpenseStore } from "../store/ExpenseStore";
+import { useExpenses, useExpensesTotal } from "../api/expenses";
 import { NavigationHeader } from "../components/common/NavigationHeader";
 import { Indicator } from "../components/common/Indicator";
 import { ExpensesPeriod, nFormatter } from "../utility/utility";
@@ -19,33 +19,29 @@ const FILTERS: { period: ExpensesPeriod; label: string; fallBackText: string }[]
 const totalText = "text-[18px] font-num-bold text-primaryColor";
 
 export const Expenses = () => {
-  const {
-    expenses,
-    total,
-    isLoadingMore,
-    fetchExpenses,
-    fetchMoreExpenses,
-  } = useExpenseStore();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [period, setPeriod] = useState<ExpensesPeriod>("all");
 
-  useEffect(() => {
-    let isActive = true;
-    const fetchData = async () => {
-      setIsLoading(true);
-      await fetchExpenses(period);
-      isActive && setIsLoading(false);
-    }
-    fetchData();
-    return () => { isActive = false };
-  }, [period]);
+  const {
+    expenses,
+    isPending,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useExpenses(period);
+  const { data: total = 0, refetch: refetchTotal } = useExpensesTotal(period);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchExpenses(period);
+    await Promise.all([refetch(), refetchTotal()]);
     setRefreshing(false);
+  };
+
+  const onEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
   };
 
   const activeFilter = FILTERS.find((filter) => filter.period === period);
@@ -81,7 +77,7 @@ export const Expenses = () => {
           <Text className={totalText}>{nFormatter(+total)}</Text>
         </View>
       </View>
-      {isLoading ? (
+      {isPending ? (
         <Indicator customStyle="mb-[20%]" />
       ) : (
         <ExpensesOutput
@@ -89,8 +85,8 @@ export const Expenses = () => {
           fallBackText={i18n.t(activeFilter.fallBackText)}
           refreshing={refreshing}
           onRefresh={onRefresh}
-          onEndReached={fetchMoreExpenses}
-          isLoadingMore={isLoadingMore}
+          onEndReached={onEndReached}
+          isLoadingMore={isFetchingNextPage}
         />
       )}
     </View>

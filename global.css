@@ -20,6 +20,7 @@
       --color-darkBg: #087f5b;
       --color-shadowColor: #39324a;
       --color-error500: #d40e0e;
+      --color-warning: #e67700;
       --color-secondaryColor: #048abf;
       --color-placeholderColor: #999;
       --color-overlay: rgb(0 0 0 / 0.5);
@@ -36,6 +37,7 @@
       --color-darkBg: #087f5b;
       --color-shadowColor: #000;
       --color-error500: #ff5c5c;
+      --color-warning: #ffa94d;
       --color-secondaryColor: #3bb0e0;
       --color-placeholderColor: #888;
       --color-overlay: rgb(0 0 0 / 0.6);

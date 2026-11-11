@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { onAuthStateChanged } from "firebase/auth";
@@ -9,7 +9,8 @@ import i18n from "../assets/translation/config";
 import { fonts } from "../../src/theme/fonts";
 import { RootStackParamList } from "../AppNavigation";
 import { auth } from "../../FirebaseConfig";
-import { useUserStore } from "../store/UserStore";
+import { queryClient } from "../api/queryClient";
+import { saveUserLanguage, useUserBudget } from "../api/user";
 import { NavigationHeader } from "../components/common/NavigationHeader";
 import { SettingsRow } from "../components/SettingsRow";
 import { ConfirmModal } from "../components/modals/ConfirmModal";
@@ -28,6 +29,7 @@ import {
   applyThemePreference,
   getThemePreference,
 } from "../utility/theme";
+import { formatMoney } from "../utility/utility";
 import appConfig from "../../app.json";
 import Mail from "../assets/svgs/mail.svg";
 import Banknote from "../assets/svgs/banknote-arrow-down.svg";
@@ -55,7 +57,7 @@ const themeOptions: PickerOption<ThemePreference>[] = [
 const Settings = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { userBudget, getUserBudget, saveUserLanguage } = useUserStore();
+  const { data: userBudget = 0 } = useUserBudget();
 
   const [email, setEmail] = useState<string>(auth.currentUser?.email ?? "");
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
@@ -71,12 +73,6 @@ const Settings = () => {
   useEffect(
     () => onAuthStateChanged(auth, (user) => setEmail(user?.email ?? "")),
     [],
-  );
-
-  useFocusEffect(
-    useCallback(() => {
-      getUserBudget();
-    }, []),
   );
 
   const changeLanguageHandler = async (selected: LanguagePreference) => {
@@ -100,6 +96,7 @@ const Settings = () => {
     try {
       await AsyncStorage.removeItem("authToken");
       await AsyncStorage.removeItem("userId");
+      queryClient.clear();
       setShowLogoutModal(false);
       navigation.replace("Login");
     } catch (error) {
@@ -143,7 +140,7 @@ const Settings = () => {
           <SettingsRow
             Icon={Banknote}
             label={i18n.t("monthlyBudget")}
-            value={userBudget ? `$${userBudget}` : i18n.t("notSet")}
+            value={userBudget ? formatMoney(userBudget) : i18n.t("notSet")}
             valueStyle={userBudget ? "font-num-medium" : undefined}
             onPress={budgetHandler}
           />

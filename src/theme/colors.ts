@@ -10,6 +10,7 @@ export const themeColors = [
   "darkBg",
   "shadowColor",
   "error500",
+  "warning",
   "secondaryColor",
   "placeholderColor",
   "overlay",

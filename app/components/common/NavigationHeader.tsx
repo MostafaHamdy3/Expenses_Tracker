@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { isRTL } from '../../assets/translation/resources';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../AppNavigation';
+import { queryClient } from '../../api/queryClient';
 import { fonts } from '../../../src/theme/fonts';
 import { useTheme } from '../../../src/theme/useTheme';
 import ArrowBack from '../../assets/svgs/arrow-right.svg';
@@ -31,6 +32,7 @@ export const NavigationHeader = ({ title, showArrow, showLogoutIcon }: Navigatio
     try {
       await AsyncStorage.removeItem("authToken");
       await AsyncStorage.removeItem("userId");
+      queryClient.clear();
       navigation.replace("Login");
     } catch (error) {
       console.error('Logout error:', error);

@@ -25,7 +25,7 @@ import Banknote from "./assets/svgs/banknote-arrow-down.svg";
 import Coins from "./assets/svgs/hand-coins.svg";
 import SettingsIcon from "./assets/svgs/settings.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useUserStore } from "./store/UserStore";
+import { getUserLanguage, saveUserLanguage } from "./api/user";
 import { getLanguagePreference } from "./utility/language";
 import { loadThemePreference } from "./utility/theme";
 import { fonts } from "../src/theme/fonts";
@@ -113,7 +113,6 @@ function BottomTabsExpenses() {
 
 const AppNavigation = () => {
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
-  const { getUserLanguage, saveUserLanguage } = useUserStore();
   const { getThemeColor } = useTheme();
   const { theme } = useUniwind();
 
