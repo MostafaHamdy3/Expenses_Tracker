@@ -1,14 +1,20 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { Image, Text } from 'react-native'
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react'
+import { Text, View } from 'react-native'
 import { withUniwind } from 'uniwind';
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  BottomSheetTextInput,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import i18n from '../../assets/translation/config';
-
-import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { cn } from '../../../src/utils/cn';
 import { fonts } from '../../../src/theme/fonts';
 import { useTheme } from '../../../src/theme/useTheme';
-import { useUserStore } from '../../store/UserStore';
-import { Input } from '../common/Input';
+import { useSaveUserBudget } from '../../hooks/useUser';
 import { Button } from '../common/Button';
 
 type AddOrUpdateBudgetProps = {
@@ -16,6 +22,7 @@ type AddOrUpdateBudgetProps = {
 };
 
 const StyledBottomSheetView = withUniwind(BottomSheetView);
+const StyledBottomSheetTextInput = withUniwind(BottomSheetTextInput);
 
 export type AddOrUpdateBudgetHandle = {
   present: () => void;
@@ -23,44 +30,54 @@ export type AddOrUpdateBudgetHandle = {
 };
 
 const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetProps>(({ userBudget }, ref) => {
-  const { addOrUpdateUserBudget } = useUserStore();
+  const { mutateAsync: saveUserBudget, isPending: loading } = useSaveUserBudget();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { getThemeColor } = useTheme();
+  const insets = useSafeAreaInsets();
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [budget, setBudget] = useState<number>(0);
-
-  useEffect(() => {
-    setBudget(userBudget || 0);
-  }, [userBudget]);
+  const [budget, setBudget] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   const present = useCallback(() => {
+    // Start from the saved budget each time the sheet opens.
+    setBudget(userBudget > 0 ? String(userBudget) : '');
+    setIsValid(true);
     bottomSheetRef.current?.present();
-  }, []);
+  }, [userBudget]);
 
   const dismiss = useCallback(() => {
     bottomSheetRef.current?.dismiss();
   }, []);
 
-  useImperativeHandle(ref, () => ({
-    present,
-    dismiss
-  }));
+  useImperativeHandle(ref, () => ({ present, dismiss }), [present, dismiss]);
 
-  const updateUserBudget = async () => {
-    setLoading(true);
-    await addOrUpdateUserBudget(budget);
-    dismiss();
-    setLoading(false);
-  }
+  const onChangeBudget = (value: string) => {
+    // Accept "," or "٫" as decimal separator, keep a single dot and up to 2 decimals
+    const normalized = value.replace(/[,٫]/g, '.').replace(/[^0-9.]/g, '');
+    if (!/^\d*\.?\d{0,2}$/.test(normalized)) return;
+    setBudget(normalized);
+    !isValid && setIsValid(true);
+  };
+
+  const amount = parseFloat(budget);
+  const isChanged = amount !== userBudget;
+
+  const saveBudget = async () => {
+    if (isNaN(amount) || amount <= 0) {
+      setIsValid(false);
+      return;
+    }
+    try {
+      await saveUserBudget(amount);
+      dismiss();
+    } catch (err) {
+      console.log("saveUserBudget ERROR ==>", err);
+    }
+  };
 
   const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-      />
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
     ),
     []
   );
@@ -68,37 +85,58 @@ const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetP
   return (
     <BottomSheetModal
       ref={bottomSheetRef}
-      index={0}
-      snapPoints={['60%']}
       backdropComponent={renderBackdrop}
-      enablePanDownToClose={true}
-      backgroundStyle={{ backgroundColor: getThemeColor("bgContainer") }}
-      handleIndicatorStyle={{ backgroundColor: getThemeColor("placeholderColor") }}
+      enablePanDownToClose
+      keyboardBehavior="interactive"
+      keyboardBlurBehavior="restore"
+      android_keyboardInputMode="adjustResize"
+      backgroundStyle={{ backgroundColor: getThemeColor('bgContainer') }}
+      handleIndicatorStyle={{ backgroundColor: getThemeColor('placeholderColor') }}
     >
-      <StyledBottomSheetView className="p-5 flex-1">
-        <Text className={`text-center text-[20px] text-mainColor ${fonts.medium} mb-4`}>{i18n.t("specifyYourBudget")}</Text>
-        <Image
-          source={require('../../assets/icons/specify_budget.jpg')}
-          className="w-38.5 h-38.5 self-center rounded-3xl"
-        />
-        <Text className={`text-center text-[16px] ${fonts.regular} text-mainColor mt-6`}>{i18n.t("specifyDescription")}</Text>
-        <Input
-          textInputConfig={{
-            placeholder: i18n.t("enterBudgetAmount"),
-            keyboardType:"numeric",
-            value: budget.toString(),
-            onChangeText: (text) => setBudget(Number(text) || 0)
-          }}
-          isInvalid={false}
-          customStyle="text-center text-[20px]"
-        />
+      <StyledBottomSheetView className="px-5 pt-2" style={{ paddingBottom: insets.bottom + 20 }}>
+        <Text className={`text-center text-[20px] text-mainColor ${fonts.bold}`}>
+          {i18n.t('specifyYourBudget')}
+        </Text>
+        <Text className={`text-center text-[15px] text-placeholderColor ${fonts.regular} mt-1.5`}>
+          {i18n.t('specifyDescription')}
+        </Text>
+
+        <View
+          className={cn(
+            'flex-row items-center justify-center mt-6 py-5 rounded-2xl border bg-bgScreen',
+            isValid ? 'border-borderColor' : 'border-error500',
+          )}
+          style={{ direction: 'ltr' }}
+        >
+          <Text className={cn('text-[28px] font-num-bold me-1', budget ? 'text-primaryColor' : 'text-placeholderColor')}>
+            $
+          </Text>
+          <StyledBottomSheetTextInput
+            value={budget}
+            onChangeText={onChangeBudget}
+            placeholder="0"
+            placeholderTextColor={getThemeColor('placeholderColor')}
+            selectionColor={getThemeColor('primaryColor')}
+            keyboardType="decimal-pad"
+            maxLength={9}
+            autoFocus
+            className="min-w-16 p-0 text-[40px] font-num-bold text-mainColor text-center"
+            style={{ includeFontPadding: false }}
+          />
+        </View>
+        {!isValid && (
+          <Text className={`text-[13px] text-error500 ${fonts.medium} mt-2 mx-1`}>
+            {i18n.t('budgetError')}
+          </Text>
+        )}
+
         <Button
-          btnText={i18n.t("save")}
-          onPress={updateUserBudget}
-          textStyle="text-[18px]"
-          customStyle="w-full h-13.5 self-center"
+          btnText={i18n.t('save')}
+          onPress={saveBudget}
+          textStyle={`text-[16px] ${fonts.bold}`}
+          customStyle={cn('w-full h-13 m-0 mt-5 rounded-2xl', !isChanged && 'opacity-50')}
           isLoading={loading}
-          disabled={loading}
+          disabled={loading || !isChanged}
         />
       </StyledBottomSheetView>
     </BottomSheetModal>

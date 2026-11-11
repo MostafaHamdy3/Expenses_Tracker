@@ -3,7 +3,7 @@ import { Pressable, Text, View } from "react-native";
 
 import { ExpensesOutput } from "../components/ExpensesOutput";
 import i18n from "../assets/translation/config";
-import { useExpenses, useExpensesTotal } from "../api/expenses";
+import { useExpenses, useExpensesTotal } from "../hooks/useExpenses";
 import { NavigationHeader } from "../components/common/NavigationHeader";
 import { Indicator } from "../components/common/Indicator";
 import { ExpensesPeriod, nFormatter } from "../utility/utility";
