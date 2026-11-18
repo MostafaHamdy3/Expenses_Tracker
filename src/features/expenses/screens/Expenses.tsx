@@ -1,0 +1,91 @@
+import React, { useState } from "react";
+import { Pressable, Text, View } from "react-native";
+
+import { ExpensesOutput } from "../components/ExpensesOutput";
+import i18n from "../../../shared/i18n/config";
+import { useExpenses, useExpensesTotal } from "../hooks/useExpenses";
+import { NavigationHeader } from "../../../shared/components/NavigationHeader";
+import { Indicator } from "../../../shared/components/Indicator";
+import { ExpensesPeriod, formatCompactMoney } from "../../../shared/utils/utility";
+import { cn } from "../../../shared/utils/cn";
+import { fonts } from "../../../shared/theme/fonts";
+
+const FILTERS: { period: ExpensesPeriod; label: string; fallBackText: string }[] = [
+  { period: "all", label: "all", fallBackText: "noExpenses" },
+  { period: "year", label: "thisYear", fallBackText: "noExpensesThisYear" },
+  { period: "month", label: "thisMonth", fallBackText: "noExpensesThisMonth" },
+];
+
+const totalText = "text-[18px] font-num-bold text-primaryColor";
+
+export const Expenses = () => {
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [period, setPeriod] = useState<ExpensesPeriod>("all");
+
+  const {
+    expenses,
+    isPending,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useExpenses(period);
+  const { data: total = 0, refetch: refetchTotal } = useExpensesTotal(period);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await Promise.all([refetch(), refetchTotal()]);
+    setRefreshing(false);
+  };
+
+  const onEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const activeFilter = FILTERS.find((filter) => filter.period === period);
+
+  return (
+    <View className="flex-1 bg-bgScreen">
+      <NavigationHeader
+        title={i18n.t("Expenses")}
+        showLogoutIcon={true}
+      />
+      <View className="flex-row justify-between items-center mx-4 mt-4 mb-2 gap-2">
+        <View className="flex-row gap-1.5">
+          {FILTERS.map((filter) => {
+            const isActive = filter.period === period;
+            return (
+              <Pressable
+                key={filter.period}
+                onPress={() => setPeriod(filter.period)}
+                className={cn(
+                  "px-3 py-1.5 rounded-2xl border border-borderColor bg-bgContainer",
+                  isActive && "bg-primaryColor border-primaryColor",
+                )}
+              >
+                <Text className={cn(`text-[13px] ${fonts.medium} text-mainColor`, isActive && "text-white")}>
+                  {i18n.t(filter.label)}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+        <Text className={totalText}>{formatCompactMoney(+total)}</Text>
+      </View>
+      {isPending ? (
+        <Indicator customStyle="mb-[20%]" />
+      ) : (
+        <ExpensesOutput
+          expenses={expenses}
+          fallBackText={i18n.t(activeFilter.fallBackText)}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          onEndReached={onEndReached}
+          isLoadingMore={isFetchingNextPage}
+        />
+      )}
+    </View>
+  );
+}

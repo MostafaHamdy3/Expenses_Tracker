@@ -4,11 +4,11 @@
     "slug": "ExpenseTracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icons/logo.png",
+    "icon": "./src/assets/icons/logo.png",
     "userInterfaceStyle": "automatic",
     "locales": {
-      "en": "./app/assets/translation/native/en.json",
-      "ar": "./app/assets/translation/native/ar.json"
+      "en": "./src/shared/i18n/native/en.json",
+      "ar": "./src/shared/i18n/native/ar.json"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -31,14 +31,14 @@
       "package": "com.mostafa7amdy.ExpenseTracker"
     },
     "web": {
-      "favicon": "./app/assets/icons/logo.png"
+      "favicon": "./src/assets/icons/logo.png"
     },
     "extra": {},
     "plugins": [
       [
         "expo-splash-screen",
         {
-          "image": "./app/assets/icons/Expenses_logo.png",
+          "image": "./src/assets/icons/Expenses_logo.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "imageWidth": 150
