@@ -20,7 +20,7 @@ import { appLanguage, isRTL } from "../assets/translation/resources";
 import { cn } from "../../src/utils/cn";
 import { fonts } from "../../src/theme/fonts";
 import { useTheme } from "../../src/theme/useTheme";
-import { getFormattedDate } from "../utility/utility";
+import { CURRENCY_SYMBOL, getFormattedDate } from "../utility/utility";
 import { ExpenseItemWithId } from "../api/expenses";
 import {
   useAddExpense,
@@ -210,14 +210,6 @@ export const ManageExpense = () => {
               {i18n.t("amount")}
             </Text>
             <View className="flex-row items-center justify-center" style={{ direction: "ltr" }}>
-              <Text
-                className={cn(
-                  "text-[30px] font-num-bold me-1",
-                  expenseAmount ? "text-primaryColor" : "text-placeholderColor",
-                )}
-              >
-                $
-              </Text>
               <TextInput
                 ref={amountInputRef}
                 value={expenseAmount}
@@ -232,6 +224,14 @@ export const ManageExpense = () => {
                 className="min-w-20 p-0 text-[44px] font-num-bold text-mainColor text-center"
                 style={{ includeFontPadding: false }}
               />
+              <Text
+                className={cn(
+                  "text-[30px] font-num-bold ms-2",
+                  expenseAmount ? "text-primaryColor" : "text-placeholderColor",
+                )}
+              >
+                {CURRENCY_SYMBOL}
+              </Text>
             </View>
           </Pressable>
           {!amountIsValid && <Text className={errorText}>{i18n.t("amountError")}</Text>}

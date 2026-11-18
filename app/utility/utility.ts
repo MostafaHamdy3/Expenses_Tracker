@@ -1,3 +1,7 @@
+import { appLanguage } from "../assets/translation/resources";
+
+export const CURRENCY_SYMBOL = appLanguage === "ar" ? "ج.م" : "EGP";
+
 export const nFormatter = (num: number) => {
   const lookup = [
     { value: 1, symbol: "" },
@@ -14,7 +18,7 @@ export const nFormatter = (num: number) => {
     .find(function (item) {
       return num >= item.value;
     });
-  return item ? (num / item.value).toFixed(2) + item.symbol : "0.00";
+  return item ? (num / item.value).toFixed(2) + item.symbol : num.toFixed(2);
 };
 
 export const getFormattedDate = (date: number) => {
@@ -31,8 +35,11 @@ export const formatMoney = (value: number) => {
   const abs = Math.abs(value).toLocaleString("en-US", {
     maximumFractionDigits: 2,
   });
-  return `${value < 0 ? "-" : ""}$${abs}`;
+  return `${value < 0 ? "-" : ""}${abs} ${CURRENCY_SYMBOL}`;
 };
+
+export const formatCompactMoney = (value: number) =>
+  `${nFormatter(value)} ${CURRENCY_SYMBOL}`;
 
 export type ExpensesPeriod = "all" | "year" | "month";
 

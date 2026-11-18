@@ -6,7 +6,7 @@ import i18n from "../assets/translation/config";
 import { useExpenses, useExpensesTotal } from "../hooks/useExpenses";
 import { NavigationHeader } from "../components/common/NavigationHeader";
 import { Indicator } from "../components/common/Indicator";
-import { ExpensesPeriod, nFormatter } from "../utility/utility";
+import { ExpensesPeriod, formatCompactMoney } from "../utility/utility";
 import { cn } from "../../src/utils/cn";
 import { fonts } from "../../src/theme/fonts";
 
@@ -72,10 +72,7 @@ export const Expenses = () => {
             );
           })}
         </View>
-        <View className="flex-row-reverse gap-1">
-          <Text className={totalText}>$</Text>
-          <Text className={totalText}>{nFormatter(+total)}</Text>
-        </View>
+        <Text className={totalText}>{formatCompactMoney(+total)}</Text>
       </View>
       {isPending ? (
         <Indicator customStyle="mb-[20%]" />

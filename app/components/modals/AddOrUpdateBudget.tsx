@@ -15,6 +15,7 @@ import { cn } from '../../../src/utils/cn';
 import { fonts } from '../../../src/theme/fonts';
 import { useTheme } from '../../../src/theme/useTheme';
 import { useSaveUserBudget } from '../../hooks/useUser';
+import { CURRENCY_SYMBOL } from '../../utility/utility';
 import { Button } from '../common/Button';
 
 type AddOrUpdateBudgetProps = {
@@ -108,9 +109,6 @@ const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetP
           )}
           style={{ direction: 'ltr' }}
         >
-          <Text className={cn('text-[28px] font-num-bold me-1', budget ? 'text-primaryColor' : 'text-placeholderColor')}>
-            $
-          </Text>
           <StyledBottomSheetTextInput
             value={budget}
             onChangeText={onChangeBudget}
@@ -123,6 +121,9 @@ const AddOrUpdateBudget = forwardRef<AddOrUpdateBudgetHandle, AddOrUpdateBudgetP
             className="min-w-16 p-0 text-[40px] font-num-bold text-mainColor text-center"
             style={{ includeFontPadding: false }}
           />
+          <Text className={cn('text-[28px] font-num-bold ms-2', budget ? 'text-primaryColor' : 'text-placeholderColor')}>
+            {CURRENCY_SYMBOL}
+          </Text>
         </View>
         {!isValid && (
           <Text className={`text-[13px] text-error500 ${fonts.medium} mt-2 mx-1`}>

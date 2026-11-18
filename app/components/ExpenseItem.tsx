@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { getFormattedDate, nFormatter } from "../utility/utility";
+import { formatCompactMoney, getFormattedDate } from "../utility/utility";
 import { RootStackParamList } from "../AppNavigation";
 import { fonts } from "../../src/theme/fonts";
 
@@ -43,7 +43,7 @@ export const ExpenseItem = ({ id, title, amount, date }: ExpenseItemProps) => {
       </View>
       <View className="px-3 py-2 bg-bgContainer justify-center items-center border border-borderColor rounded-xl">
         <Text className="text-primaryColor font-num-bold">
-          {nFormatter(+amount)}
+          {formatCompactMoney(+amount)}
         </Text>
       </View>
     </TouchableOpacity>
