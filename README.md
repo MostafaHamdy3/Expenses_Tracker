@@ -33,9 +33,7 @@ Log expenses, set a monthly budget, and see at a glance how much you can still s
 
 ## Demo Video
 
-A full walkthrough (under 2 minutes) recorded on an iPhone 17 Pro simulator with a fresh demo account: sign up / log in, period filters and infinite scroll, add → edit → delete an expense, setting a budget, dark mode, switching to Arabic (RTL), and logging out.
-
-▶️ **[Watch the demo video](docs/media/demo.mp4)**
+https://github.com/user-attachments/assets/00ec81b6-2c27-4559-8049-73e0b5fbac1c
 
 ## Screenshots
 
